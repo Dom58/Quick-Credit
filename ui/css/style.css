@@ -1,0 +1,251 @@
+		body{
+			background-image: url('../assets/images/background.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-attachment: fixed;
+		}
+	@media only screen and (min-width: 1000px){
+		#show-menu,#close-menu,#logo,#logoMenu{
+			display: none;
+		}
+		#logoScreen{
+			margin-top: -80px;
+		}
+		.navbar,#auth-Link {
+			top: 0;
+			font-family: 'Arial Black';
+			margin-bottom: 50px;
+		}
+		.navbar ul{
+			margin-left: 30%;
+		}
+		.navbar ul li{
+			display: inline-block;
+			padding: 10px;
+			font-size: 20px;
+		}
+		.navbar ul li:hover{
+			background-color: #935a2c;
+		}
+		.navbar ul li a{
+			text-decoration: none;
+			color: white;
+			padding: 5px;
+			line-height: 1px;
+		}
+
+		.navbar ul li a:hover{
+			border-bottom: 5px solid #86c06a;
+			transition: .5s;
+		}
+
+		.active{
+			border-bottom: 5px solid #86c06a;
+		}
+		#auth-Link{
+			float: right;
+			margin-right: 20px;
+			border-bottom: 3px solid #dadada;
+		}
+	}
+
+	@media only screen and (max-width: 999px){
+		#show-menu{
+			margin-bottom: 10px;
+			margin-top: -80px;
+			font-size: 30px;
+			font-weight: bold;
+			font-family: 'Arial Black';
+			text-align: center;
+			/*background-color: black;*/
+			padding: 6px;
+			width: 200px;
+			color: white;
+			position: fixed;
+		}
+
+		#show-menu:hover{
+			cursor: pointer;
+		}
+		#logo{
+			float: right;
+			margin-right: 2%;
+			margin-top: -100px;
+		}
+		#logoMenu{
+			background-color: #ad6529;
+			margin-top: 100px;
+			text-align: center;
+		}
+		#logoScreen{
+			display: none;
+		}
+		#close-menu{
+			position: fixed;
+			font-size: 80px;
+			color: #e41111;
+			margin-top: 5px;
+			margin-bottom: 50px;
+		}
+		#close-menu:hover{
+			cursor: pointer;
+			color: red;
+		}
+
+		.navbar{
+			display: none;
+			top: 0;
+			background-color: #251409;
+		}
+		.navbar ul li{
+			display: block;
+			padding: 10px;
+			font-size: 40px;
+			margin-bottom: 30px;
+			margin-left: 40px;
+		}
+		.navbar ul li:hover,.navbar ul li:focus{
+			background-color: #935a2c;
+		}
+		.navbar ul li a{
+			text-decoration: none;
+			color: white;
+			padding: 5px;
+			margin-left: 34%;
+		}
+
+		.navbar ul li a:hover{
+			border-bottom: 5px solid #86c06a;
+			transition: .5s;
+		}
+
+		.active{
+			border-bottom: 5px solid #86c06a;
+		}
+
+	}
+		/*content class*/
+	@media only screen and (min-width: 1216px){
+		.card{
+			margin-top: 100px;
+			max-width: 100%;
+			display: block;
+		}
+
+		.left-card,.right-card{
+			background-image: url('../assets/images/cardbackground.png');
+			display: inline-block;
+			margin: 30px;
+		}
+		.left-card:hover,.right-card:hover{
+			background-color: #e2dcdc;
+			margin: 30px;
+			transform: scale(1.01);
+			transition: .5s ease-in-out;
+		}
+		.right-card >h1,h2,p,.left-card >h1,h2,p{
+			font-family: 'Arial Black';
+			padding: 10px;
+		}
+		.right-card >h1,h2,.left-card >h1,h2{
+			text-align: center;
+		}
+
+		.left-card{
+			width: 35%;
+			height: auto;
+		}
+
+		.right-card{
+			float: right;
+			width: 55%;
+			height: auto;
+		}
+		.separator{
+			background-color: #935a2c;
+			height: 5px;
+			width: 100px;
+			margin-left: 40%;
+		}
+		.contact-card{
+		width: 80%;
+		margin-left: 10%;
+	}
+	}
+	.right-card >img{
+			max-width: 100%;
+		}
+
+	@media only screen and (max-width: 1216px){
+		.card{
+			margin-top: 100px;
+			max-width: 100%;
+			display: block;
+		}
+		.left-card,.right-card{
+			background-color:#e2dcdc;
+			display: block;
+			margin: 30px;
+			text-align: center;
+			padding: 50px;
+		}
+
+		.contact-card{
+		width: 100%;
+	}
+	}
+
+	input[type="text"],input[type="email"],input[type="password"],textarea{
+		width: 100%;
+		height: 35px;
+		padding: 5px;
+		border:none;
+	}
+	input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus,textarea:focus{
+		box-shadow: 3px 0 3px 2px #86c06a;
+	}
+	textarea{
+		height: 80px;
+	}
+	label{
+		font-family: 'Arial Black';
+		padding: 5px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		display: block;
+
+	}
+	.form-control{
+		background-color: #ffffffa1;;
+		padding: 20px;
+	}
+
+	.btn-submit{
+		height: 40px;
+		width: 100%;
+		background-color: #0080c3;
+		color: white;
+		font-size: 20px;
+		margin-top: 20px;
+		border-radius: 5px;
+		margin-bottom: 20px;
+		border:none;
+	}
+	.btn-submit:hover{
+		background-color: #026498;
+	}
+	.footer{
+		width: 99%;
+		height: 500px;
+		background-color: #171d14;
+		margin-top: 50px;
+		color: #dadada;
+		padding: 5px;
+		text-align: center;
+	}
+	.footer > #logofooter{
+		text-align: center;
+	}
+	.footer p >a{
+		color: white;
+	}
