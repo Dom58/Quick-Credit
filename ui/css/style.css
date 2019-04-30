@@ -74,7 +74,6 @@
 			font-weight: bold;
 			font-family: 'Arial Black';
 			text-align: center;
-			/*background-color: black;*/
 			padding: 6px;
 			width: 200px;
 			color: white;
@@ -112,7 +111,7 @@
 		.navbar{
 			display: none;
 			top: 0;
-			background-color: #251409;
+			background-color: #171d14;
 		}
 		.navbar ul li{
 			display: block;
@@ -178,6 +177,25 @@
 			width: 55%;
 			height: auto;
 		}
+		.cardOne,.cardTwo,.cardThree{
+        	width: 31.888%;
+        	height: auto;
+        	background-color: #cebcb3;
+        	display: inline-block;
+        	border-bottom: 4px solid #0bd327;
+        	border-top: 4px solid #0bd327;
+        	text-align: center;
+        	padding: 3px;
+        }
+        .cardOne >img,.cardTwo >img,.cardThree >img{
+        	width: 90%;
+        	height: 200px;
+        }
+        .cardOne:hover,.cardTwo:hover,.cardThree:hover{
+        	background-color: white;
+        	transition: .8s ease-in-out;
+        }
+
 		.separator{
 			background-color: #935a2c;
 			height: 5px;
@@ -185,9 +203,9 @@
 			margin-left: 40%;
 		}
 		.contact-card{
-		width: 80%;
-		margin-left: 10%;
-	}
+			width: 80%;
+			margin-left: 10%;
+		}
 	}
 	.right-card >img{
 			max-width: 100%;
@@ -202,14 +220,14 @@
 		.left-card,.right-card{
 			background-color:#e2dcdc;
 			display: block;
-			margin: 30px;
+			margin: 5px;
 			text-align: center;
 			padding: 50px;
+			margin-top: 70px;
 		}
-
 		.contact-card{
 		width: 100%;
-	}
+		}
 	}
 
 	input[type="text"],input[type="number"],input[type="email"],input[type="password"],textarea,select{
