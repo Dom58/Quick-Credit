@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Quick Credit | Login Page</title>
+	<title>Quick Credit | Our Services</title>
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
 	<style type="text/css">
-	input[type="checkbox"]{
-            height: 22px;
-            width: 22px;
-            border: none;
-        }
+       
 	</style>
 </head>
 <body>
 	<div class="container">
 	<div id="logo"><img src="../assets/images/logo.png" height="100px" /></div>
-	<div id="show-menu" onclick="navCollapse();" style="background-image: url('../assets/images/menuBckgrnd.png')"> <h1>Menu</h1> </div>
+	<div id="show-menu" onclick="navCollapse();" style="background-image: url('../assets/images/menuBckgrnd.png')" > <h1>Menu</h1> </div>
 
 	<div class="navbar" id="navigation-menu">
 		<div id="close-menu" onclick="navCollapseOut();" title="Hide Menu"><img src="../assets/images/closeMenu.png" height="80px" /></div>
 		<br>
 		<ul>
 			<li><a href="../index.html"> Home  </a></li>
-			<li><a href="services.html"> Services  </a></li>
+			<li><a href=" " class="active"> Services  </a></li>
 			<li><a href="../index.html#contact"> Contact </a></li>
 			<li><a href="loan.html"> Apply for Loan </a></li>
 				<div id="auth-Link">
-					<li><a href="" class="active"> Login </a></li>
+					<li><a href="login.html"> Login </a></li>
 					<li><a href="signup.html"> Signup  </a></li>
 				</div>
 		</ul>
@@ -35,24 +31,28 @@
 	<div class="content">
 		<div class="card">
 			<div class="contact-card">
-				<h1 style="text-align: center; color: white;">LOGIN PAGE</h1>
+				<h1 style="text-align: center; color: white;">OUR SERVICES</h1>
+				<p style="text-align: center;">Speed Up The Loan Process</p>
 				<div class="separator"></div>
 				<br>
-				<form action="" class="form-control">
-					
-					<label>Email: </label>
-					<input type="email" name="email" placeholder="Enter your Email">
-					<br>
-					<label>Password: </label>
-					<input type="password" name="password" placeholder="Enter your password">
-					<br>
-					<button class="btn-submit">SIGN IN</button>
-					
-					<p>Have you forgot a passoword ? <a href="reset-password.html">Click Here</a> to reset it.</p>
-					<p>If you didn't signed up yet <a href="signup.html">Sign up Here</a>.</p>
-				</form>
+				<div class="cardOne">
+					<h1>Credit Service</h1>
+					<img src="../assets/images/business.png">
+					<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in <a href="loan.html">for more informations</a>.</p>
+				</div>
+				<div class="cardTwo">
+					<h1>Refinancing</h1>
+					<img src="../assets/images/search.png">
+					<p> Vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+				</div>
+				<div class="cardThree">
+					<h1>Business Enrollment</h1>
+					<img src="../assets/images/vision.jpg">
+					<p>Consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
+				</div>
+				
 			</div>
-	</div>
+		</div>
 	<br>
 	<div class="footer">
 		<div id="logofooter" style="margin-top: 30px;"><img src="../assets/images/logo.png" height="180px" /></div>
