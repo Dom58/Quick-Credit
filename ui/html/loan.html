@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Loan Application Page</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<style type="text/css">
+	input[type="checkbox"]{
+            height: 22px;
+            width: 22px;
+            border: none;
+        }
+	</style>
+</head>
+<body>
+	<div class="container">
+	<div id="logo"><img src="../assets/images/logo.png" height="100px" /></div>
+	<div id="show-menu" onclick="navCollapse();" style="background-image: url('../assets/images/menuBckgrnd.png')"> <h1>Menu</h1> </div>
+
+	<div class="navbar" id="navigation-menu">
+		<div id="close-menu" onclick="navCollapseOut();" title="Hide Menu"><img src="../assets/images/closeMenu.png" height="80px" /></div>
+		<br>
+		<ul>
+			<li><a href="../index.html"> Home  </a></li>
+			<li><a href="#"> Services  </a></li>
+			<li><a href="#contact"> Contact </a></li>
+			<li><a href="loan.html" class="active"> Apply for Loan </a></li>
+				<div id="auth-Link">
+					<li><a href="login.html"> Login </a></li>
+					<li><a href="signup.html"> Signup  </a></li>
+				</div>
+		</ul>
+		<div id="logoScreen"><img src="../assets/images/logo.png" height="100px" /></div>
+		<div id="logoMenu"><img src="../assets/images/logo.png" height="100px" /></div>
+	</div>
+	<div class="content">
+		<div class="card">
+			<div class="contact-card">
+				<h1 style="text-align: center; color: white;">APPLYING A LOAN</h1>
+				<div class="separator"></div>
+				<br>
+				<form action="" class="form-control" style="background-color: #f3650d; border-radius: 20px;">
+					
+					<label>First Name: </label>
+					<input type="text" name="firstname" value="Dominique" readonly="true">
+					<br>
+					<label>Last Name: </label>
+					<input type="text" name="lastname" value="Xavier58" readonly="true">
+					<br>
+					<label>Email: </label>
+					<input type="email" name="email" value="dndahimana58@gmail.com" placeholder="Enter your Email (will be Auto complete)" readonly="true">
+					<br>
+					<label>Amount:</label>
+					<input type="number" name="amount" placeholder="Please enter an amount [loan amount]" id="amount">
+					<br>
+					<label>Tenor/ Period: </label>
+					<select name="tenor" id="tenor">
+						<option value="1">1</option>
+						<option value="2" selected="true">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+					<br>
+					<div id="computeLoan" onclick="calculateLoan();">Compute Loan</div>
+					<label>Payment Installment: ( <small style="color: brown;">* Monthly interest is 5%</small> )</label>
+					<input type="number" name="paymentInstallment" placeholder="Auto complete payment Installment" readonly="true" id="paymentInstallment">
+					<br>
+
+					<label>Interest: ( <small style="color: brown;">* Monthly interest is 5%</small> )</label>
+					<input type="number" name="interest" placeholder="Auto complete interest" readonly="true" id="interest">
+					<br>
+
+					<label>Balance: ( <small style="color: brown;">* Monthly interest is 5%</small> )</label>
+					<input type="number" name="balance" placeholder="Auto complete balance" readonly="true" id="balance">
+					<br><br>
+					<input type="checkbox" name="term_condition" id="checkbox"> Accept <a href="#term-condition">Terms and Conditions</a>
+					<br>
+					<button class="btn-submit">SUBMIT LOAN APPLICATION</button>
+				</form>
+			</div>
+	</div>
+	<br>
+	<div class="footer">
+		<div id="logofooter" style="margin-top: 30px;"><img src="../assets/images/logo.png" height="180px" /></div>
+		<p>&copy;2019 Quick Credit App. Developed by <a href="tel:+250788863488"> +250788863488 </a></p>
+		<p style="font-size: 20px;"><a href="#facebook"> Facebook </a> | <a href="#twitter"> Twitter </a> | <a href="#instagram"> Instagram </a></p>
+
+	</div>
+</div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
