@@ -225,6 +225,21 @@
 			padding: 50px;
 			margin-top: 70px;
 		}
+		.cardOne,.cardTwo,.cardThree{
+        	width: 99.777%;
+        	height: auto;
+        	background-color: white;
+        	display: block;
+        	border-bottom: 4px solid #5af170;
+        	border-top: 4px solid #5af170;
+        	text-align: center;
+        	margin-top: 70px;
+        }
+        .cardOne >img,.cardTwo >img,.cardThree >img{
+        	width: 90%;
+        	height: 500px;
+        }
+
 		.contact-card{
 		width: 100%;
 		}
