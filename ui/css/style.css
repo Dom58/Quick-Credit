@@ -342,13 +342,13 @@
 		      overflow-x: hidden;
 		}
 
-		ul {
+		.leftSideDashboard ul {
 			   padding: 0;
 			   overflow: hidden;
 			   text-align: center;
 	  	}
 
-		li a:hover:not(.active) {
+		.leftSideDashboard li a:hover:not(.active) {
 		        background-color: #6b2f0f;
 		        transition: .5s ease-in-out;
 	  	}
