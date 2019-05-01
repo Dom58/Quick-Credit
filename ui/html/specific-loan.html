@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Admin Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+        <div class="dashbd-container">
+        	<div class="leftSideDashboard" id="leftSideDashboard">
+	            <div class="dashboardLogo">
+	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
+	            </div>
+            	<div class="leftDashbd-content">
+                	<ul>
+                		<li><a href="#"> Verified Clients </a></li>
+                		<li><a href="#"> Un-verified Clients </a></li>
+                		<li><a href="admin-dashboard.html"> Loan Applications </a></li>
+                		<li><a href="#"> Current Loans </a></li>
+                		<li><a href="#"> Repaid Loans </a></li>
+                		<br>
+                		<h1><img src="../assets/images/logo.png" /></h1>
+                	</ul>
+                </div>
+            </div>
+
+            <div class="rightSideDashboard" id="rightSideDashboard">
+            <div class="dashbd-header">
+	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
+	            <div id="dashbd-profile">
+	            	<a href="#myprofile"> My Profile </a> |
+	            	<a href="../index.html"> Logout </a>
+	            </div>
+        	</div>
+        	<div class="content" style="background-color: white;">
+        		<div class="content-body" style="margin-left: 10px;">
+        			<h3 style="opacity: 0;">#</h3>
+        			<h1>Loan Details</h1>
+        			<label><b> First Name:</b>  Muhire </label>
+        			<label><b> Second Name:</b>  Emmanuel </label>
+        			<label><b> Email:</b>  emmy@gmail.com </label>
+        			<label><b> Created On:</b> Monday, 03/09/2018 </label>
+        			<label><b> Loan Type:</b>  <b>Personal Loan </b></label>
+        			<label><b> Amount:</b>  10000 Frws </label>
+        			<label><b> Temor:</b>  6 Months </label>
+        			<label><b> Interest:</b>  2000 Frws</label>
+        			<label><b> Payment Installment:</b>  2000 Frws</label>
+        			<label><b> Balance:</b>  12000 Frws</label>
+        			<br>
+        			<button class="btn-approve">Approve</button>
+        			<button class="btn-reject">Reject</button>
+        			<h3 style="opacity: 0;">#</h3>
+        		</div>
+            </div>
+        </div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
