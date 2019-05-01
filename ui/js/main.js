@@ -15,3 +15,17 @@
 		document.getElementById("navigation-menu").style = "display:none; transition: .6s ease-in-out; ";
           isVisible= true;
 	}
+
+	// Dashboard Left navigation collapsed in out script
+	var isCollapsed = true;
+	
+	function leftSectionCollapse(){
+
+		const leftNavBar = document.getElementById('leftSideDashboard');
+	    const rightSideContent = document.getElementById('rightSideDashboard');
+
+		leftNavBar.style.width = !isCollapsed ? '25%' : '0';
+		rightSideContent.style.marginLeft = !isCollapsed ? '25%' : '0';
+		rightSideContent.style.transition = 'margin-left .4s ease-in-out';
+		isCollapsed = !isCollapsed;
+	}
