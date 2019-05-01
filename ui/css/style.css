@@ -1,4 +1,6 @@
 		body{
+			margin: 0;
+    		padding: 0;
 			background-image: url('../assets/images/background.png');
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -245,62 +247,221 @@
         }
 
 		.contact-card{
-		width: 100%;
+			width: 100%;
 		}
 	}
 
-	input[type="text"],input[type="number"],input[type="email"],input[type="password"],textarea,select{
-		width: 100%;
-		height: 35px;
-		padding: 5px;
-		border:none;
-	}
-	input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus,textarea:focus{
-		box-shadow: 3px 0 3px 2px #86c06a;
-	}
-	textarea{
-		height: 80px;
-	}
-	label{
-		font-family: 'Arial Black';
-		padding: 5px;
-		margin-top: 5px;
-		margin-bottom: 5px;
-		display: block;
+		input[type="text"],input[type="number"],input[type="email"],input[type="password"],textarea,select{
+			width: 100%;
+			height: 35px;
+			padding: 5px;
+			border:none;
+		}
+		input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus,textarea:focus{
+			box-shadow: 3px 0 3px 2px #86c06a;
+		}
+		textarea{
+			height: 80px;
+		}
+		label{
+			font-family: 'Arial Black';
+			padding: 5px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			display: block;
 
-	}
-	.form-control{
-		/*background-color: #ffffffa1;*/
-		background-image: url('../assets/images/cardbackground.png');
-		padding: 20px;
-	}
+		}
+		.form-control{
+			/*background-color: #ffffffa1;*/
+			background-image: url('../assets/images/cardbackground.png');
+			padding: 20px;
+		}
 
-	.btn-submit{
-		height: 40px;
-		width: 100%;
-		background-color: #0080c3;
-		color: white;
-		font-size: 20px;
-		margin-top: 20px;
-		border-radius: 5px;
-		margin-bottom: 20px;
-		border:none;
-	}
-	.btn-submit:hover{
-		background-color: #026498;
-	}
-	.footer{
-		width: 99%;
-		height: 500px;
-		background-color: #171d14;
-		margin-top: 50px;
-		color: #dadada;
-		padding: 5px;
-		text-align: center;
-	}
-	.footer > #logofooter{
-		text-align: center;
-	}
-	.footer p >a{
-		color: white;
-	}
+		.btn-submit{
+			height: 40px;
+			width: 100%;
+			background-color: #0080c3;
+			color: white;
+			font-size: 20px;
+			margin-top: 20px;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			border:none;
+		}
+		.btn-submit:hover{
+			background-color: #026498;
+		}
+		.footer{
+			width: 99%;
+			height: 500px;
+			background-color: #171d14;
+			margin-top: 50px;
+			color: #dadada;
+			padding: 5px;
+			text-align: center;
+		}
+		.footer > #logofooter{
+			text-align: center;
+		}
+		.footer p >a{
+			color: white;
+		}
+
+
+	/*The main dashboard css*/
+
+		.dashboardLogo{
+			height: 80px;
+			position: relative;
+			background-color: #6b2f0f;
+			padding: 20px;
+			top: 0;
+			margin-top: -18.11108px;
+		}
+
+		.leftSideDashboard{
+			width: 25%;
+			height: 100%;
+			background-color: #171d14;
+			position: fixed;
+			padding-top: 20px;
+		    top: 0;
+		    left: 0;
+	      	margin: 0;
+	      	overflow-x: hidden;
+	      	transition: .4s ease-in-out;   
+		}
+		.leftSideDashboard li a{
+			  display: block;
+		      text-decoration: none;
+		      font-size: 18px;
+		      font-weight: bold;
+		      padding: 16px 16px;
+		      color: white;
+		      font-family: 'Arial Black';
+		      overflow-x: hidden;
+		}
+
+		.leftSideDashboard ul {
+			   padding: 0;
+			   overflow: hidden;
+			   text-align: center;
+	  	}
+
+		.leftSideDashboard li a:hover:not(.active) {
+		        background-color: #6b2f0f;
+		        transition: .5s ease-in-out;
+	  	}
+
+	  	.leftSideDashboard a.active {
+			    background-color: white;
+			    color: black;
+			    border-bottom: 2px solid white;
+	  	}
+		
+		.rightSideDashboard{
+				padding: 0;
+			    width: auto;
+			    margin-left: 25.11119%;
+		}
+		.dashbd-header{
+				background-color: white;
+				padding: 20px;
+		}
+		#dashbd-profile {
+				float: right;
+		}
+		#dashbd-profile a{
+				padding: 10px;
+				text-decoration: none;
+				color: black;
+				font-family: 'Arial Black';
+		}
+		#dashbd-profile a:hover{
+				background-color: #6b2f0f;
+				color: white;
+		}
+
+	@media only screen and (max-width: 999px) {
+		.rightSideDashboard {
+	          	margin-left: 0px;
+	     }
+
+	    .leftSideDashboard{
+	      		width: 0px;
+	    }
+	    #hiddings{
+	    		display: none;
+	    }
+	}	
+		table {
+			    border-spacing: 0;
+			    border-collapse: collapse;
+
+		  }
+
+		td,th {
+		    	padding: 0;
+		  }
+		th {
+		    	text-align: left;
+		  }
+
+		.table {
+			    width: 100%;
+			    max-width: 100%;
+			    margin-bottom: 10px;
+			    overflow-x: scroll;
+		  }
+		.content{
+				overflow-x: none;
+		}
+		.content >h1{
+				color: white;
+				margin-left: 30px;
+		}
+		.table-control{
+				margin-left: 5px;
+				background-color:white;
+				padding: 2px;
+				overflow-x: hidden;
+		}
+		table tr>td{
+				border-bottom: 2px solid  #ecc1a9;
+		}
+
+		table th,td{
+				padding: 16px;
+				font-size: 18px;
+				text-align: left;
+		}
+
+		table tr:hover {
+		      	background-color:  #ecc1a9;
+		}
+		.btn-pending{
+			  	padding: 8px;
+			  	text-decoration: none;
+			  	background-color: #cc8917;
+			  	color: white;
+		}
+		.btn-approve{
+			  	padding: 8px;
+			  	text-decoration: none;
+			  	background-color: #105f9e;
+			  	color: white;
+		}
+		.btn-pending:hover{
+		  		background-color: #171d14;
+		}
+		.btn-reject{
+			  	padding: 8px;
+			  	text-decoration: none;
+			  	background-color: #f44336;
+			  	color: white;
+		}
+		.search-item{
+			  	width: 400px;
+			  	margin-left: 5px;
+			  	margin-bottom: 10px;
+		  }

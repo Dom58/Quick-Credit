@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Admin Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+        <div class="dashbd-container">
+        	<div class="leftSideDashboard" id="leftSideDashboard">
+	            <div class="dashboardLogo">
+	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
+	            </div>
+            	<div class="leftDashbd-content">
+                	<ul>
+                		<li><a href="#"> Verified Clients </a></li>
+                		<li><a href="#"> Un-verified Clients </a></li>
+                		<li><a href="#" class="active"> Loan Applications </a></li>
+                		<li><a href="#"> Current Loans </a></li>
+                		<li><a href="#"> Repaid Loans </a></li>
+                		<br>
+                		<h1><img src="../assets/images/logo.png" /></h1>
+                	</ul>
+                </div>
+            </div>
+
+            <div class="rightSideDashboard" id="rightSideDashboard">
+            <div class="dashbd-header">
+	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
+	            <div id="dashbd-profile">
+	            	<a href="#myprofile"> My Profile </a> |
+	            	<a href="../index.html"> Logout </a>
+	            </div>
+        	</div>
+        	<div class="content">
+        		<h1>All Users' Loans Aplications</h1>
+        		<div class="search-item">
+        			<input type="text" name="search" placeholder="Search item...">
+        		</div>
+        		<div class="table-control">
+        		<div class="table">
+        			<table>
+        				<thead>
+        					<th>ID</th>
+        					<th>Apply Date</th>
+        					<th>First Name</th>
+        					<th>Last Name</th>
+        					<th id="hiddings">Email</th>
+        					<th>Amount</th>
+        					<th>Tenor</th>
+        					<th>Interest</th>
+        					<th>Payment Installment</th>
+        					<th>Balance</th>
+        					<th>Status</th>
+        					<th>Details</th>
+        				<thead>
+        				<tbody>
+        					<tr>
+	        					<td>1</td>
+	        					<td>03/09/2018</td>
+	        					<td>Muhire</td>
+	        					<td>Emmanuel</td>
+	        					<td id="hiddings">emmy@gmail.com</td>
+	        					<td>10000</td>
+	        					<td>6</td>
+	        					<td>2000</td>
+	        					<td>2000</td>
+				        		<td>12000</td>
+	        					<td><button class="btn-approve"> Approved </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        					<tr>
+	        					<td>2</td>
+	        					<td>04/09/2018</td>
+	        					<td>Olivier</td>
+	        					<td>Orly</td>
+	        					<td id="hiddings">orly2019@gmail.com</td>
+	        					<td>1000</td>
+	        					<td>12</td>
+	        					<td>100</td>
+								<td>99.1</td>
+	        					<td>1100</td>
+	        					<td><button class="btn-reject"> Rejected </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        					<tr>
+	        					<td>3</td>
+	        					<td>04/09/2017</td>
+	        					<td>Muhire</td>
+	        					<td>Emmanuel</td>
+	        					<td id="hiddings">emmy@gmail.com</td>
+	        					<td>10000</td>
+	        					<td>7</td>
+	        					<td>2000</td>
+	        					<td>1782</td>	
+	        					<td>12000</td>
+	        					<td><button class="btn-pending"> Pending </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        					<tr>
+	        					<td>4</td>
+	        					<td>21/11/2018</td>
+	        					<td>Shyaka</td>
+	        					<td>Anaclet</td>
+	        					<td id="hiddings">shyaka2912@gmail.com</td>
+	        					<td>10000</td>
+	        					<td>4</td>
+	        					<td>2000</td>
+	        					<td>3000</td>
+	        					<td>12000</td>
+	        					<td><button class="btn-pending"> Pending </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        					<tr>
+	        					<td>5</td>
+	        					<td>24/09/2018</td>
+	        					<td>Rukundo</td>
+	        					<td>Clode</td>
+	        					<td id="hiddings">clodecl2@gmail.com</td>
+	        					<td>8000</td>
+	        					<td>3</td>
+	        					<td>800</td>
+								<td>2700.88</td>	
+	        					<td>8800</td>
+	        					<td><button class="btn-approve"> Approved </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        					<tr>
+	        					<td>6</td>
+	        					<td>03/09/2018</td>
+	        					<td>Bahizi</td>
+	        					<td>Zidane</td>
+	        					<td id="hiddings">zidane58@gmail.com</td>
+	        					<td>100000</td>
+	        					<td>12</td>
+	        					<td>20000</td>
+	        					<td>10000</td>
+	        					<td>120000</td>
+	        					<td><button class="btn-approve"> Approved </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        				</tbody>
+        			</table>
+        		</div>
+        			
+        		</div>
+        	</div>
+
+            </div>
+        </div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
