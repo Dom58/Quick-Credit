@@ -23,7 +23,7 @@
 			<li><a href="../index.html"> Home  </a></li>
 			<li><a href="services.html"> Services  </a></li>
 			<li><a href="../index.html#contact"> Contact </a></li>
-			<li><a href="loan.html" class="active"> Apply for Loan </a></li>
+			<li><a href="loan.html" class="active"> Apply For Loan </a></li>
 				<div id="auth-Link">
 					<li><a href="login.html"> Login </a></li>
 					<li><a href="signup.html"> Signup  </a></li>
@@ -35,19 +35,24 @@
 	<div class="content">
 		<div class="card">
 			<div class="contact-card">
-				<h1 style="text-align: center; color: white;">APPLYING A LOAN</h1>
+				<h1 style="text-align: center; color: white;">Apply For Loan</h1>
 				<div class="separator"></div>
 				<br>
-				<form action="" class="form-control" style="background-color: #f3650d; border-radius: 20px;">
+				<form action="" class="form-control" style="border-radius: 20px;">
 					
-					<label>First Name: </label>
-					<input type="text" name="firstname" value="Dominique" readonly="true">
-					<br>
-					<label>Last Name: </label>
-					<input type="text" name="lastname" value="Xavier58" readonly="true">
+					<label>Name: </label>
+					<input type="text" name="firstname" value="Dominique Xavier58" readonly="true">
 					<br>
 					<label>Email: </label>
 					<input type="email" name="email" value="dndahimana58@gmail.com" placeholder="Enter your Email (will be Auto complete)" readonly="true">
+					<br>
+					<label>Type of Loan: </label>
+					<select name="loanType">
+						<option value="personal_loan" selected="true">Personal Loans</option>
+						<option value="business_loan">Small Business Loans</option>
+						<option value="mortgage_loan">Mortgages</option>
+						<option value="auto_loan">Auto Loans</option>
+					</select>
 					<br>
 					<label>Amount:</label>
 					<input type="number" name="amount" placeholder="Please enter an amount [loan amount]" id="amount">
@@ -73,16 +78,16 @@
 					<input type="number" name="paymentInstallment" placeholder="Auto complete payment Installment" readonly="true" id="paymentInstallment">
 					<br>
 
-					<label>Interest: ( <small style="color: brown;">* Monthly interest is 5%</small> )</label>
+					<label>Interest:</label>
 					<input type="number" name="interest" placeholder="Auto complete interest" readonly="true" id="interest">
 					<br>
 
-					<label>Balance: ( <small style="color: brown;">* Monthly interest is 5%</small> )</label>
+					<label>Balance:</label>
 					<input type="number" name="balance" placeholder="Auto complete balance" readonly="true" id="balance">
 					<br><br>
 					<input type="checkbox" name="term_condition" id="checkbox"> Accept <a href="#term-condition">Terms and Conditions</a>
 					<br>
-					<button class="btn-submit">SUBMIT LOAN APPLICATION</button>
+					<button class="btn-submit">SUBMIT LOAN</button>
 				</form>
 			</div>
 	</div>

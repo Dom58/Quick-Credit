@@ -32,7 +32,7 @@
 		}
 		.navbar,#auth-Link {
 			top: 0;
-			font-family: 'Arial Black';
+			font-family: 'Arial Narrow';
 			margin-bottom: 50px;
 		}
 		.navbar ul{
@@ -41,7 +41,7 @@
 		.navbar ul li{
 			display: inline-block;
 			padding: 10px;
-			font-size: 20px;
+			font-size: 25px;
 		}
 		.navbar ul li:hover{
 			background-color: #935a2c;
@@ -74,7 +74,7 @@
 			margin-top: -80px;
 			font-size: 30px;
 			font-weight: bold;
-			font-family: 'Arial Black';
+			font-family: 'Arial Narrow';
 			text-align: center;
 			padding: 6px;
 			width: 200px;
@@ -162,7 +162,7 @@
 			transition: .5s ease-in-out;
 		}
 		.right-card >h1,h2,p,.left-card >h1,h2,p{
-			font-family: 'Arial Black';
+			font-family: 'Arial Narrow';
 			padding: 10px;
 		}
 		.right-card >h1,h2,.left-card >h1,h2{
@@ -199,12 +199,16 @@
         }
 
 		.separator{
-			background-color: #935a2c;
+			background-color: brown;
 			height: 5px;
 			width: 100px;
-			margin-left: 40%;
+			margin-left: 44%;
 		}
 		.contact-card{
+			width: 50%;
+			margin-left: 24.301%;
+		}
+		.service-card{
 			width: 80%;
 			margin-left: 10%;
 		}
@@ -246,8 +250,9 @@
         	height: 500px;
         }
 
-		.contact-card{
-			width: 100%;
+		.contact-card, .service-card{
+			width: 80%;
+			margin-left: 10%;
 		}
 	}
 
@@ -264,7 +269,7 @@
 			height: 80px;
 		}
 		label{
-			font-family: 'Arial Black';
+			font-size: 18px;
 			padding: 5px;
 			margin-top: 5px;
 			margin-bottom: 5px;
@@ -334,11 +339,10 @@
 		.leftSideDashboard li a{
 			  display: block;
 		      text-decoration: none;
-		      font-size: 18px;
+		      font-size: 22px;
 		      font-weight: bold;
 		      padding: 16px 16px;
-		      color: white;
-		      font-family: 'Arial Black';
+		      color: white; 
 		      overflow-x: hidden;
 		}
 
@@ -375,7 +379,8 @@
 				padding: 10px;
 				text-decoration: none;
 				color: black;
-				font-family: 'Arial Black';
+				font-size: 20px;
+				font-weight: bold;				
 		}
 		#dashbd-profile a:hover{
 				background-color: #6b2f0f;
