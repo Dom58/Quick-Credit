@@ -38,47 +38,115 @@
 	      padding: 16px 16px;
 	      color: white;
 	      font-family: 'Arial Black';
+	      overflow-x: hidden;
 	}
 
 	ul {
-	    padding: 0;
-	    overflow: hidden;
-	    text-align: center;
+		   padding: 0;
+		   overflow: hidden;
+		   text-align: center;
   	}
 
 	li a:hover:not(.active) {
-         background-color: #6b2f0f;
-         transition: .5s ease-in-out;
+	        background-color: #6b2f0f;
+	        transition: .5s ease-in-out;
   	}
 
   	.leftSideDashboard a.active {
-	      background-color: white;
-	      color: black;
-	      border-bottom: 2px solid white;
+		    background-color: white;
+		    color: black;
+		    border-bottom: 2px solid white;
   	}
 	
 	.rightSideDashboard{
-		  padding: 0;
-	      width: auto;
-	      margin-left: 25.11119%;
+			padding: 0;
+		    width: auto;
+		    margin-left: 25.11119%;
 	}
 	.dashbd-header{
-		background-color: white;
-		padding: 20px;
+			background-color: white;
+			padding: 20px;
 	}
 	#dashbd-profile {
-		float: right;
+			float: right;
 	}
 	#dashbd-profile a{
-		padding: 10px;
-		text-decoration: none;
-		color: black;
-		font-family: 'Arial Black';
+			padding: 10px;
+			text-decoration: none;
+			color: black;
+			font-family: 'Arial Black';
 	}
 	#dashbd-profile a:hover{
-		background-color: #6b2f0f;
-		color: white;
+			background-color: #6b2f0f;
+			color: white;
 	}
+
+@media only screen and (max-width: 999px) {
+	.rightSideDashboard {
+          margin-left: 0px;
+     }
+
+    .leftSideDashboard{
+      		width: 0px;
+    }
+    #hiddings{
+    	display: none;
+    }
+}	
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+
+  }
+
+  td,th {
+    padding: 0;
+  }
+  th {
+    text-align: left;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+    overflow-x: scroll;
+  }
+	.content{
+		overflow-x: none;
+	}
+	.content >h1{
+			color: white;
+			margin-left: 30px;
+	}
+	.table-control{
+			margin-left: 5px;
+			background-color:white;
+			padding: 2px;
+			overflow-x: hidden;
+	}
+	table tr>td{
+		border-bottom: 2px solid  #ecc1a9;
+	}
+
+	table th,td{
+			padding: 16px;
+			font-size: 18px;
+			text-align: left;
+	}
+
+  table tr:hover {
+      background-color:  #ecc1a9;
+  }
+  .btn-approve{
+  	padding: 8px;
+  	text-decoration: none;
+  	background-color: #cc8917;
+  	color: white;
+  }
+  .btn-approve:hover{
+  	background-color: #171d14;
+  }
 </style>
 </head>
 <body>
@@ -86,6 +154,7 @@
         	<div class="leftSideDashboard" id="leftSideDashboard">
 	            <div class="dashboardLogo">
 	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
+	            	<p style="text-align: center; font-family: 'Arial Black';">* Dom58</p>
 	            </div>
             	<div class="leftDashbd-content">
                 	<ul>
@@ -108,6 +177,44 @@
 	            	<a href="../index.html"> Logout </a>
 	            </div>
         	</div>
+        	<div class="content">
+        		<h1>All users' Loans Aplications</h1>
+        		<div class="table-control">
+        		<div class="table">
+        			<table>
+        				<thead>
+        					<th>ID</th>
+        					<th>Apply Date</th>
+        					<th>F.Name</th>
+        					<th>L.Name</th>
+        					<th id="hiddings">Email</th>
+        					<th>Amount</th>
+        					<th>Tenor</th>
+        					<th>Interest</th>
+        					<th>Balance</th>
+        					<th>Status</th>
+        					<th>Details</th>
+        				<thead>
+        				<tbody>
+        					<tr>
+	        					<td>1</td>
+	        					<td>03/09/2018</td>
+	        					<td>Muhire</td>
+	        					<td>Emmanuel</td>
+	        					<td id="hiddings">emmy@gmail.com</td>
+	        					<td>10000</td>
+	        					<td>6</td>
+	        					<td>2000</td>
+	        					<td>12000</td>
+	        					<td><button class="btn-approve"> Approved </button></td>
+	        					<td><a href="#showLoan" class="btn-approve">Details</a></td>
+        					</tr>
+        				</tbody>
+        			</table>
+        		</div>
+        			
+        		</div>
+        	</div>
 
             </div>
         </div>
@@ -115,7 +222,7 @@
 <script type="text/javascript">
 	var isCollapsed = true;
 	function leftSectionCollapse(){
-		
+
 	const leftNavBar = document.getElementById('leftSideDashboard');
     const rightSideContent = document.getElementById('rightSideDashboard');
 
