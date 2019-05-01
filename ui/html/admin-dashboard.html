@@ -28,7 +28,7 @@
 	    left: 0;
       	margin: 0;
       	overflow-x: hidden;
-      	transition: 0.6s;   
+      	transition: .4s ease-in-out;   
 	}
 	.leftSideDashboard li a{
 		  display: block;
@@ -83,7 +83,7 @@
 </head>
 <body>
         <div class="dashbd-container">
-        	<div class="leftSideDashboard">
+        	<div class="leftSideDashboard" id="leftSideDashboard">
 	            <div class="dashboardLogo">
 	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
 	            </div>
@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="rightSideDashboard">
+            <div class="rightSideDashboard" id="rightSideDashboard">
             <div class="dashbd-header">
 	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
 	            <div id="dashbd-profile">
@@ -113,8 +113,16 @@
         </div>
 <script type="text/javascript" src="../js/main.js"></script>
 <script type="text/javascript">
+	var isCollapsed = true;
 	function leftSectionCollapse(){
-		// alert('Clicked');
+		
+	const leftNavBar = document.getElementById('leftSideDashboard');
+    const rightSideContent = document.getElementById('rightSideDashboard');
+
+	leftNavBar.style.width = !isCollapsed ? '25%' : '0';
+	rightSideContent.style.marginLeft = !isCollapsed ? '25%' : '0';
+	rightSideContent.style.transition = 'margin-left .4s ease-in-out';
+	isCollapsed = !isCollapsed;
 	}
 </script>
 </body>
