@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Admin Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+<style type="text/css">
+	body {
+      margin: 0;
+      padding: 0;
+      background-color: #6b2f0f;
+  	}
+	.dashboardLogo{
+		height: 80px;
+		position: relative;
+		background-color: #6b2f0f;
+		padding: 20px;
+		top: 0;
+		margin-top: -18.11108px;
+	}
+
+	.leftSideDashboard{
+		width: 25%;
+		height: 100%;
+		background-color: #171d14;
+		position: fixed;
+		padding-top: 20px;
+	    top: 0;
+	    left: 0;
+      	margin: 0;
+      	overflow-x: hidden;
+      	transition: 0.6s;   
+	}
+	.leftSideDashboard li a{
+		  display: block;
+	      text-decoration: none;
+	      font-size: 18px;
+	      font-weight: bold;
+	      padding: 16px 16px;
+	      color: white;
+	      font-family: 'Arial Black';
+	}
+
+	ul {
+	    padding: 0;
+	    overflow: hidden;
+	    text-align: center;
+  	}
+
+	li a:hover:not(.active) {
+         background-color: #6b2f0f;
+         transition: .5s ease-in-out;
+  	}
+
+  	.leftSideDashboard a.active {
+	      background-color: white;
+	      color: black;
+	      border-bottom: 2px solid white;
+  	}
+	
+	.rightSideDashboard{
+		  padding: 0;
+	      width: auto;
+	      margin-left: 25.11119%;
+	}
+	.dashbd-header{
+		background-color: white;
+		padding: 20px;
+	}
+	#dashbd-profile {
+		float: right;
+	}
+	#dashbd-profile a{
+		padding: 10px;
+		text-decoration: none;
+		color: black;
+		font-family: 'Arial Black';
+	}
+	#dashbd-profile a:hover{
+		background-color: #6b2f0f;
+		color: white;
+	}
+</style>
+</head>
+<body>
+        <div class="dashbd-container">
+        	<div class="leftSideDashboard">
+	            <div class="dashboardLogo">
+	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
+	            </div>
+            	<div class="leftDashbd-content">
+                	<ul>
+                		<li><a href="#"> Verified Clients </a></li>
+                		<li><a href="#"> Un-verified Clients </a></li>
+                		<li><a href="#" class="active"> Loan Applications </a></li>
+                		<li><a href="#"> Current Loans </a></li>
+                		<li><a href="#"> Repaid Loans </a></li>
+                		<br>
+                		<h1><img src="../assets/images/logo.png" /></h1>
+                	</ul>
+                </div>
+            </div>
+
+            <div class="rightSideDashboard">
+            <div class="dashbd-header">
+	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
+	            <div id="dashbd-profile">
+	            	<a href="#myprofile"> My Profile </a> |
+	            	<a href="../index.html"> Logout </a>
+	            </div>
+        	</div>
+
+            </div>
+        </div>
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript">
+	function leftSectionCollapse(){
+		alert('Clicked');
+	}
+</script>
+</body>
+</html>
