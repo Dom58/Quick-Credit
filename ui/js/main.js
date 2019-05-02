@@ -29,3 +29,28 @@
 		rightSideContent.style.transition = 'margin-left .4s ease-in-out';
 		isCollapsed = !isCollapsed;
 	}
+
+	// dummy admin email
+	function loginDemoFunction() {
+
+        const dummyAdminEmail = 'admin@gmail.com';
+        var inputEmail = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+       
+       	if((inputEmail == dummyAdminEmail) && password !="" ){
+
+        	window.location.href = "admin-dashboard.html";
+       	}
+
+       	else if(inputEmail && password !="") {
+
+        	window.location.href = "user-dashboard.html";
+       	}
+
+       	else{
+
+         	document.getElementById('email').style="border: 1px solid red;";
+         	document.getElementById('password').style="border: 1px solid red;";
+         	document.getElementById('message').innerHTML="Error: Login Field(s) are required!";
+       	}
+        }
