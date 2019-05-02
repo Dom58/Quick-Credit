@@ -38,15 +38,15 @@
 				<h1 style="text-align: center; color: white;">Login Page</h1>
 				<div class="separator"></div>
 				<br>
-				<form action="" class="form-control">
-					
+				<form  action="" method="POST" class="form-control">
+					<label id="message" style="color: red;"></label>
 					<label>Email: </label>
-					<input type="email" name="email" placeholder="Enter your Email">
+					<input type="email" name="email" placeholder="Enter your Email" id="email">
 					<br>
 					<label>Password: </label>
-					<input type="password" name="password" placeholder="Enter your password">
+					<input type="password" name="password" placeholder="Enter your password" id="password">
 					<br>
-					<button class="btn-submit">SIGN IN</button>
+					<input type="button" class="btn-submit" onclick="loginDemoFunction();" value="LOGIN">
 					
 					<p>Have you forgot a passoword ? <a href="reset-password.html">Click Here</a> to reset it.</p>
 					<p>If you didn't signed up yet <a href="signup.html">Sign up Here</a>.</p>
@@ -62,5 +62,26 @@
 	</div>
 </div>
 <script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript">
+        function loginDemoFunction() {
+            const dummyAdminEmail = 'admin@gmail.com';
+            const dummyUserEmail ='client@gmail.com';
+            var inputEmail = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+           if((inputEmail == dummyAdminEmail) && password !="" ){
+            window.location.href = "admin-dashboard.html";
+           }
+
+           else if(inputEmail && password !="") {
+            window.location.href = "user-dashboard.html";
+           }
+
+           else{
+             document.getElementById('email').style="border: 1px solid red;";
+             document.getElementById('password').style="border: 1px solid red;";
+             document.getElementById('message').innerHTML="Error: Login Field(s) are required!";
+           }
+        }
+</script>
 </body>
 </html>
