@@ -62,26 +62,5 @@
 	</div>
 </div>
 <script type="text/javascript" src="../js/main.js"></script>
-<script type="text/javascript">
-        function loginDemoFunction() {
-            const dummyAdminEmail = 'admin@gmail.com';
-            const dummyUserEmail ='client@gmail.com';
-            var inputEmail = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
-           if((inputEmail == dummyAdminEmail) && password !="" ){
-            window.location.href = "admin-dashboard.html";
-           }
-
-           else if(inputEmail && password !="") {
-            window.location.href = "user-dashboard.html";
-           }
-
-           else{
-             document.getElementById('email').style="border: 1px solid red;";
-             document.getElementById('password').style="border: 1px solid red;";
-             document.getElementById('message').innerHTML="Error: Login Field(s) are required!";
-           }
-        }
-</script>
 </body>
 </html>
