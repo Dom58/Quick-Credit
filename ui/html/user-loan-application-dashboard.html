@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | My Loan Application Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+        <div class="dashbd-container">
+        	<div class="leftSideDashboard" id="leftSideDashboard">
+	            <div class="dashboardLogo">
+	            	<h1 style="text-align: center; color: white;">User Dashboard</h1>
+	            </div>
+            	<div class="leftDashbd-content">
+                	<ul>
+                		<li><a href="user-dashboard.html"> Loan Repayment History </a>
+                			<li><a href=" " class="active"> My Loan Applications History </a></li></li>
+                		<br>
+                		<h1><img src="../assets/images/logo.png" /></h1>
+                	</ul>
+                </div>
+            </div>
+
+            <div class="rightSideDashboard" id="rightSideDashboard">
+            <div class="dashbd-header">
+	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
+	            <div id="dashbd-profile">
+	            	<a href="#myprofile"> My Profile </a> |
+	            	<a href="../index.html"> Logout </a>
+	            </div>
+        	</div>
+        	<div class="content">
+        		<h1>My Loan Applications</h1>
+        		<div class="search-item">
+        			<input type="text" name="search" placeholder="Search item...">
+        		</div>
+        		<div class="table-control">
+        		<div class="table">
+        			<table>
+        				<thead>
+        					<th>ID</th>
+        					<th>Loan Date</th>
+        					<th>Type</th>
+                            <th>Amount</th>
+                            <th>Tenor</th>
+                            <th>Interest</th>
+        					<th>Payment Installment</th>
+        					<th>Balance</th>
+        					<th>Status</th>
+        					<th>Detail</th>
+        				<thead>
+        				<tbody>
+        					<tr>
+	        					<td>1</td>
+	        					<td>10/06/2016</td>
+	        					<td>Personal Loan</td>
+	        					<td>12000 Frws</td>
+                                <td>2 months</td>
+	        					<td>600 Frws</td>
+                                <td>6300 Frws</td>
+                                <td>13200 Frws</td>
+	        					<td><b>100% Paid </b></td>
+	        					<td><a href="#" class="btn-approve">More</a></td>
+        					</tr>
+
+                            <tr>
+                                <td>2</td>
+                                <td>03/01/2017</td>
+                                <td>Small Business</td>
+                                <td>200000 Frws</td>
+                                <td>12 months</td>
+                                <td>10000 Frws</td>
+                                <td>17500 Frws</td>
+                                <td>210000 Frws</td>
+                                <td><b>100% Paid </b></td>
+                                <td><a href="#" class="btn-approve">More</a></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>03/09/2018</td>
+                                <td>Personal Loan</td>
+                                <td>200000 Frws</td>
+                                <td>12 months</td>
+                                <td>10000 Frws</td>
+                                <td>17500 Frws</td>
+                                <td>210000 Frws</td>
+                                <td><b>70% Paid </b></td>
+                                <td><a href="#" class="btn-approve">More</a></td>
+                            </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        			
+        		</div>
+        	</div>
+
+            </div>
+        </div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
