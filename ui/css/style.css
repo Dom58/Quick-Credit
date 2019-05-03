@@ -140,6 +140,14 @@
 		.active{
 			border-bottom: 5px solid #86c06a;
 		}
+		.form-control > label{
+			font-size:25px;
+			font-weight: bold;
+			padding: 5px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			display: block;
+		}
 
 	}
 		/*content class*/
@@ -161,9 +169,14 @@
 			transform: scale(1.01);
 			transition: .5s ease-in-out;
 		}
-		.right-card >h1,h2,p,.left-card >h1,h2,p{
+		.right-card >h1,h2,.left-card >h1,h2{
 			font-family: 'Arial Narrow';
 			padding: 10px;
+		}
+
+		.right-card >p,.left-card >p{
+			margin-left: 10px;
+			margin-right: 10px;
 		}
 		.right-card >h1,h2,.left-card >h1,h2{
 			text-align: center;
@@ -178,6 +191,11 @@
 			float: right;
 			width: 55%;
 			height: auto;
+		}
+		
+		.right-card >p >img{
+			width: 50%;
+			margin-left: 24.222%;
 		}
 		.cardOne,.cardTwo,.cardThree{
         	width: 31.888%;
@@ -212,10 +230,9 @@
 			width: 80%;
 			margin-left: 10%;
 		}
+
 	}
-	.right-card >img{
-			max-width: 100%;
-		}
+
 
 	@media only screen and (max-width: 1216px){
 		.card{
@@ -231,6 +248,23 @@
 			padding: 50px;
 			margin-top: 70px;
 		}
+		.right-card >p,.left-card >p{
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		.right-card >p >img{
+			width: 100%;
+		}
+
+		#contactForm > label{
+			font-size: 10px;
+			padding: 5px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			display: block;
+
+		}
+
 		.cardOne,.cardTwo,.cardThree{
         	width: 99.777%;
         	height: auto;
