@@ -4,7 +4,8 @@
   "description": "Quick credit is an easy web loan application",
   "main": "app.js",
   "scripts": {
-    "test": "run test"
+    "test": "run test",
+    "server": "nodemon --exec babel-node server/app"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,12 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "babel-polyfill": "^6.26.0",
     "nodemon": "^1.19.0"
   }
 }

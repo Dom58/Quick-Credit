@@ -1,5 +1,6 @@
-const express = require('express')
-const bodyParser = require ('body-parser');
+import express from 'express'
+import bodyParser from 'body-parser';
+import path from 'path';
 
 var app = express();
 
@@ -15,3 +16,4 @@ app.get('/', (req,res) =>{
 app.listen(port, () =>{
 	console.log(`Server is runnig on (http://127.0.0.1:${port})`);
 })
+export default app;
