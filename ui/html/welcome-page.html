@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Welcome Page</title>
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+	<style type="text/css">
+	input[type="checkbox"]{
+            height: 22px;
+            width: 22px;
+            border: none;
+        }
+	</style>
+</head>
+<body>
+	<div class="container">
+	<div id="logo"><img src="../assets/images/logo.png" height="100px" /></div>
+	<div id="show-menu" onclick="navCollapse();" style="background-image: url('../assets/images/menuBckgrnd.png')"> <h1>Menu</h1> </div>
+
+	<div class="navbar" id="navigation-menu">
+		<div id="close-menu" onclick="navCollapseOut();" title="Hide Menu"><img src="../assets/images/closeMenu.png" height="80px" /></div>
+		<br>
+		<ul>
+			<li><a href="../index.html"> Home  </a></li>
+			<li><a href="services.html"> Services  </a></li>
+			<li><a href="../index.html#contact"> Contact </a></li>
+			<li><a href="loan.html"> Apply For Loan </a></li>
+				<div id="auth-Link">
+					<li><a href="#myprofile"> My Profile</a></li>
+					<li><a href="../index.html"> Logout</a></li>
+				</div>
+		</ul>
+		<div id="logoScreen"><img src="../assets/images/logo.png" height="100px" /></div>
+		<div id="logoMenu"><img src="../assets/images/logo.png" height="100px" /></div>
+	</div>
+	<div class="content">
+		<div class="card">
+			<div class="contact-card">
+				<h1 style="text-align: center; color: white;">Welcome Message</h1>
+				<div class="separator"></div>
+				<br>
+				<div class="form-control" style="background-color: white;">
+					<p>Dear, valued Client [<b> Muhire Raymond </b>], we are pleasure to thank you to your support to use our application (Quick credit Web application), and we ensure you a good services.</p>
+					<p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+					<p> Please, fill free to contact us and ask question if any even on our social Media.</p>
+					<p><li> If you need to appy for loan, click the link below </li></p>
+					<a href="loan.html" class="btn-submit" style="padding: 10px; text-decoration: none;">Apply for Loan</a>
+					<br>
+					<br>
+					<p><li> If you apply a loan later, click the link below to see the loan repayment histories </li></p>
+					<a href="user-dashboard.html" class="btn-pending">View Loan Repayment</a>
+
+				</div>
+			</div>
+	</div>
+	<br>
+	<div class="footer">
+		<div id="logofooter" style="margin-top: 30px;"><img src="../assets/images/logo.png" height="180px" /></div>
+		<p>&copy;2019 Quick Credit App. Developed by <a href="tel:+250788863488"> +250788863488 </a></p>
+		<p style="font-size: 20px;"><a href="#facebook"> Facebook </a> | <a href="#twitter"> Twitter </a> | <a href="#instagram"> Instagram </a></p>
+
+	</div>
+</div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>

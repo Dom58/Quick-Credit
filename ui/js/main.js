@@ -44,7 +44,7 @@
 
        	else if(inputEmail && password !="") {
 
-        	window.location.href = "user-dashboard.html";
+        	window.location.href = "welcome-page.html";
        	}
 
        	else{
