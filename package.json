@@ -1,0 +1,19 @@
+{
+  "name": "quick-credit",
+  "version": "1.0.0",
+  "description": "Quick credit is an easy web loan application",
+  "main": "app.js",
+  "scripts": {
+    "test": "run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dom58/Quick-Credit.git"
+  },
+  "author": "Ndahimana Dominique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dom58/Quick-Credit/issues"
+  },
+  "homepage": "https://github.com/Dom58/Quick-Credit#readme"
+}
