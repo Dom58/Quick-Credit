@@ -83,11 +83,22 @@ const userController = {
           
           if (!userEmail) return res.status(404).json({ status: 404, message: `Email not found!` });
 
-          if (userEmail.status === "verified") return res.status(400).json({status:400,message: 'User account is up-to-date (already Verified)'})
+          if (userEmail.status === "verified") return res.status(400).json({status:400,message: 'User account Already Up-to-date!'})
            
            userEmail.status = "verified";
 
-            return res.status(200).json({ status: 200, message: 'User account Verified successfully!'});
+            return res.status(200).json({ 
+                status: 200, 
+                message: 'User account Verified successfully!',
+                data: {
+                    email:userEmail.email,
+                    firstName:userEmail.firstName,
+                    lastName:userEmail.lastName,
+                    password:userEmail.password,
+                    address:userEmail.address,
+                    status:userEmail.status
+                },
+            });
           }
 
       else return res.status(400).json({status:400, error:'You dont have a right to verify a user account!'});
