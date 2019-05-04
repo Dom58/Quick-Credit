@@ -1,0 +1,74 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import validate from '../helpers/userHelper';
+import db from '../models/UserDb';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const userController = {
+    signup(req, res) {
+
+    	const { error } = validate.validateUser(req.body);
+        if (error) return res.status(400).json({ status: 400, errors: error.message });
+
+    	let emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
+        if (emailExist) return res.status(400).json({ status: 400, error: 'Email is already registed!' });
+
+        //signup as an admin
+        if (req.body.isAdmin ==='true') {
+            const user = {
+                id:db.users.length +1,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                status:"verified", 
+                isAdmin:req.body.isAdmin,
+                password: bcrypt.hashSync(req.body.password,10)
+            };
+            const token = jwt.sign(user, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+            db.users.push(user);
+
+	        return res.header('Authorization', token).status(201).json({
+	          status: 201,
+	          message: 'Admin successfully created!',
+	          data: {
+	            token:token,
+	            id: user.id,
+	            firstName: user.firstName,
+	            lastName: user.lastName,
+	            email: user.email,
+	          },
+	        });
+        }
+
+        //signup as a client
+        else{
+        	const user = {
+                id:db.users.length +1,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                address: req.body.address,
+                status:"unverified", 
+                isAdmin:false,
+                password: bcrypt.hashSync(req.body.password,10)
+            };
+            const token = jwt.sign(user, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
+            db.users.push(user);
+
+	        return res.header('Authorization', token).status(201).json({
+	          status: 201,
+	          message: 'Successfully registed!',
+	          data: {
+	            token:token,
+	            id: user.id,
+	            firstName: user.firstName,
+	            lastName: user.lastName,
+	            email: user.email,
+	          },
+	        });
+        }
+    }
+}
+export default userController;
