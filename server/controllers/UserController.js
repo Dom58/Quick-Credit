@@ -9,11 +9,11 @@ dotenv.config();
 const userController = {
     signup(req, res) {
 
-    	const { error } = validate.validateUser(req.body);
+    	const { error } = validate.validateSignup(req.body);
         if (error) return res.status(400).json({ status: 400, errors: error.message });
 
     	let emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
-        if (emailExist) return res.status(400).json({ status: 400, error: 'Email is already registed!' });
+        if (emailExist) return res.status(409).json({ status: 409, error: 'Email is already registed!' });
 
         //signup as an admin
         if (req.body.isAdmin ==='true') {
@@ -69,6 +69,12 @@ const userController = {
 	          },
 	        });
         }
+    },
+
+
+    allUsers(req, res){
+        if (!db.users.length) return res.status(404).json({ status: 404, message: 'No user created!' });
+        return res.status(200).json({ status: 200, data: db.users });
     }
 }
 export default userController;
