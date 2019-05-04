@@ -7,5 +7,6 @@ const route = express.Router();
 
 route.post('/api/v1/loans',auth, loanController.applyLoan);
 route.get('/api/v1/loans',auth, loanController.allLoans);
+route.get('/api/v1/loans/:id',auth, loanController.specificLoan);
 
 export default route;
