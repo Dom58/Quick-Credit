@@ -1,6 +1,8 @@
 import express from 'express'
 import bodyParser from 'body-parser';
+
 import userRoute from './routes/userRoute';
+import loanRoute from './routes/loanRoute';
 
 
 var app = express();
@@ -11,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use(userRoute);
+app.use(loanRoute);
 
 const port = process.env.PORT || 4000;
 
