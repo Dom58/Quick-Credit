@@ -1,4 +1,4 @@
-var db = {
+var dbLoan = {
 	loans:[],
 }
-export default db;
+export default dbLoan;

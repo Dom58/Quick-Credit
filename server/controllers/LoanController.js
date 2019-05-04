@@ -1,11 +1,74 @@
 import jwt from 'jsonwebtoken';
 import validate from '../helpers/loanHelper';
-import db from '../models/LoanDb';
+import dbLoan from '../models/LoanDb';
 
 
 const loanController = {
 	applyLoan(req, res) {
+		const { error } = validate.validateLoan(req.body);
+        if (error) return res.status(400).json({ status: 400, errors: error.message });
 
-	}
+        let theTenor = parseInt(req.body.tenor);
+        let theAmount = parseFloat(req.body.amount);
+        let theInterest = parseFloat(req.body.amount)*0.05;
+        let thepaymentInstallment= parseFloat((theAmount+theInterest)/theTenor).toFixed(2);
+        let theBalance = parseFloat(theAmount+theInterest).toFixed(2);
+   		
+   		const haveApplyLoan = dbLoan.loans.find(findEmail => findEmail.email === req.user.email);
+
+        if(req.user.status ==='verified' ){
+
+        	if (!haveApplyLoan || haveApplyLoan.repaid ==='true') {
+
+	        	const loan = {
+	        		loanId:dbLoan.loans.length +1,
+	        		email:req.user.email,
+	        		CreatedOn:new Date(),
+		        	status:"pending",
+		        	repaid:'false',
+	        		tenor:theTenor,
+	        		amount:theAmount,
+	        		paymentInstallment:thepaymentInstallment,
+	        		balance:theBalance,
+	        		interest:theInterest,
+	        	};
+
+
+	        	dbLoan.loans.push(loan);
+
+	        	return res.status(201).json({
+	        		status:201,
+	        		message:'Loan Applied Successfully, Good Luck!',
+	        		data:{
+	        			loanId:loan.loanId,
+	        			CreatedOn:new Date(),
+	        			firstName:req.user.firstName,
+	        			lastName:req.user.lastName,
+	        			email:req.user.email,
+	        			tenor:loan.tenor,
+		        		amount:loan.amount,
+		        		paymentInstallment:loan.paymentInstallment,
+		        		status:"pending",
+		        		balance:loan.balance,
+		        		interest:(loan.interest).toFixed(2),
+	        		}
+	        	});
+        
+        	}
+
+	        else{
+	        	return res.status(400).json({
+	        		status:400,
+	        		message:'Ooops!! You have unpaid Loan, Please repay you loan!'});
+	    	}
+
+        }
+
+        else{
+        	return res.status(400).json({status:400, message:'Sorry! Your are not yet verified, Please contact Admin !'})
+        }
+	},
+
 }
+
 export default loanController;
