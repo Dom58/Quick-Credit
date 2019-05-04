@@ -51,7 +51,7 @@ const userController = {
                 email: req.body.email,
                 address: req.body.address,
                 status:"unverified", 
-                isAdmin:false,
+                isAdmin:"false",
                 password: bcrypt.hashSync(req.body.password,10)
             };
             const token = jwt.sign(user, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
@@ -75,6 +75,41 @@ const userController = {
     allUsers(req, res){
         if (!db.users.length) return res.status(404).json({ status: 404, message: 'No user created!' });
         return res.status(200).json({ status: 200, data: db.users });
+    },
+
+    signin(req, res) {
+        const { error } = validate.validateLogin(req.body);
+        if (error) return res.status(400).json({ status: 400, errors: error.message });
+
+        const user = db.users.find(findEmail => findEmail.email === req.body.email);
+        if (!user) return res.status(401).json({ status: 401, error: 'Incorrect Email' });
+
+        const passwordCompare = bcrypt.compareSync(req.body.password, user.password);
+        if (!passwordCompare) return res.status(401).json({ status: 401, error: 'Incorrect Password' });
+
+        const payload = {
+            id:user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            status: user.status,
+            isAdmin: user.isAdmin,
+            email: user.email
+        };
+
+        // sign a json web token
+        const token = jwt.sign(payload, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+
+            return res.header('Authorization', token).status(200).json({
+              status: 200,
+              message: 'You are successfully log in into Quick Credit',
+              data: {
+                token: token,
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+                },
+            });
     }
 }
 export default userController;
