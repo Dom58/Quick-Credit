@@ -73,9 +73,13 @@ const userController = {
 
 
     allUsers(req, res){
-        if (!db.users.length) return res.status(404).json({ status: 404, message: 'No user created!' });
-        return res.status(200).json({ status: 200, data: db.users });
-    },
+        if(req.user.isAdmin ==='true'){
+            if (!db.users.length) return res.status(404).json({ status: 404, message: 'No user created!' });
+            return res.status(200).json({ status: 200, data: db.users });
+        }
+
+        else return res.status(400).json({status:400, error:'You dont have a right to view this activity!'});
+     },
 
     verifyUser(req, res){
         if(req.user.isAdmin ==='true'){
