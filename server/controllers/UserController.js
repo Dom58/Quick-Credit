@@ -77,6 +77,23 @@ const userController = {
         return res.status(200).json({ status: 200, data: db.users });
     },
 
+    verifyUser(req, res){
+        if(req.user.isAdmin ==='true'){
+          const userEmail = db.users.find(findEmail => findEmail.email === req.params.email);
+          
+          if (!userEmail) return res.status(404).json({ status: 404, message: `Email not found!` });
+
+          if (userEmail.status === "verified") return res.status(400).json({status:400,message: 'User account is up-to-date (already Verified)'})
+           
+           userEmail.status = "verified";
+
+            return res.status(200).json({ status: 200, message: 'User account Verified successfully!'});
+          }
+
+      else return res.status(400).json({status:400, error:'You dont have a right to verify a user account!'});
+      
+    },
+
     signin(req, res) {
         const { error } = validate.validateLogin(req.body);
         if (error) return res.status(400).json({ status: 400, errors: error.message });
