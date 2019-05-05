@@ -10,4 +10,7 @@ route.get('/api/v1/loans',auth, loanController.allLoans);
 route.get('/api/v1/loans/:id',auth, loanController.specificLoan);
 route.patch('/api/v1/loans/:id',auth, loanController.approveLoan);
 
+route.post('/api/v1/loans/:id/repayment',auth, loanController.repayLoan);
+
+
 export default route;
