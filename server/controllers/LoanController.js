@@ -105,6 +105,37 @@ const loanController = {
 
     	else return res.status(400).json({status:400, message:'Oops! You dont have a right to view specific loan Application history'});   
     },
+
+    approveLoan(req, res){
+
+    	if (req.user.isAdmin ==='true') {
+
+    	const { error } = validate.validateApproveLoan(req.body);
+        if (error) return res.status(400).json({ status: 400, errors: error.message });
+
+    	const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
+	        if (!loan) return res.status(404).json({ status: 404, error: `ID ## ${req.params.id} ## not found!` });
+
+	        if (loan.status === "approved") return res.status(400).json({status:400,message: 'Loan Application Already Up-to-date(Approved)!'})
+	        
+	        loan.status = req.body.status;
+
+	        return res.status(200).json({
+	        	status: 200, 
+	                data: {
+	                    loanId:loan.loanId,
+	                    loanAmount:loan.amount,
+	                    tenor:loan.tenor,
+	                    status:loan.status,
+	                    monthlyInstallment:loan.paymentInstallment,
+	                    interest:loan.interest,
+	                },
+	        });
+    	}
+
+    	else return res.status(400).json({status:400, message:'Oops! You dont have a right to Approve/Reject loan Application!'});   
+    },
+
 }
 
 export default loanController;
