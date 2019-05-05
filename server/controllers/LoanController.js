@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import validate from '../helpers/loanHelper';
 import dbLoan from '../models/LoanDb';
+import dbLoanRepayment from '../models/LoanRepaymentDB';
 
 
 const loanController = {
@@ -33,7 +34,6 @@ const loanController = {
 	        		interest:theInterest,
 	        	};
 
-
 	        	dbLoan.loans.push(loan);
 
 	        	return res.status(201).json({
@@ -59,7 +59,7 @@ const loanController = {
 	        else{
 	        	return res.status(400).json({
 	        		status:400,
-	        		message:'Ooops!! You have unpaid Loan, Please repay you loan!'});
+	        		message:`Ooops!! You have unpaid Loan of ## ${ haveApplyLoan.balance} ##, Please repay this loan!`});
 	    	}
 
         }
@@ -84,7 +84,7 @@ const loanController = {
     	if (req.user.isAdmin ==='true') {
 
     	const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
-	        if (!loan) return res.status(404).json({ status: 404, error: `ID ## ${req.params.id} ## not found!` });
+	        if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${req.params.id} ## not found!` });
 
 	        return res.status(200).json({
 	        	status: 200, 
@@ -103,7 +103,9 @@ const loanController = {
 	        });
     	}
 
-    	else return res.status(400).json({status:400, message:'Oops! You dont have a right to view specific loan Application history'});   
+    	else{
+			return res.status(400).json({status:400, message:'Oops! You dont have a right to view specific loan Application history!'});   
+    	}
     },
 
     approveLoan(req, res){
@@ -114,7 +116,7 @@ const loanController = {
         if (error) return res.status(400).json({ status: 400, errors: error.message });
 
     	const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
-	        if (!loan) return res.status(404).json({ status: 404, error: `ID ## ${req.params.id} ## not found!` });
+	        if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${req.params.id} ## not found!` });
 
 	        if (loan.status === "approved") return res.status(400).json({status:400,message: 'Loan Application Already Up-to-date(Approved)!'})
 	        
@@ -136,6 +138,94 @@ const loanController = {
     	else return res.status(400).json({status:400, message:'Oops! You dont have a right to Approve/Reject loan Application!'});   
     },
 
+    //loan Repayment
+    repayLoan(req, res){
+    	if (req.user.isAdmin ==='true') {
+
+	    	const { error } = validate.validateRepayment(req.body);
+	        if (error) return res.status(400).json({ status: 400,  error: error.details[0].message });
+
+	    	const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
+		        if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${req.params.id} ## not found!` });
+
+		        
+		        let theAmount = parseFloat(req.body.amount);
+
+		        const theDiffrence = theAmount - loan.balance; 
+
+		        const weOfferYou = () => {
+
+		        	return theDiffrence;
+		        }
+
+		        const repayment = {
+		        		id:dbLoanRepayment.repayments.length +1,
+		        		CreatedOn:new Date(),
+			        	loanId:loan.loanId,
+		        		amount:theAmount,
+		        		OfferAmount:loan.balance - theAmount,
+		        	};
+
+		        	//check loan status if is approved
+		        	if (loan.status ==='pending' || loan.status ==='rejected') 
+		        		return res.status(400).json({status:400 ,message:`Oops Nothing to repay! Your Loan Application on [ ${loan.CreatedOn} ] for [ ${loan.amount} ] still Pending or rejected!`});
+		        	
+		        	else if(loan.balance === 0){
+		        		return res.status(400).json({status:400 ,message:`Oops Nothing to repay, You have paid your loan!`});
+		        	}
+
+		        	else{
+
+		        		if (repayment.amount >= loan.balance ) {
+		        			loan.balance = 0 ;
+		        			loan.repaid = "true" ;
+
+		        			dbLoanRepayment.repayments.push(repayment);
+
+		        			return res.status(201).json({
+				        		status:201,
+				        		message:`Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
+				        		data:{
+				        			id:repayment.id,
+				        			loanId:loan.loanId,
+				        			CreatedOn:new Date(),
+					        		amount:loan.amount,
+					        		monthlyInstallment:loan.paymentInstallment,
+					        		paidAmount:repayment.amount,
+					        		balance:loan.balance,
+				        		}
+		        			});
+
+		        		}
+
+		        		else{
+
+				        	loan.balance = loan.balance - theAmount;
+
+				        	dbLoanRepayment.repayments.push(repayment);
+
+				        	return res.status(201).json({
+				        		status:201,
+				        		message:'Repayment Created Successfully!',
+				        		data:{
+				        			id:repayment.id,
+				        			loanId:loan.loanId,
+				        			CreatedOn:new Date(),
+					        		amount:loan.amount,
+					        		monthlyInstallment:loan.paymentInstallment,
+					        		paidAmount:repayment.amount,
+					        		balance:loan.balance,
+				        		}
+		        			});
+		        		}
+		        	}
+	   	}
+
+	   	else
+	   	{
+	   		return res.status(400).json({status:400, message:'Oops! You dont have a right to repay a loan, call Admin!'});
+	   	}
+    },
 }
 
 export default loanController;

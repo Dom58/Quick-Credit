@@ -7,9 +7,17 @@ exports.validateLoan = (loan) => {
   });
   return joi.validate(loan, schema, {abortEarly: false});
 };
+
 exports.validateApproveLoan = (loan) => {
   const schema = joi.object().keys( {
     status: joi.string().valid('approved','rejected').required(),
   });
   return joi.validate(loan, schema, {abortEarly: false});
+};
+
+exports.validateRepayment = (repayment) => {
+  const schema = joi.object().keys( {
+    amount: joi.number().required(),
+  });
+  return joi.validate(repayment, schema);
 };
