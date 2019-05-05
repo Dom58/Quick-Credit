@@ -69,6 +69,15 @@ const loanController = {
         }
 	},
 
+	allLoans(req,res){
+		if (req.user.isAdmin ==='true') {
+			if (!dbLoan.loans.length) return res.status(404).json({ status: 404, message: 'No Loan Application Created Yet!' });
+        	return res.status(200).json({ status: 200, data: dbLoan.loans });
+		}
+
+		else return res.status(400).json({status:400, message:'Sorry! You dont have a right to view loan Application history. Any question contact Admin!'});  
+    }
+
 }
 
 export default loanController;
