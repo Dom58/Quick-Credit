@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Credit | Repayment Transaction</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+<body>
+        <div class="dashbd-container">
+        	<div class="leftSideDashboard" id="leftSideDashboard">
+	            <div class="dashboardLogo">
+	            	<h1 style="text-align: center; color: white;">Admin Dashboard</h1>
+	            </div>
+            	<div class="leftDashbd-content">
+                	<ul>
+                		<li><a href="verified-client.html"> Verified Clients </a></li>
+                		<li><a href="unverified-client.html"> Un-verified Clients </a></li>
+                		<li><a href="admin-dashboard.html"> Loan Applications </a></li>
+                		<li><a href="current-loan.html"> Current Loans </a></li>
+                		<li><a href="repaid-loan.html"> Repaid Loans </a></li>
+                        <li><a href="post-repayment.html"> Create Application Services </a></li>
+                		<br>
+                		<h1><img src="../assets/images/logo.png" /></h1>
+                	</ul>
+                </div>
+            </div>
+
+            <div class="rightSideDashboard" id="rightSideDashboard">
+                <div class="dashbd-header">
+    	            <a onclick="leftSectionCollapse()" href="#"><img src="../assets/images/menu.png" height="30px"></a>
+    	            <div id="dashbd-profile">
+    	            	<a href="#myprofile"> My Profile </a> |
+    	            	<a href="../index.html"> Logout </a>
+    	            </div>
+            	</div>
+            	<div class="content" style="background-color: white; margin-left: 12px;">
+            		<div class="content-body" style="margin-left: 12px;">
+            			<h3 style="opacity: 0;">#</h3>
+            			
+                        <div class="contact-card">
+                        <h1>Post loan repayment transaction in favour of a client</h1>
+                        <div class="separator"></div>
+                        <form action="" method="POST">
+                            <label>Loan ID</label>
+                            <input type="text" name="loanID" value="5" style="border: 1px solid black; margin-bottom: 20px;" readonly="true" title="Loan Id filled automatically">
+
+                            <label>Repayment Amount</label>
+                            <input type="number" name="amount" placeholder="Enter the title of services..." style="border: 1px solid black; margin-bottom: 20px;" >
+                            <button class="btn-submit" type="submit">Submit Repayment</button>
+                        </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+<script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>
