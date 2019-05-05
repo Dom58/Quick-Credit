@@ -104,8 +104,7 @@ const loanController = {
     	}
 
     	else return res.status(400).json({status:400, message:'Oops! You dont have a right to view specific loan Application history'});   
-    }
-
+    },
 }
 
 export default loanController;
