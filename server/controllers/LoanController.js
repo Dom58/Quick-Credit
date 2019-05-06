@@ -19,7 +19,7 @@ const loanController = {
 
         if(req.user.status ==='verified' ){
 
-        	if (!haveApplyLoan || haveApplyLoan.repaid ==='true') {
+        	if (!haveApplyLoan || haveApplyLoan.repaid ==='true' ) {
 
 	        	const loan = {
 	        		loanId:dbLoan.loans.length +1,
@@ -83,8 +83,9 @@ const loanController = {
 
     	if (req.user.isAdmin ==='true') {
 
-    	const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
-	        if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${req.params.id} ## not found!` });
+    	const theId = parseInt(req.params.id);
+    	const loan = dbLoan.loans.find(findLoan => findLoan.loanId ===theId);
+	        if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${theId} ## not found!` });
 
 	        return res.status(200).json({
 	        	status: 200, 
