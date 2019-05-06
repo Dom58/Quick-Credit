@@ -4,7 +4,7 @@
   "description": "Quick credit is an easy web loan application",
   "main": "app.js",
   "scripts": {
-    "test": "run test",
+    "test": "nyc --reporter=text --reporter=lcov mocha --require @babel/register server/tests/**/*.test.js --exit",
     "compile": "./node_modules/.bin/babel ./server -d ./build",
     "server": "nodemon --exec babel-node server/app",
     "clean": "rm -rf build && mkdir build",
