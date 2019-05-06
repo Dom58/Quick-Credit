@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "run test",
-    "server": "nodemon --exec babel-node server/app"
+    "compile": "./node_modules/.bin/babel ./server -d ./build",
+    "server": "nodemon --exec babel-node server/app",
+    "clean": "rm -rf build && mkdir build",
+    "start": "node build/app.js"
   },
   "repository": {
     "type": "git",
