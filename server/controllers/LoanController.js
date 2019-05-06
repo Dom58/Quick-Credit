@@ -227,6 +227,18 @@ const loanController = {
 	   		return res.status(400).json({status:400, message:'Oops! You dont have a right to repay a loan, call Admin!'});
 	   	}
     },
+
+    currentLoan(req, res){
+    	if (req.user.isAdmin ==='true') {
+	    	const currentLoan = dbLoan.loans.filter(findLoan => (findLoan.status === "approved" && findLoan.repaid=== "false" ));
+	    	
+	    	if (!currentLoan.length) return res.status(404).json({ status: 404, message: 'No Current loan found!' });
+
+	        	return res.status(200).json({ status: 200, data: currentLoan});
+        }
+        
+        else return res.status(400).json({status:400, message:'Oops! You dont have a right to view current loans!'});
+    }
 }
 
 export default loanController;
