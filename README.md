@@ -25,14 +25,18 @@ Quick Credit is an online web lending platform that provides short term soft loa
 * PATCH `/api/v1/loans/:id` approve /reject loan application.
 * POST `/api/v1/loans/:id/repayment` post repayment transaction loan.
 
+* GET `/api/v1/repayments/loans` get all loan repayment.
+* GET `/api/v1/loans/current/loans` get or filter all current loan applications.
+* GET `/api/v1/loans/repaid/loans` get or filter all repaid loan applications.
+
 # To Getting Started
 Starting application run the following npm command
 * `npm run server` for starting the server.
 # For Testing
-Not yet finnished [ waiting the an update]
+Not yet finnished [ waiting the update]
 
 # HEROKU 
-Not yet deployed [ waiting the an update]/
+Not yet deployed [ waiting the update]/
 
 # Github-page
 GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: https://dom58.github.io/Quick-Credit/ui
