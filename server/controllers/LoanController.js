@@ -250,7 +250,14 @@ const loanController = {
         }
         
         else return res.status(400).json({status:400, message:'Oops! You dont have a right to view repaid loans!'});
+    },
+
+    allRepaymentLoan(req, res){
+
+    	if (!dbLoanRepayment.repayments.length) return res.status(404).json({ status: 404, message: 'No Repayment Created Yet!' });
+        	return res.status(200).json({ status: 200, data: dbLoanRepayment.repayments });
     }
+
 }
 
 export default loanController;
