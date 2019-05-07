@@ -8,7 +8,9 @@
     "compile": "./node_modules/.bin/babel ./server -d ./build",
     "server": "nodemon --exec babel-node server/app",
     "clean": "rm -rf build && mkdir build",
-    "start": "node build/app.js"
+    "start": "node build/app.js",
+    "test-watch": "nodemon --exec npm test",
+    "coveralls": "npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
