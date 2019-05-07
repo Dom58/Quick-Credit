@@ -1,46 +1,89 @@
 [![Build Status](https://travis-ci.com/Dom58/Quick-Credit.svg?branch=develop)](https://travis-ci.com/Dom58/Quick-Credit)  [![Coverage Status](https://coveralls.io/repos/github/Dom58/Quick-Credit/badge.svg?branch=develop)](https://coveralls.io/github/Dom58/Quick-Credit?branch=develop)
 
+
 # Quick-Credit
 Quick Credit is an online web lending platform that provides short term soft loans to individuals. This helps solve problems of financial inclusion as a way to alleviate poverty and empower low income earners.
 
-<p> User is able to navigate the different web pages of Quick credit application </p>
-<p> User is able to apply for loan at their home </p>
+## Features
+* User/client sign up. 
+* User/client sign in. 
+* User/client can apply for a loan. 
+* User/client can view all loan repayment history. 
+* Admin can mark a client as verified after confirming the client’s work or home 
+address. 
+* Admin can view all loan applications. 
+* Admin can view a specific loan application. 
+* Admin can view current loans (not fully repaid). 
+* Admin can view all repaid loans. 
+* Admin can approve or reject a client’s loan application. 
+* Admin can post loan repayment transaction in favour of a client.
 
-# Setup
-## UI
-* Clone the application with `git clone` command and after go and paste the link of clonning the repo or download the develop branch or gh-pages branch and enter in UI directory to view different html pages like index page,...
+## Prerequisites
+  * Node
+  * Postman
+  
+## Technology used
 
-## finished API Endpoints
-- You need to have `git`, `NodeJS` and `NPM` installed on your local environment.
-- Clone the application with `git clone` command and after go and paste the link of clonning the repo
-- `npm install` to install all the dependencies in local environment
-- `npm update` updating the dependencies if any.
-### API
-* POST `/api/v1/auth/signup` signup on Quick credit application.
-* POST `/api/v1/auth/signin` signin on Quick credit application.
-* GET `/api/v1/auth/users` all users on Quick credit application.
-* PATCH `/api/v1/users/:email/verify` verify a user of Quick credit application.
+### Frontend
+  * JavaScript
+  * HTML
+  * CSS
 
-* POST `/api/v1/loans` apply for loan.
-* GET `/api/v1/loans` get all loan applications.
-* GET `/api/v1/loans/:id` get a specific loan application.
-* PATCH `/api/v1/loans/:id` approve /reject loan application.
-* POST `/api/v1/loans/:id/repayment` post repayment transaction loan.
+### Backend
+  * Node
+  * Express
+  * mocha
+  * chai
+  * joi
+  * jsonwebtoken
+  * bcrypt
+  
+## Setup
+  1. Clone the repository
+     ```https://github.com/Dom58/Quick-Credit```
+     
+  2. Install dependencies
+  
+     ```npm install```
+     
+  3. Start the server
+  
+     ```npm run server```
+  
+  4. Use Postman to test api on ```localhost:4000```
+  
+ ## Run test
+ To run the application test run the following command in terminal
+ 
+ ```npm test```
 
-* GET `/api/v1/repayments/loans` get all loan repayment.
-* GET `/api/v1/loans/current/loans` get or filter all current loan applications.
-* GET `/api/v1/loans/repaid/loans` get or filter all repaid loan applications.
+## API Endpoints
 
-# To Getting Started
-Starting application run the following npm command
-* `npm run server` for starting the server.
-# For Testing
-Not yet finnished [ waiting the update]
+### Version 1 Endpoints
 
-# HEROKU 
+| Method         | Endpoint             | Description  |
+| ---         |     ---      |          --- |
+| POST   | /api/v1/auth/signup     | Create an account   |
+| POST     | /api/v1/auth/signin      | Sign in      |
+| GET   | /api/v1/auth/users     | Get all users    |
+| PATCH     | /api/v1/users/:email/verify       | Verify a user      |
+| POST   | /api/v1/loans     | Apply for loan application   |
+| GET     | /api/v1/loans      | Get all loan application      |
+| GET   | /api/v1/loans/:id     | Get specific loan  application   |
+| PATCH     | /api/v1/loans/:id       | Approve /reject loan application      |
+| POST   | /api/v1/loans/:id/repayment     | post repayment transaction loan   |
+| GET     | /api/v1/repayments/loans      | get all loan repayment      |
+| GET   | /api/v1/loans/current/loans     | filter all current loan applications   |
+| GET     | /api/v1/loans/repaid/loans       | filter all repaid loan applications      |
+
+
+## HEROKU 
 Not yet deployed [ waiting the update]/
 
-# Github-page
+## Github-page
 GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: https://dom58.github.io/Quick-Credit/ui
 and use the dummy  email ( admin@gmail.com ) to view different admin UI dashboard page(s) and an password to access as an admin and may use any email like (username@example.com) to view a user UI dashboard page(s).
+
+## Author
+Ndahimana Dominique
 
