@@ -11,7 +11,7 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _userHelper = _interopRequireDefault(require("../helpers/userHelper"));
 
-var _UserDb = _interopRequireDefault(require("../models/UserDb"));
+var _UserDB = _interopRequireDefault(require("../models/UserDB"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
@@ -29,7 +29,7 @@ var userController = {
       errors: error.message
     });
 
-    var emailExist = _UserDb["default"].users.find(function (findEmail) {
+    var emailExist = _UserDB["default"].users.find(function (findEmail) {
       return findEmail.email === req.body.email;
     });
 
@@ -40,7 +40,7 @@ var userController = {
 
     if (req.body.isAdmin === 'true') {
       var user = {
-        id: _UserDb["default"].users.length + 1,
+        id: _UserDB["default"].users.length + 1,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -53,7 +53,7 @@ var userController = {
         expiresIn: '24h'
       });
 
-      _UserDb["default"].users.push(user);
+      _UserDB["default"].users.push(user);
 
       return res.header('Authorization', token).status(201).json({
         status: 201,
@@ -69,7 +69,7 @@ var userController = {
     } //signup as a client
     else {
         var _user = {
-          id: _UserDb["default"].users.length + 1,
+          id: _UserDB["default"].users.length + 1,
           firstName: req.body.firstName,
           lastName: req.body.lastName,
           email: req.body.email,
@@ -83,7 +83,7 @@ var userController = {
           expiresIn: '24h'
         });
 
-        _UserDb["default"].users.push(_user);
+        _UserDB["default"].users.push(_user);
 
         return res.header('Authorization', _token).status(201).json({
           status: 201,
@@ -100,13 +100,13 @@ var userController = {
   },
   allUsers: function allUsers(req, res) {
     if (req.user.isAdmin === 'true') {
-      if (!_UserDb["default"].users.length) return res.status(404).json({
+      if (!_UserDB["default"].users.length) return res.status(404).json({
         status: 404,
         message: 'No user created!'
       });
       return res.status(200).json({
         status: 200,
-        data: _UserDb["default"].users
+        data: _UserDB["default"].users
       });
     } else return res.status(400).json({
       status: 400,
@@ -115,7 +115,7 @@ var userController = {
   },
   verifyUser: function verifyUser(req, res) {
     if (req.user.isAdmin === 'true') {
-      var userEmail = _UserDb["default"].users.find(function (findEmail) {
+      var userEmail = _UserDB["default"].users.find(function (findEmail) {
         return findEmail.email === req.params.email;
       });
 
@@ -154,7 +154,7 @@ var userController = {
       errors: error.message
     });
 
-    var user = _UserDb["default"].users.find(function (findEmail) {
+    var user = _UserDB["default"].users.find(function (findEmail) {
       return findEmail.email === req.body.email;
     });
 

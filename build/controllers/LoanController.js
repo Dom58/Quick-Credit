@@ -9,7 +9,7 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _loanHelper = _interopRequireDefault(require("../helpers/loanHelper"));
 
-var _LoanDb = _interopRequireDefault(require("../models/LoanDb"));
+var _LoanDB = _interopRequireDefault(require("../models/LoanDB"));
 
 var _LoanRepaymentDB = _interopRequireDefault(require("../models/LoanRepaymentDB"));
 
@@ -30,14 +30,14 @@ var loanController = {
     var thepaymentInstallment = parseFloat((theAmount + theInterest) / theTenor).toFixed(2);
     var theBalance = parseFloat(theAmount + theInterest).toFixed(2);
 
-    var haveApplyLoan = _LoanDb["default"].loans.find(function (findEmail) {
+    var haveApplyLoan = _LoanDB["default"].loans.find(function (findEmail) {
       return findEmail.email === req.user.email;
     });
 
     if (req.user.status === 'verified') {
       if (!haveApplyLoan || haveApplyLoan.repaid === 'true') {
         var loan = {
-          loanId: _LoanDb["default"].loans.length + 1,
+          loanId: _LoanDB["default"].loans.length + 1,
           email: req.user.email,
           CreatedOn: new Date(),
           status: "pending",
@@ -49,7 +49,7 @@ var loanController = {
           interest: theInterest
         };
 
-        _LoanDb["default"].loans.push(loan);
+        _LoanDB["default"].loans.push(loan);
 
         return res.status(201).json({
           status: 201,
@@ -83,13 +83,13 @@ var loanController = {
   },
   allLoans: function allLoans(req, res) {
     if (req.user.isAdmin === 'true') {
-      if (!_LoanDb["default"].loans.length) return res.status(404).json({
+      if (!_LoanDB["default"].loans.length) return res.status(404).json({
         status: 404,
         message: 'No Loan Application Created Yet!'
       });
       return res.status(200).json({
         status: 200,
-        data: _LoanDb["default"].loans
+        data: _LoanDB["default"].loans
       });
     } else return res.status(400).json({
       status: 400,
@@ -100,7 +100,7 @@ var loanController = {
     if (req.user.isAdmin === 'true') {
       var theId = parseInt(req.params.id);
 
-      var loan = _LoanDb["default"].loans.find(function (findLoan) {
+      var loan = _LoanDB["default"].loans.find(function (findLoan) {
         return findLoan.loanId === theId;
       });
 
@@ -140,7 +140,7 @@ var loanController = {
         errors: error.message
       });
 
-      var loan = _LoanDb["default"].loans.find(function (findLoan) {
+      var loan = _LoanDB["default"].loans.find(function (findLoan) {
         return findLoan.loanId === parseInt(req.params.id);
       });
 
@@ -180,7 +180,7 @@ var loanController = {
         error: error.details[0].message
       });
 
-      var loan = _LoanDb["default"].loans.find(function (findLoan) {
+      var loan = _LoanDB["default"].loans.find(function (findLoan) {
         return findLoan.loanId === parseInt(req.params.id);
       });
 
@@ -260,7 +260,7 @@ var loanController = {
   },
   currentLoan: function currentLoan(req, res) {
     if (req.user.isAdmin === 'true') {
-      var currentLoan = _LoanDb["default"].loans.filter(function (findLoan) {
+      var currentLoan = _LoanDB["default"].loans.filter(function (findLoan) {
         return findLoan.status === "approved" && findLoan.repaid === "false";
       });
 
@@ -279,7 +279,7 @@ var loanController = {
   },
   repaidLoan: function repaidLoan(req, res) {
     if (req.user.isAdmin === 'true') {
-      var currentLoan = _LoanDb["default"].loans.filter(function (findLoan) {
+      var currentLoan = _LoanDB["default"].loans.filter(function (findLoan) {
         return findLoan.status === "approved" && findLoan.repaid === "true";
       });
 
