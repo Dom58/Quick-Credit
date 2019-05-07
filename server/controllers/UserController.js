@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validate from '../helpers/userHelper';
-import db from '../models/UserDb';
+import db from '../models/UserDB';
 import dotenv from 'dotenv';
 
 dotenv.config();

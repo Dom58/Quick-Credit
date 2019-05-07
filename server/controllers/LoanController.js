@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import validate from '../helpers/loanHelper';
-import dbLoan from '../models/LoanDb';
+import dbLoan from '../models/LoanDB';
 import dbLoanRepayment from '../models/LoanRepaymentDB';
 
 
