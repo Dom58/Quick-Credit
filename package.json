@@ -9,6 +9,7 @@
     "server": "nodemon --exec babel-node server/app",
     "clean": "rm -rf build && mkdir build",
     "start": "node build/app.js",
+    "heroku": "babel-node ./server/app.js",
     "test-watch": "nodemon --exec npm test",
     "coveralls": "npm test && nyc report --reporter=text-lcov | coveralls"
   },
