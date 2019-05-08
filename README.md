@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Dom58/Quick-Credit.svg?branch=develop)](https://travis-ci.com/Dom58/Quick-Credit)  [![Coverage Status](https://coveralls.io/repos/github/Dom58/Quick-Credit/badge.svg?branch=develop)](https://coveralls.io/github/Dom58/Quick-Credit?branch=develop)
+[![Build Status](https://travis-ci.com/Dom58/Quick-Credit.svg?branch=develop)](https://travis-ci.com/Dom58/Quick-Credit)  [![Coverage Status](https://coveralls.io/repos/github/Dom58/Quick-Credit/badge.svg?branch=develop)](https://coveralls.io/github/Dom58/Quick-Credit?branch=develop)   [![Maintainability](https://api.codeclimate.com/v1/badges/ed3b52260c4623237693/maintainability)](https://codeclimate.com/github/Dom58/Quick-Credit/maintainability)
 
 
 # Quick-Credit
@@ -78,7 +78,7 @@ address. 
 
 
 ## HEROKU 
-Not yet deployed [ waiting the update]/
+Access link : ( https://quick-credit-web.herokuapp.com/ ) followed by the above table endpoints using postman. as an example `https://quick-credit-web.herokuapp.com/api/v1/auth/signin` to signin.
 
 ## Github-page
 GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: https://dom58.github.io/Quick-Credit/ui
