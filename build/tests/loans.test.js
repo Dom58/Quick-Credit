@@ -4,11 +4,11 @@ var _chai = _interopRequireDefault(require("chai"));
 
 var _chaiHttp = _interopRequireDefault(require("chai-http"));
 
-var _app = _interopRequireDefault(require("../app.js"));
-
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
+
+var _app = _interopRequireDefault(require("../app.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -24,7 +24,7 @@ describe('Display loan applications', function () {
     lastName: 'admin58',
     email: 'admin@gmail.com',
     address: 'Nyamata/Rebero',
-    status: "verified",
+    status: 'verified',
     isAdmin: 'true',
     password: 'zxasqw58'
   };
@@ -48,7 +48,7 @@ describe('Loan applications', function () {
     lastName: 'client58',
     email: 'client@gmail.com',
     address: 'Kigali/Gasabo',
-    status: "verified",
+    status: 'verified',
     isAdmin: 'false',
     password: 'zxasqw58'
   };
@@ -59,8 +59,8 @@ describe('Loan applications', function () {
 
   it('should not apply loan because amount must be a number', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans').set('Authorization', token).send({
-      amount: "5909z",
-      tenor: "12"
+      amount: '5909z',
+      tenor: '12'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -68,8 +68,8 @@ describe('Loan applications', function () {
   });
   it('should not apply loan because tenor should be a number', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans').set('Authorization', token).send({
-      amount: "59099",
-      tenor: "12s"
+      amount: '59099',
+      tenor: '12s'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -77,8 +77,8 @@ describe('Loan applications', function () {
   });
   it('should not apply loan because tenor must between 1 and 12', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans').set('Authorization', token).send({
-      amount: "59099",
-      tenor: "58"
+      amount: '59099',
+      tenor: '58'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -143,7 +143,7 @@ describe('Repayment loan', function () {
     lastName: 'admin58',
     email: 'admin@gmail.com',
     address: 'Nyamata/Rebero',
-    status: "verified",
+    status: 'verified',
     isAdmin: 'true',
     password: 'zxasqw58'
   };
@@ -161,7 +161,7 @@ describe('Repayment loan', function () {
   });
   it('should not accept others status rather than approved or rejected', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/loans/1').set('Authorization', token).send({
-      status: "not-approved"
+      status: 'not-approved'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -170,7 +170,7 @@ describe('Repayment loan', function () {
   });
   it('should not found loan application id', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/loans/2').set('Authorization', token).send({
-      status: "approved"
+      status: 'approved'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(404);
       expect(res.body).to.have.property('status');
@@ -179,7 +179,7 @@ describe('Repayment loan', function () {
   });
   it('should not repay loan because it is pending or rejected', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
-      amount: "500000"
+      amount: '500000'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -188,7 +188,7 @@ describe('Repayment loan', function () {
   });
   it('should approve loan application', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/loans/1').set('Authorization', token).send({
-      status: "approved"
+      status: 'approved'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(200);
       expect(res.body).to.have.property('status');
@@ -197,7 +197,7 @@ describe('Repayment loan', function () {
   });
   it('should not approve loan application because it is up-to-date', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/loans/1').set('Authorization', token).send({
-      status: "approved"
+      status: 'approved'
     }).end(function (err, res) {
       ;
       expect(res.body.status).to.equal(400);
@@ -214,7 +214,7 @@ describe('Repayment loan', function () {
   });
   it('should not repay loan because loan id not found ', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/6/repayment').set('Authorization', token).send({
-      amount: "5000"
+      amount: '5000'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(404);
       expect(res.body).to.have.property('status');
@@ -223,7 +223,7 @@ describe('Repayment loan', function () {
   });
   it('should now repay loan application', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
-      amount: "5000"
+      amount: '5000'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(201);
       expect(res.body).to.have.property('status');
@@ -247,7 +247,7 @@ describe('Repayment loan', function () {
   });
   it('should create a repayment loan even if the amount are greater than responsibility ', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
-      amount: "500000"
+      amount: '500000'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(201);
       expect(res.body).to.have.property('status');
@@ -264,7 +264,7 @@ describe('Repayment loan', function () {
   });
   it('should not repay loan because no loan you have', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
-      amount: "500000"
+      amount: '500000'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');

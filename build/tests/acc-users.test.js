@@ -4,11 +4,11 @@ var _chai = _interopRequireDefault(require("chai"));
 
 var _chaiHttp = _interopRequireDefault(require("chai-http"));
 
-var _app = _interopRequireDefault(require("../app.js"));
-
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
+
+var _app = _interopRequireDefault(require("../app.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -24,8 +24,8 @@ describe('signup', function () {
     firstName: 'admin',
     lastName: 'admin58',
     email: 'admin@gmail.com',
-    status: "verified",
-    isAdmin: "true",
+    status: 'verified',
+    isAdmin: 'true',
     password: 'zxasqw58'
   };
 
@@ -45,7 +45,7 @@ describe('signup', function () {
       firstName: 'admin',
       lastName: 'admin58',
       email: 'admin@gmail.com',
-      isAdmin: "true",
+      isAdmin: 'true',
       password: 'zxasqw58'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(201);
@@ -89,7 +89,7 @@ describe('signup', function () {
       firstName: 'damascene',
       lastName: 'damas58',
       email: 'admin@gmail.com',
-      isAdmin: "false",
+      isAdmin: 'false',
       password: 'zxasqw58'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(409);
@@ -104,7 +104,7 @@ describe('signup', function () {
       lastName: 'damas58',
       email: 'clientgmailcom',
       address: 'hdhh',
-      isAdmin: "false",
+      isAdmin: 'false',
       password: 'zxasqw58'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
@@ -174,8 +174,8 @@ describe('Users', function () {
     firstName: 'admin',
     lastName: 'admin58',
     email: 'admin@gmail.com',
-    status: "verified",
-    isAdmin: "true",
+    status: 'verified',
+    isAdmin: 'true',
     password: 'zxasqw58'
   };
 
@@ -185,7 +185,7 @@ describe('Users', function () {
 
   it('should verify a client because isAdmin is found in token', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/users/client@gmail.com/verify').set('Authorization', token).send({
-      status: "verified"
+      status: 'verified'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(200);
       expect(res.body).to.have.property('status');
@@ -196,7 +196,7 @@ describe('Users', function () {
   });
   it('should not verify user because email is invalid', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/users/clientxxx@gmail.com/verify').set('Authorization', token).send({
-      status: "verified"
+      status: 'verified'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(404);
       expect(res.body).to.have.property('status');
@@ -206,7 +206,7 @@ describe('Users', function () {
   });
   it('should not verify user because email have already Verified', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/users/client@gmail.com/verify').set('Authorization', token).send({
-      status: "verified"
+      status: 'verified'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
@@ -216,7 +216,7 @@ describe('Users', function () {
   });
   it('should not virify user because no token provided', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/users/client@gmail.com/verify').set('Authorization', !token).send({
-      status: "verified"
+      status: 'verified'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(401);
     });
@@ -243,7 +243,7 @@ describe('IsAdmin equal false', function () {
     firstName: 'clients',
     lastName: 'client58s',
     email: 'clientzz@gmail.com',
-    isAdmin: "false",
+    isAdmin: 'false',
     password: 'zxasqw58'
   };
 
@@ -261,7 +261,7 @@ describe('IsAdmin equal false', function () {
   });
   it('should not verify because user not an admin', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/users/clients@gmail.com/verify').set('Authorization', token).send({
-      status: "verified"
+      status: 'verified'
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
       expect(res.body).to.have.property('status');
