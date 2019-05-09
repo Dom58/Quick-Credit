@@ -9,11 +9,11 @@ var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
 var _userHelper = _interopRequireDefault(require("../helpers/userHelper"));
 
 var _UserDB = _interopRequireDefault(require("../models/UserDB"));
-
-var _dotenv = _interopRequireDefault(require("dotenv"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36,67 +36,67 @@ var userController = {
     if (emailExist) return res.status(409).json({
       status: 409,
       error: 'Email is already registed!'
-    }); //signup as an admin
+    });
 
     if (req.body.isAdmin === 'true') {
-      var user = {
+      var _user = {
         id: _UserDB["default"].users.length + 1,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        status: "verified",
+        status: 'verified',
         isAdmin: req.body.isAdmin,
         password: _bcrypt["default"].hashSync(req.body.password, 10)
       };
 
-      var token = _jsonwebtoken["default"].sign(user, "".concat(process.env.SECRET_KEY_CODE), {
+      var _token = _jsonwebtoken["default"].sign(_user, "".concat(process.env.SECRET_KEY_CODE), {
         expiresIn: '24h'
       });
 
-      _UserDB["default"].users.push(user);
+      _UserDB["default"].users.push(_user);
 
-      return res.header('Authorization', token).status(201).json({
+      return res.header('Authorization', _token).status(201).json({
         status: 201,
         message: 'Admin successfully created!',
         data: {
-          token: token,
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email
+          token: _token,
+          id: _user.id,
+          firstName: _user.firstName,
+          lastName: _user.lastName,
+          email: _user.email
         }
       });
-    } //signup as a client
-    else {
-        var _user = {
-          id: _UserDB["default"].users.length + 1,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          address: req.body.address,
-          status: "unverified",
-          isAdmin: "false",
-          password: _bcrypt["default"].hashSync(req.body.password, 10)
-        };
+    } // signup as a client
 
-        var _token = _jsonwebtoken["default"].sign(_user, "".concat(process.env.SECRET_KEY), {
-          expiresIn: '24h'
-        });
 
-        _UserDB["default"].users.push(_user);
+    var user = {
+      id: _UserDB["default"].users.length + 1,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      address: req.body.address,
+      status: 'unverified',
+      isAdmin: 'false',
+      password: _bcrypt["default"].hashSync(req.body.password, 10)
+    };
 
-        return res.header('Authorization', _token).status(201).json({
-          status: 201,
-          message: 'Successfully registed!',
-          data: {
-            token: _token,
-            id: _user.id,
-            firstName: _user.firstName,
-            lastName: _user.lastName,
-            email: _user.email
-          }
-        });
+    var token = _jsonwebtoken["default"].sign(user, "".concat(process.env.SECRET_KEY), {
+      expiresIn: '24h'
+    });
+
+    _UserDB["default"].users.push(user);
+
+    return res.header('Authorization', token).status(201).json({
+      status: 201,
+      message: 'Successfully registed!',
+      data: {
+        token: token,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
       }
+    });
   },
   allUsers: function allUsers(req, res) {
     if (req.user.isAdmin === 'true') {
@@ -108,7 +108,9 @@ var userController = {
         status: 200,
         data: _UserDB["default"].users
       });
-    } else return res.status(400).json({
+    }
+
+    return res.status(400).json({
       status: 400,
       error: 'You dont have a right to view this activity!'
     });
@@ -121,13 +123,13 @@ var userController = {
 
       if (!userEmail) return res.status(404).json({
         status: 404,
-        message: "Email not found!"
+        message: 'Email not found!'
       });
-      if (userEmail.status === "verified") return res.status(400).json({
+      if (userEmail.status === 'verified') return res.status(400).json({
         status: 400,
         message: 'User account Already Up-to-date!'
       });
-      userEmail.status = "verified";
+      userEmail.status = 'verified';
       return res.status(200).json({
         status: 200,
         message: 'User account Verified successfully!',
@@ -140,7 +142,9 @@ var userController = {
           status: userEmail.status
         }
       });
-    } else return res.status(400).json({
+    }
+
+    return res.status(400).json({
       status: 400,
       error: 'You dont have a right to verify a user account!'
     });

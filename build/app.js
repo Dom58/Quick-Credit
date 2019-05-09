@@ -9,9 +9,13 @@ var _express = _interopRequireDefault(require("express"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 
+var _swaggerUiExpress = _interopRequireDefault(require("swagger-ui-express"));
+
 var _userRoute = _interopRequireDefault(require("./routes/userRoute"));
 
 var _loanRoute = _interopRequireDefault(require("./routes/loanRoute"));
+
+var _swagger = _interopRequireDefault(require("../swagger.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -30,6 +34,7 @@ app.get('/', function (req, res) {
     message: 'Welcome to Quick credit web application'
   });
 });
+app.get('/api/documentations', _swaggerUiExpress["default"].serve, _swaggerUiExpress["default"].setup(_swagger["default"]));
 app.listen(port, function () {
   console.log("Server is runnig on (http://127.0.0.1:".concat(port, ")"));
 });
