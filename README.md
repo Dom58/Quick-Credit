@@ -77,11 +77,12 @@ address. 
 | GET     | /api/v1/loans/repaid/loans       | filter all repaid loan applications      |
 
 
-## HEROKU 
+## HEROKU  & Swagger API Documentation 
 Access link : ( https://quick-credit-web.herokuapp.com/ ) followed by the above table endpoints using postman. as an example `https://quick-credit-web.herokuapp.com/api/v1/auth/signin` to signin.
+* You may read the quick credit web appication documentation using this Heroku URL [Visit the link]( https://quick-credit-web.herokuapp.com/api/documentations) or copy this link `https://quick-credit-web.herokuapp.com/api/documentations/`
 
 ## Github-page
-GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: https://dom58.github.io/Quick-Credit/ui
+GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: (https://dom58.github.io/Quick-Credit/ui )   or simply [click here](https://dom58.github.io/Quick-Credit/ui)
 and use the dummy  email ( admin@gmail.com ) to view different admin UI dashboard page(s) and an password to access as an admin and may use any email like (username@example.com) to view a user UI dashboard page(s).
 
 ## Author
