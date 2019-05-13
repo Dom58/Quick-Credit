@@ -1,3 +1,6 @@
+		html {
+  			scroll-behavior: smooth;
+		}
 		body{
 			margin: 0;
     		padding: 0;
@@ -479,12 +482,18 @@
 		      	background-color:  #ecc1a9;
 		}
 		.btn-pending{
+				height: 50px;
+				width: 100%;
+				border-radius: 10px;
 			  	padding: 8px;
 			  	text-decoration: none;
 			  	background-color: #cc8917;
 			  	color: white;
 		}
 		.btn-approve{
+				height: 50px;
+				width: 100%;
+				border-radius: 10px;
 			  	padding: 8px;
 			  	text-decoration: none;
 			  	background-color: #105f9e;
@@ -494,6 +503,9 @@
 		  		background-color: #171d14;
 		}
 		.btn-reject{
+				height: 50px;
+				width: 100%;
+				border-radius: 10px;
 			  	padding: 8px;
 			  	text-decoration: none;
 			  	background-color: #f44336;
