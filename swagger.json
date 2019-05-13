@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+    "swagger": "2.0",
   "info": {
     "description": "Quick Credit is an web lending platform that provides short term soft loans to individuals. This helps solve problems of financial inclusion as a way to alleviate poverty and empower low income earners",
     "version": "1",
@@ -35,7 +35,7 @@
         "tags": [
           "Authentication"
         ],
-        "summary": "Creating an account",
+        "summary": "Creating a user/client account",
         "parameters": [
           {
             "name": "user",
@@ -56,7 +56,33 @@
         }
       }
     },
-    "/auth/login": {
+    "/auth/signup'": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Creating an admin account",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Admin create",
+            "schema": {
+              "$ref": "#/definitions/adminsignup"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Admin account Successfully registed ",
+            "schema": {
+              "$ref": "#/definitions/adminsignup"
+            }
+          }
+        }
+      }
+    },
+    "/auth/signin": {
       "post": {
         "tags": [
           "Authentication"
@@ -319,32 +345,6 @@
           "Loan Repayment"
         ],
         "summary": "Retriveing all loans repayment history.",
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/loans/current/loans": {
-      "get": {
-        "tags": [
-          "Loan Repayment"
-        ],
-        "summary": "Retreiving all current loans (status is approved and repaid is false)",
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/loans/repaid/loans": {
-      "get": {
-        "tags": [
-          "Loan Repayment"
-        ],
-        "summary": "Retreiving all repaid loans ((status is approved and repaid is true))",
         "responses": {
           "200": {
             "description": "successful operation"

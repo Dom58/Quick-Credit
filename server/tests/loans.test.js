@@ -135,27 +135,27 @@ describe('Loan applications', () => {
       });
   });
 
-  it('should not allowed to view all repaid loans', () => {
-    chai.request(server)
-      .get('/api/v1/loans/repaid/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(400);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should not allowed to view all repaid loans', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(400);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
-  it('should not allowed to view all current loans', () => {
-    chai.request(server)
-      .get('/api/v1/loans/current/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(400);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should not allowed to view all current loans', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(400);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
   it('should not allowed to repay a loans, only admin', () => {
     chai.request(server)
@@ -181,16 +181,16 @@ describe('Repayment loan', () => {
   }
   const token = jwt.sign(isAdmin, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
 
-  it('should not return current repayment history becouse it is empty', () => {
-    chai.request(server)
-      .get('/api/v1/loans/current/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(404);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should not return current repayment history becouse it is empty', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(404);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
   it('should not accept others status rather than approved or rejected', () => {
     chai.request(server)
@@ -303,27 +303,27 @@ describe('Repayment loan', () => {
       });
   });
 
-  it('should return all current repayment history', () => {
-    chai.request(server)
-      .get('/api/v1/loans/current/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(200);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should return all current repayment history', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(200);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
-  it('should not return repaid loans because not repaid yet', () => {
-    chai.request(server)
-      .get('/api/v1/loans/repaid/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(404);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should not return repaid loans because not repaid yet', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(404);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
   it('should create a repayment loan even if the amount are greater than responsibility ', () => {
     chai.request(server)
@@ -340,16 +340,16 @@ describe('Repayment loan', () => {
       });
   });
 
-  it('should return all repaid loan(s)', () => {
-    chai.request(server)
-      .get('/api/v1/loans/repaid/loans')
-      .set('Authorization', token)
-      .end((err, res) => {
-        expect(res.body.status).to.equal(200);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.be.an('object');
-      });
-  });
+  // it('should return all repaid loan(s)', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(200);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
   it('should not repay loan because no loan you have', () => {
     chai.request(server)

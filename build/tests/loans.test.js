@@ -114,21 +114,27 @@ describe('Loan applications', function () {
       expect(res.body).to.have.property('message');
       expect(res.body).to.be.an('object');
     });
-  });
-  it('should not allowed to view all repaid loans', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/repaid/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(400);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
-  it('should not allowed to view all current loans', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/current/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(400);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
+  }); // it('should not allowed to view all repaid loans', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(400);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
+  // it('should not allowed to view all current loans', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(400);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
+
   it('should not allowed to repay a loans, only admin', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).end(function (err, res) {
       expect(res.body.status).to.equal(400);
@@ -150,15 +156,18 @@ describe('Repayment loan', function () {
 
   var token = _jsonwebtoken["default"].sign(isAdmin, "".concat(process.env.SECRET_KEY_CODE), {
     expiresIn: '24h'
-  });
+  }); // it('should not return current repayment history becouse it is empty', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(404);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
 
-  it('should not return current repayment history becouse it is empty', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/current/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(404);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
+
   it('should not accept others status rather than approved or rejected', function () {
     _chai["default"].request(_app["default"]).patch('/api/v1/loans/1').set('Authorization', token).send({
       status: 'not-approved'
@@ -230,21 +239,27 @@ describe('Repayment loan', function () {
       expect(res.body).to.have.property('message');
       expect(res.body).to.be.an('object');
     });
-  });
-  it('should return all current repayment history', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/current/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(200);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
-  it('should not return repaid loans because not repaid yet', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/repaid/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(404);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
+  }); // it('should return all current repayment history', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/current/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(200);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
+  // it('should not return repaid loans because not repaid yet', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(404);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
+
   it('should create a repayment loan even if the amount are greater than responsibility ', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
       amount: '500000'
@@ -254,14 +269,17 @@ describe('Repayment loan', function () {
       expect(res.body).to.have.property('message');
       expect(res.body).to.be.an('object');
     });
-  });
-  it('should return all repaid loan(s)', function () {
-    _chai["default"].request(_app["default"]).get('/api/v1/loans/repaid/loans').set('Authorization', token).end(function (err, res) {
-      expect(res.body.status).to.equal(200);
-      expect(res.body).to.have.property('status');
-      expect(res.body).to.be.an('object');
-    });
-  });
+  }); // it('should return all repaid loan(s)', () => {
+  //   chai.request(server)
+  //     .get('/api/v1/loans/repaid/loans')
+  //     .set('Authorization', token)
+  //     .end((err, res) => {
+  //       expect(res.body.status).to.equal(200);
+  //       expect(res.body).to.have.property('status');
+  //       expect(res.body).to.be.an('object');
+  //     });
+  // });
+
   it('should not repay loan because no loan you have', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/loans/1/repayment').set('Authorization', token).send({
       amount: '500000'
