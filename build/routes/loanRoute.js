@@ -21,7 +21,5 @@ route.get('/api/v1/loans/:id', _auth["default"], _LoanController["default"].spec
 route.patch('/api/v1/loans/:id', _auth["default"], _LoanController["default"].approveLoan);
 route.post('/api/v1/loans/:id/repayment', _auth["default"], _LoanController["default"].repayLoan);
 route.get('/api/v1/repayments/loans', _auth["default"], _LoanController["default"].allRepaymentLoan);
-route.get('/api/v1/loans/current/loans', _auth["default"], _LoanController["default"].currentLoan);
-route.get('/api/v1/loans/repaid/loans', _auth["default"], _LoanController["default"].repaidLoan);
 var _default = route;
 exports["default"] = _default;
