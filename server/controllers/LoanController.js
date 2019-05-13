@@ -49,26 +49,37 @@ const loanController = {
             interest: (loan.interest).toFixed(2),
           },
         });
-
       }
       return res.status(400).json({
         status: 400,
         message: `Ooops!! You have unpaid Loan of ## ${haveApplyLoan.balance} ##, Please repay this loan!`,
       });
-    }
-
-    return res.status(400).json({ status: 400, message: 'Sorry! Your are not yet verified, Please contact Admin !' });
+    } return res.status(400).json({ status: 400, message: 'Sorry! Your are not yet verified, Please contact Admin !' });
   },
-
   allLoans(req, res) {
     if (req.user.isAdmin === 'true') {
-      if (!dbLoan.loans.length) return res.status(404).json({ status: 404, message: 'No Loan Application Created Yet!' });
-      return res.status(200).json({ status: 200, data: dbLoan.loans });
+      const statusLoansQuery = req.query.status;
+      const repaidLoansQuery = req.query.repaid;
+      const loansFilteringQuery = dbLoan.loans.filter(result => result.status === statusLoansQuery && result.repaid === repaidLoansQuery);
+      if (loansFilteringQuery.length !== 0) {
+        res.status(200).send({
+          status: 200,
+          data: loansFilteringQuery,
+        });
+      } else if (statusLoansQuery == null && repaidLoansQuery == null && dbLoan.loans.length !== 0) {
+        res.status(200).send({
+          status: 200,
+          data: dbLoan.loans,
+        });
+      } 
+      else {
+        res.status(404).json({ status: 404, message: 'No Loan Found!' });
+      }
+    } 
+    else {
+      res.status(400).json({ status: 400, message: 'Sorry! You dont have a right to view loan Application history. Any question contact Admin!' });
     }
-
-    return res.status(400).json({ status: 400, message: 'Sorry! You dont have a right to view loan Application history. Any question contact Admin!' });
   },
-
   specificLoan(req, res) {
     if (req.user.isAdmin === 'true') {
       const theId = parseInt(req.params.id);
@@ -94,7 +105,6 @@ const loanController = {
 
     return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to view specific loan Application history!' });
   },
-
   approveLoan(req, res) {
     if (req.user.isAdmin === 'true') {
       const { error } = validate.validateApproveLoan(req.body);
@@ -121,105 +131,83 @@ const loanController = {
 
     return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to Approve/Reject loan Application!' });
   },
-
-  // loan Repayment
+  //loan Repayment
   repayLoan(req, res) {
-    if (req.user.isAdmin === 'true') {
+    if (req.user.isAdmin ==='true') {
       const { error } = validate.validateRepayment(req.body);
-      if (error) return res.status(400).json({ status: 400, error: error.details[0].message });
+      if (error) return res.status(400).json({ status: 400,  error: error.details[0].message });
 
       const loan = dbLoan.loans.find(findLoan => findLoan.loanId === parseInt(req.params.id));
       if (!loan) return res.status(404).json({ status: 404, error: `Loan with ID ## ${req.params.id} ## not found!` });
 
-      const theAmount = parseFloat(req.body.amount);
-      const theDiffrence = theAmount - loan.balance;
+      let theAmount = parseFloat(req.body.amount);
+      const theDiffrence = theAmount - loan.balance; 
+      const weOfferYou = () => {
+        return theDiffrence;
+      }
 
-      const weOfferYou = () => theDiffrence;
       const repayment = {
-        id: dbLoanRepayment.repayments.length + 1,
+        id: dbLoanRepayment.repayments.length +1,
         CreatedOn: new Date(),
         loanId: loan.loanId,
         amount: theAmount,
         OfferAmount: loan.balance - theAmount,
       };
-      // check loan status if is approved
-      if (loan.status === 'pending' || loan.status === 'rejected') {
-        return res.status(400).json({ status: 400, message: `Oops Nothing to repay! Your Loan Application on [ ${loan.CreatedOn} ] for [ ${loan.amount} ] still Pending or rejected!` });
+      //check loan status if is approved
+      if (loan.status ==='pending' || loan.status ==='rejected') 
+      { 
+        return res.status(400).json({ status: 400 ,message: `Oops Nothing to repay! Your Loan Application on [ ${loan.CreatedOn} ] for [ ${loan.amount} ] still Pending or rejected!` });
+      }      
+      else if (loan.balance === 0) {
+        return res.status(400).json({status:400 ,message:`Oops Nothing to repay, You have paid your loan!`});
       }
 
-      if (loan.balance === 0) {
-        return res.status(400).json({ status: 400, message: 'Oops Nothing to repay, You have paid your loan!' });
+      else {
+        if (repayment.amount >= loan.balance ) {
+          loan.balance = 0 ;
+          loan.repaid = "true" ;
+          dbLoanRepayment.repayments.push(repayment);
+          return res.status(201).json({
+            status:201,
+            message:`Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
+            data:{
+              id:repayment.id,
+              loanId:loan.loanId,
+              CreatedOn:new Date(),
+              amount:loan.amount,
+              monthlyInstallment:loan.paymentInstallment,
+              paidAmount:repayment.amount,
+              balance:loan.balance,
+            }
+          });
+        }
+        else {
+          loan.balance = loan.balance - theAmount;
+
+          dbLoanRepayment.repayments.push(repayment);
+
+          return res.status(201).json({
+            status:201,
+            message:'Repayment Created Successfully!',
+            data:{
+              id:repayment.id,
+              loanId:loan.loanId,
+              CreatedOn:new Date(),
+              amount:loan.amount,
+              monthlyInstallment:loan.paymentInstallment,
+              paidAmount:repayment.amount,
+              balance:loan.balance,
+            }
+          });
+        }
       }
-
-      if (repayment.amount >= loan.balance) {
-        loan.balance = 0;
-        loan.repaid = 'true';
-
-        dbLoanRepayment.repayments.push(repayment);
-
-        return res.status(201).json({
-          status: 201,
-          message: `Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
-          data: {
-            id: repayment.id,
-            loanId: loan.loanId,
-            CreatedOn: new Date(),
-            amount: loan.amount,
-            monthlyInstallment: loan.paymentInstallment,
-            paidAmount: repayment.amount,
-            balance: loan.balance,
-          },
-        });
-
-      }
-	  loan.balance == loan.balance - theAmount;
-
-      dbLoanRepayment.repayments.push(repayment);
-      return res.status(201).json({
-        status: 201,
-        message: 'Repayment Created Successfully!',
-        data: {
-          id: repayment.id,
-          loanId: loan.loanId,
-          CreatedOn: new Date(),
-          amount: loan.amount,
-          monthlyInstallment: loan.paymentInstallment,
-          paidAmount: repayment.amount,
-          balance: loan.balance,
-        },
-      });
     }
-
-    return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to repay a loan, call Admin!' });
-  },
-
-  currentLoan(req, res) {
- 	if (req.user.isAdmin === 'true') {
-      const currentLoan = dbLoan.loans.filter(findLoan => (findLoan.status === 'approved' && findLoan.repaid === 'false'));
-
-      if (!currentLoan.length) return res.status(404).json({ status: 404, message: 'No Current loan found!' });
-
-      return res.status(200).json({ status: 200, data: currentLoan });
+    else {
+      return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to repay a loan, call Admin!' });
     }
-
-    return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to view current loans!' });
   },
-
-  repaidLoan(req, res) {
-    if (req.user.isAdmin === 'true') {
-      const currentLoan = dbLoan.loans.filter(findLoan => (findLoan.status === 'approved' && findLoan.repaid === 'true'));
-
-      if (!currentLoan.length) return res.status(404).json({ status: 404, message: 'No repaid loan(s) found!' });
-
-      return res.status(200).json({ status: 200, data: currentLoan });
-    }
-
-    return res.status(400).json({ status: 400, message: 'Oops! You dont have a right to view repaid loans!' });
-  },
-
   allRepaymentLoan(req, res) {
     if (!dbLoanRepayment.repayments.length) return res.status(404).json({ status: 404, message: 'No Repayment Created Yet!' });
-
     return res.status(200).json({ status: 200, data: dbLoanRepayment.repayments });
   },
 };
