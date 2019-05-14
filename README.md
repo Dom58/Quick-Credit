@@ -73,8 +73,8 @@ address. 
 | PATCH     | /api/v1/loans/:id       | Approve /reject loan application      |
 | POST   | /api/v1/loans/:id/repayment     | post repayment transaction loan   |
 | GET     | /api/v1/repayments/loans      | get all loan repayment      |
-| GET   | /api/v1/loans/current/loans     | filter all current loan applications   |
-| GET     | /api/v1/loans/repaid/loans       | filter all repaid loan applications      |
+| GET   | /loans?status=approved&repaid=false      | filter all current loan applications   |
+| GET     | /loans?status=approved&repaid=true       | filter all repaid loan applications      |
 
 
 ## HEROKU  & Swagger API Documentation 
