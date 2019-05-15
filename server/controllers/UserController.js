@@ -9,40 +9,47 @@ dotenv.config();
 const userController = {
   signup(req, res) {
     const { error } = validate.validateSignup(req.body);
-    if (error) return res.status(400).json({ status: 400, errors: error.message });
-
-    const emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
-    if (emailExist) return res.status(409).json({ status: 409, error: 'Email is already registed!' });
-
-
-    if (req.body.isAdmin === 'true') {
-      const user = {
-        id: db.users.length + 1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        status: 'verified',
-        isAdmin: req.body.isAdmin,
-        password: bcrypt.hashSync(req.body.password, 10),
-      };
-      const token = jwt.sign(user, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
-      db.users.push(user);
-
-      return res.header('Authorization', token).status(201).json({
-        status: 201,
-        message: 'Admin successfully created!',
-        data: {
-          token: token,
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        },
-      });
+    const arrErrors = [];
+    const allValdatorFunct = () =>{
+      for (let i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
     }
+    if (error) {
+      // eslint-disable-next-line no-unused-expressions
+      `${allValdatorFunct ()}`;
+      if (error) return res.status(400).json({ status: 400, errors: arrErrors });
+    } else {
+      const emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
+      if (emailExist) return res.status(409).json({ status: 409, error: 'Email is already registed!' });
 
+      if (req.body.isAdmin === 'true') {
+        const user = {
+          id: db.users.length + 1,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          status: 'verified',
+          isAdmin: req.body.isAdmin,
+          password: bcrypt.hashSync(req.body.password, 10),
+        };
+        const token = jwt.sign(user, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+        db.users.push(user);
+
+        return res.header('Authorization', token).status(201).json({
+          status: 201,
+          message: 'Admin successfully created!',
+          data: {
+            token: token,
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          },
+        });
+      }
+    }
     // signup as a client
-
     const user = {
       id: db.users.length + 1,
       firstName: req.body.firstName,
@@ -104,38 +111,47 @@ const userController = {
 
     return res.status(400).json({ status: 400, error: 'You dont have a right to verify a user account!' });
   },
-
   signin(req, res) {
     const { error } = validate.validateLogin(req.body);
-    if (error) return res.status(400).json({ status: 400, errors: error.message });
+    const arrErrors = [];
+    const allValdatorFunct = () =>{
+      for (let i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    }
+    if (error) {
+      // eslint-disable-next-line no-unused-expressions
+      `${allValdatorFunct ()}`;
+      if (error) return res.status(400).json({ status: 400, errors: arrErrors });
+    } else {
+      const user = db.users.find(findEmail => findEmail.email === req.body.email);
+      if (!user) return res.status(401).json({ status: 401, error: 'Incorrect Email' });
 
-    const user = db.users.find(findEmail => findEmail.email === req.body.email);
-    if (!user) return res.status(401).json({ status: 401, error: 'Incorrect Email' });
-
-    const passwordCompare = bcrypt.compareSync(req.body.password, user.password);
-    if (!passwordCompare) return res.status(401).json({ status: 401, error: 'Incorrect Password' });
-    const payload = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      status: user.status,
-      isAdmin: user.isAdmin,
-      email: user.email,
-    };
-    // sign a json web token
-    const token = jwt.sign(payload, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
-
-    return res.header('Authorization', token).status(200).json({
-      status: 200,
-      message: 'You are successfully log in into Quick Credit',
-      data: {
-        token: token,
+      const passwordCompare = bcrypt.compareSync(req.body.password, user.password);
+      if (!passwordCompare) return res.status(401).json({ status: 401, error: 'Incorrect Password' });
+      const payload = {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
+        status: user.status,
+        isAdmin: user.isAdmin,
         email: user.email,
-      },
-    });
+      };
+      // sign a json web token
+      const token = jwt.sign(payload, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+
+      return res.header('Authorization', token).status(200).json({
+        status: 200,
+        message: 'You are successfully log in into Quick Credit',
+        data: {
+          token: token,
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        },
+      });
+    }
   },
 };
 export default userController;
