@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": "airbnb-standard",
     "parserOptions": {
         "ecmaVersion": 6,
         "parser": "babel-eslint"
@@ -13,16 +13,14 @@ module.exports = {
     "rules": {
         "prefer-arrow-callback": "off",
         "func-names": "off",
-        "no-console": "off",
         "radix": "off",
         "no-plusplus": "off",
         "object-shorthand": "off",
         "prefer-template": "off",
         "max-len": "off",
-        "eqeqeq": "off",
         "no-lonely-if": "off",
         "class-methods-use-this": "off",
-        "import/no-extraneous-dependencies": "off",
-        "no-empty": "off"
+        "no-empty": "off",
+        "no-else-return":0
     }
 };
