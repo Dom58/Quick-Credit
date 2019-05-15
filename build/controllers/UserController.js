@@ -24,48 +24,60 @@ var userController = {
     var _validate$validateSig = _userHelper["default"].validateSignup(req.body),
         error = _validate$validateSig.error;
 
-    if (error) return res.status(400).json({
-      status: 400,
-      errors: error.message
-    });
+    var arrErrors = [];
 
-    var emailExist = _UserDB["default"].users.find(function (findEmail) {
-      return findEmail.email === req.body.email;
-    });
+    var allValdatorFunct = function allValdatorFunct() {
+      for (var i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    };
 
-    if (emailExist) return res.status(409).json({
-      status: 409,
-      error: 'Email is already registed!'
-    });
-
-    if (req.body.isAdmin === 'true') {
-      var _user = {
-        id: _UserDB["default"].users.length + 1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        status: 'verified',
-        isAdmin: req.body.isAdmin,
-        password: _bcrypt["default"].hashSync(req.body.password, 10)
-      };
-
-      var _token = _jsonwebtoken["default"].sign(_user, "".concat(process.env.SECRET_KEY_CODE), {
-        expiresIn: '24h'
+    if (error) {
+      // eslint-disable-next-line no-unused-expressions
+      "".concat(allValdatorFunct());
+      if (error) return res.status(400).json({
+        status: 400,
+        errors: arrErrors
+      });
+    } else {
+      var emailExist = _UserDB["default"].users.find(function (findEmail) {
+        return findEmail.email === req.body.email;
       });
 
-      _UserDB["default"].users.push(_user);
-
-      return res.header('Authorization', _token).status(201).json({
-        status: 201,
-        message: 'Admin successfully created!',
-        data: {
-          token: _token,
-          id: _user.id,
-          firstName: _user.firstName,
-          lastName: _user.lastName,
-          email: _user.email
-        }
+      if (emailExist) return res.status(409).json({
+        status: 409,
+        error: 'Email is already registed!'
       });
+
+      if (req.body.isAdmin === 'true') {
+        var _user = {
+          id: _UserDB["default"].users.length + 1,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          email: req.body.email,
+          status: 'verified',
+          isAdmin: req.body.isAdmin,
+          password: _bcrypt["default"].hashSync(req.body.password, 10)
+        };
+
+        var _token = _jsonwebtoken["default"].sign(_user, "".concat(process.env.SECRET_KEY_CODE), {
+          expiresIn: '24h'
+        });
+
+        _UserDB["default"].users.push(_user);
+
+        return res.header('Authorization', _token).status(201).json({
+          status: 201,
+          message: 'Admin successfully created!',
+          data: {
+            token: _token,
+            id: _user.id,
+            firstName: _user.firstName,
+            lastName: _user.lastName,
+            email: _user.email
+          }
+        });
+      }
     } // signup as a client
 
 
@@ -153,50 +165,62 @@ var userController = {
     var _validate$validateLog = _userHelper["default"].validateLogin(req.body),
         error = _validate$validateLog.error;
 
-    if (error) return res.status(400).json({
-      status: 400,
-      errors: error.message
-    });
+    var arrErrors = [];
 
-    var user = _UserDB["default"].users.find(function (findEmail) {
-      return findEmail.email === req.body.email;
-    });
+    var allValdatorFunct = function allValdatorFunct() {
+      for (var i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    };
 
-    if (!user) return res.status(401).json({
-      status: 401,
-      error: 'Incorrect Email'
-    });
+    if (error) {
+      // eslint-disable-next-line no-unused-expressions
+      "".concat(allValdatorFunct());
+      if (error) return res.status(400).json({
+        status: 400,
+        errors: arrErrors
+      });
+    } else {
+      var user = _UserDB["default"].users.find(function (findEmail) {
+        return findEmail.email === req.body.email;
+      });
 
-    var passwordCompare = _bcrypt["default"].compareSync(req.body.password, user.password);
+      if (!user) return res.status(401).json({
+        status: 401,
+        error: 'Incorrect Email'
+      });
 
-    if (!passwordCompare) return res.status(401).json({
-      status: 401,
-      error: 'Incorrect Password'
-    });
-    var payload = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      status: user.status,
-      isAdmin: user.isAdmin,
-      email: user.email
-    }; // sign a json web token
+      var passwordCompare = _bcrypt["default"].compareSync(req.body.password, user.password);
 
-    var token = _jsonwebtoken["default"].sign(payload, "".concat(process.env.SECRET_KEY_CODE), {
-      expiresIn: '24h'
-    });
-
-    return res.header('Authorization', token).status(200).json({
-      status: 200,
-      message: 'You are successfully log in into Quick Credit',
-      data: {
-        token: token,
+      if (!passwordCompare) return res.status(401).json({
+        status: 401,
+        error: 'Incorrect Password'
+      });
+      var payload = {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
+        status: user.status,
+        isAdmin: user.isAdmin,
         email: user.email
-      }
-    });
+      }; // sign a json web token
+
+      var token = _jsonwebtoken["default"].sign(payload, "".concat(process.env.SECRET_KEY_CODE), {
+        expiresIn: '24h'
+      });
+
+      return res.header('Authorization', token).status(200).json({
+        status: 200,
+        message: 'You are successfully log in into Quick Credit',
+        data: {
+          token: token,
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        }
+      });
+    }
   }
 };
 var _default = userController;

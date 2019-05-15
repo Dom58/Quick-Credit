@@ -6,8 +6,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 exports.validateLoan = function (loan) {
   var schema = _joi["default"].object().keys({
-    amount: _joi["default"].number().required(),
-    tenor: _joi["default"].number().min(1).max(12).required()
+    amount: _joi["default"].number().required().label('Loan Amount'),
+    tenor: _joi["default"].number().min(1).max(12).required().label('Tenor')
   });
 
   return _joi["default"].validate(loan, schema, {
@@ -17,7 +17,7 @@ exports.validateLoan = function (loan) {
 
 exports.validateApproveLoan = function (loan) {
   var schema = _joi["default"].object().keys({
-    status: _joi["default"].string().valid('approved', 'rejected').required()
+    status: _joi["default"].string().valid('approved', 'rejected').required().label('Loan Status')
   });
 
   return _joi["default"].validate(loan, schema, {

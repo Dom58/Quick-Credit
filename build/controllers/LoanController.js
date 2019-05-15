@@ -18,66 +18,79 @@ var loanController = {
     var _validate$validateLoa = _loanHelper["default"].validateLoan(req.body),
         error = _validate$validateLoa.error;
 
-    if (error) return res.status(400).json({
-      status: 400,
-      errors: error.message
-    });
-    var theTenor = parseInt(req.body.tenor);
-    var theAmount = parseFloat(req.body.amount);
-    var theInterest = parseFloat(req.body.amount) * 0.05;
-    var thepaymentInstallment = parseFloat((theAmount + theInterest) / theTenor).toFixed(2);
-    var theBalance = parseFloat(theAmount + theInterest).toFixed(2);
+    var arrErrors = [];
 
-    var haveApplyLoan = _LoanDB["default"].loans.find(function (findEmail) {
-      return findEmail.email === req.user.email;
-    });
+    var allValdatorFunct = function allValdatorFunct() {
+      for (var i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    };
 
-    if (req.user.status === 'verified') {
-      if (!haveApplyLoan || haveApplyLoan.repaid === 'true') {
-        var loan = {
-          loanId: _LoanDB["default"].loans.length + 1,
-          email: req.user.email,
-          CreatedOn: new Date(),
-          status: 'pending',
-          repaid: 'false',
-          tenor: theTenor,
-          amount: theAmount,
-          paymentInstallment: thepaymentInstallment,
-          balance: theBalance,
-          interest: theInterest
-        };
+    if (error) {
+      // eslint-disable-next-line no-unused-expressions
+      "".concat(allValdatorFunct());
+      if (error) return res.status(400).json({
+        status: 400,
+        errors: arrErrors
+      });
+    } else {
+      var theTenor = parseInt(req.body.tenor);
+      var theAmount = parseFloat(req.body.amount);
+      var theInterest = parseFloat(req.body.amount) * 0.05;
+      var thepaymentInstallment = parseFloat((theAmount + theInterest) / theTenor).toFixed(2);
+      var theBalance = parseFloat(theAmount + theInterest).toFixed(2);
 
-        _LoanDB["default"].loans.push(loan);
+      var haveApplyLoan = _LoanDB["default"].loans.find(function (findEmail) {
+        return findEmail.email === req.user.email;
+      });
 
-        return res.status(201).json({
-          status: 201,
-          message: 'Loan Applied Successfully, Good Luck!',
-          data: {
-            loanId: loan.loanId,
-            CreatedOn: new Date(),
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
+      if (req.user.status === 'verified') {
+        if (!haveApplyLoan || haveApplyLoan.repaid === 'true') {
+          var loan = {
+            loanId: _LoanDB["default"].loans.length + 1,
             email: req.user.email,
-            tenor: loan.tenor,
-            amount: loan.amount,
-            paymentInstallment: loan.paymentInstallment,
+            CreatedOn: new Date(),
             status: 'pending',
-            balance: loan.balance,
-            interest: loan.interest.toFixed(2)
-          }
+            repaid: 'false',
+            tenor: theTenor,
+            amount: theAmount,
+            paymentInstallment: thepaymentInstallment,
+            balance: theBalance,
+            interest: theInterest
+          };
+
+          _LoanDB["default"].loans.push(loan);
+
+          return res.status(201).json({
+            status: 201,
+            message: 'Loan Applied Successfully, Good Luck!',
+            data: {
+              loanId: loan.loanId,
+              CreatedOn: new Date(),
+              firstName: req.user.firstName,
+              lastName: req.user.lastName,
+              email: req.user.email,
+              tenor: loan.tenor,
+              amount: loan.amount,
+              paymentInstallment: loan.paymentInstallment,
+              status: 'pending',
+              balance: loan.balance,
+              interest: loan.interest.toFixed(2)
+            }
+          });
+        }
+
+        return res.status(400).json({
+          status: 400,
+          message: "Ooops!! You have unpaid Loan of ## ".concat(haveApplyLoan.balance, " ##, Please repay this loan!")
         });
       }
 
       return res.status(400).json({
         status: 400,
-        message: "Ooops!! You have unpaid Loan of ## ".concat(haveApplyLoan.balance, " ##, Please repay this loan!")
+        message: 'Sorry! Your are not yet verified, Please contact Admin !'
       });
     }
-
-    return res.status(400).json({
-      status: 400,
-      message: 'Sorry! Your are not yet verified, Please contact Admin !'
-    });
   },
   allLoans: function allLoans(req, res) {
     if (req.user.isAdmin === 'true') {
@@ -150,43 +163,55 @@ var loanController = {
       var _validate$validateApp = _loanHelper["default"].validateApproveLoan(req.body),
           error = _validate$validateApp.error;
 
-      if (error) return res.status(400).json({
-        status: 400,
-        errors: error.message
-      });
+      var arrErrors = [];
 
-      var loan = _LoanDB["default"].loans.find(function (findLoan) {
-        return findLoan.loanId === parseInt(req.params.id);
-      });
-
-      if (!loan) return res.status(404).json({
-        status: 404,
-        error: "Loan with ID ## ".concat(req.params.id, " ## not found!")
-      });
-      if (loan.status === 'approved') return res.status(400).json({
-        status: 400,
-        message: 'Loan Application Already Up-to-date(Approved)!'
-      });
-      loan.status = req.body.status;
-      return res.status(200).json({
-        status: 200,
-        data: {
-          loanId: loan.loanId,
-          loanAmount: loan.amount,
-          tenor: loan.tenor,
-          status: loan.status,
-          monthlyInstallment: loan.paymentInstallment,
-          interest: loan.interest
+      var allValdatorFunct = function allValdatorFunct() {
+        for (var i = 0; i < error.details.length; i++) {
+          arrErrors.push(error.details[i].message);
         }
+      };
+
+      if (error) {
+        // eslint-disable-next-line no-unused-expressions
+        "".concat(allValdatorFunct());
+        if (error) return res.status(400).json({
+          status: 400,
+          errors: arrErrors
+        });
+      } else {
+        var loan = _LoanDB["default"].loans.find(function (findLoan) {
+          return findLoan.loanId === parseInt(req.params.id);
+        });
+
+        if (!loan) return res.status(404).json({
+          status: 404,
+          error: "Loan with ID ## ".concat(req.params.id, " ## not found!")
+        });
+        if (loan.status === 'approved') return res.status(400).json({
+          status: 400,
+          message: 'Loan Application Already Up-to-date(Approved)!'
+        });
+        loan.status = req.body.status;
+        return res.status(200).json({
+          status: 200,
+          data: {
+            loanId: loan.loanId,
+            loanAmount: loan.amount,
+            tenor: loan.tenor,
+            status: loan.status,
+            monthlyInstallment: loan.paymentInstallment,
+            interest: loan.interest
+          }
+        });
+      }
+
+      return res.status(400).json({
+        status: 400,
+        message: 'Oops! You dont have a right to Approve/Reject loan Application!'
       });
     }
-
-    return res.status(400).json({
-      status: 400,
-      message: 'Oops! You dont have a right to Approve/Reject loan Application!'
-    });
   },
-  //loan Repayment
+  // loan Repayment
   repayLoan: function repayLoan(req, res) {
     if (req.user.isAdmin === 'true') {
       var _validate$validateRep = _loanHelper["default"].validateRepayment(req.body),
@@ -225,7 +250,9 @@ var loanController = {
           status: 400,
           message: "Oops Nothing to repay! Your Loan Application on [ ".concat(loan.CreatedOn, " ] for [ ").concat(loan.amount, " ] still Pending or rejected!")
         });
-      } else if (loan.balance === 0) {
+      }
+
+      if (loan.balance === 0) {
         return res.status(400).json({
           status: 400,
           message: "Oops Nothing to repay, You have paid your loan!"
