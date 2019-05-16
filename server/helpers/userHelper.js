@@ -9,7 +9,7 @@ exports.validateSignup = (user) => {
     email: joi.string().email({ minDomainAtoms: 2 }).required().label('Email'),
     address: joi.string().label('User Adress'),
     isAdmin: joi.boolean().label('Admin'),
-    password: joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).label('Password').empty(/\s+/).trim(),
+    password: joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).label('Password').empty(/\s+/).trim().error((error) => "Password is required and strong ( * mix characters and numbers) and at least 6 characters long"),
   });
   return joi.validate(user, schema, { abortEarly: false });
 };
@@ -17,7 +17,7 @@ exports.validateSignup = (user) => {
 exports.validateLogin = (user) => {
   const login = {
     email: joi.string().email().required().label('Email'),
-    password: joi.string().required().label("Password is Required").empty(/\s+/).trim(),
+    password: joi.string().required().label("Password").empty(/\s+/).trim(),
   };
   return joi.validate(user, login, { abortEarly: false });
 };
