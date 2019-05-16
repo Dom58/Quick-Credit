@@ -237,6 +237,7 @@ var loanController = {
         CreatedOn: new Date(),
         loanId: loan.loanId,
         amount: theAmount,
+        monthlyInstallment: loan.paymentInstallment,
         OfferAmount: loan.balance - theAmount
       }; //check loan status if is approved
 
@@ -292,13 +293,38 @@ var loanController = {
     }
   },
   allRepaymentLoan: function allRepaymentLoan(req, res) {
-    if (!_LoanRepaymentDB["default"].repayments.length) {
-      statusMessageFunction(res, loanStatus.notFoundStatus, "No Repayment Created Yet!");
-    }
+    if (req.user.isAdmin === 'true') {
+      if (!_LoanRepaymentDB["default"].repayments.length) {
+        statusMessageFunction(res, loanStatus.notFoundStatus, "No Repayment Created Yet!");
+      }
 
+      return res.status(loanStatus.succcessStatus).json({
+        status: loanStatus.succcessStatus,
+        data: _LoanRepaymentDB["default"].repayments
+      });
+    } else {
+      statusMessageFunction(res, 400, "".concat(loanStatus.badRequestMessage));
+    }
+  },
+  specificLoanRepayment: function specificLoanRepayment(req, res) {
+    var repaymentId = parseInt(req.params.id);
+
+    var findRepayment = _LoanRepaymentDB["default"].repayments.find(function (findRepaym) {
+      return findRepaym.id === repaymentId;
+    });
+
+    if (!findRepayment) return res.status(loanStatus.notFoundStatus).json({
+      status: loanStatus.notFoundStatus,
+      error: "Repayment with ID ## ".concat(repaymentId, " ## not found!")
+    });
     return res.status(loanStatus.succcessStatus).json({
       status: loanStatus.succcessStatus,
-      data: _LoanRepaymentDB["default"].repayments
+      data: {
+        loanId: findRepayment.loanId,
+        CreatedOn: findRepayment.CreatedOn,
+        monthlyInstallment: findRepayment.monthlyInstallment,
+        amount: findRepayment.amount
+      }
     });
   }
 };
