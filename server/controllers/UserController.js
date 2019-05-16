@@ -13,6 +13,7 @@ const theStatus = {
   notFoundStatus:404,
   badRequestMessage:`You dont have the right for this activity!`
 }
+const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
 const userController = {
   signup(req, res) {
     const { error } = validate.validateSignup(req.body);
@@ -21,8 +22,7 @@ const userController = {
       for (let i = 0; i < error.details.length; i++) {
         arrErrors.push(error.details[i].message);
       }
-    }
-    
+    } 
     if (error) {
       // eslint-disable-next-line no-unused-expressions
       `${allValdatorFunct ()}`;
@@ -104,8 +104,9 @@ const userController = {
           status: userEmail.status,
         },
       });
+    } else {
+      statusMessageFunction(res, theStatus.badRequestStatus, 'Sorry! You dont have right to verfy user, Please contact Admin !' )
     }
-    return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
   },
   signin(req, res) {
     const { error } = validate.validateLogin(req.body);
