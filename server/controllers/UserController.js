@@ -6,6 +6,14 @@ import db from '../models/UserDB';
 
 dotenv.config();
 
+const theStatus = {
+  badRequestStatus:400,
+  succcessStatus:200,
+  unAuthorizedStatus:401,
+  notFoundStatus:404,
+  badRequestMessage:`You dont have the right for this activity!`
+}
+const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
 const userController = {
   signup(req, res) {
     const { error } = validate.validateSignup(req.body);
@@ -14,15 +22,14 @@ const userController = {
       for (let i = 0; i < error.details.length; i++) {
         arrErrors.push(error.details[i].message);
       }
-    }
+    } 
     if (error) {
       // eslint-disable-next-line no-unused-expressions
       `${allValdatorFunct ()}`;
-      if (error) return res.status(400).json({ status: 400, errors: arrErrors });
+      if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
     } else {
       const emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
       if (emailExist) return res.status(409).json({ status: 409, error: 'Email is already registed!' });
-
       if (req.body.isAdmin === 'true') {
         const user = {
           id: db.users.length + 1,
@@ -35,7 +42,6 @@ const userController = {
         };
         const token = jwt.sign(user, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
         db.users.push(user);
-
         return res.header('Authorization', token).status(201).json({
           status: 201,
           message: 'Admin successfully created!',
@@ -49,7 +55,6 @@ const userController = {
         });
       }
     }
-    // signup as a client
     const user = {
       id: db.users.length + 1,
       firstName: req.body.firstName,
@@ -62,7 +67,6 @@ const userController = {
     };
     const token = jwt.sign(user, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
     db.users.push(user);
-
     return res.header('Authorization', token).status(201).json({
       status: 201,
       message: 'Successfully registed!',
@@ -75,26 +79,19 @@ const userController = {
       },
     });
   },
-  
   allUsers(req, res) {
     if(req.user.isAdmin === 'true') {
-      if (!db.users.length) return res.status(404).json({ status: 404, message: 'No user created!' });
+      if (!db.users.length) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
       return res.status(200).json({ status: 200, data: db.users });
     }
-
-    return res.status(400).json({ status: 400, error: 'You dont have a right to view this activity!' });
+    return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
   },
-
   verifyUser(req, res) {
     if (req.user.isAdmin === 'true') {
       const userEmail = db.users.find(findEmail => findEmail.email === req.params.email);
-
-      if (!userEmail) return res.status(404).json({ status: 404, message: 'Email not found!' });
-
-      if (userEmail.status === 'verified') return res.status(400).json({ status: 400, message: 'User account Already Up-to-date!' });
-
+      if (!userEmail) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
+      if (userEmail.status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
       userEmail.status = 'verified';
-
       return res.status(200).json({
         status: 200,
         message: 'User account Verified successfully!',
@@ -107,9 +104,9 @@ const userController = {
           status: userEmail.status,
         },
       });
+    } else {
+      statusMessageFunction(res, theStatus.badRequestStatus, 'Sorry! You dont have right to verfy user, Please contact Admin !' )
     }
-
-    return res.status(400).json({ status: 400, error: 'You dont have a right to verify a user account!' });
   },
   signin(req, res) {
     const { error } = validate.validateLogin(req.body);
@@ -122,13 +119,12 @@ const userController = {
     if (error) {
       // eslint-disable-next-line no-unused-expressions
       `${allValdatorFunct ()}`;
-      if (error) return res.status(400).json({ status: 400, errors: arrErrors });
+      if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
     } else {
       const user = db.users.find(findEmail => findEmail.email === req.body.email);
-      if (!user) return res.status(401).json({ status: 401, error: 'Incorrect Email' });
-
+      if (!user) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Email' });
       const passwordCompare = bcrypt.compareSync(req.body.password, user.password);
-      if (!passwordCompare) return res.status(401).json({ status: 401, error: 'Incorrect Password' });
+      if (!passwordCompare) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Password' });
       const payload = {
         id: user.id,
         firstName: user.firstName,
@@ -137,9 +133,7 @@ const userController = {
         isAdmin: user.isAdmin,
         email: user.email,
       };
-      // sign a json web token
       const token = jwt.sign(payload, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
-
       return res.header('Authorization', token).status(200).json({
         status: 200,
         message: 'You are successfully log in into Quick Credit',

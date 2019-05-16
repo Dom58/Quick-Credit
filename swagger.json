@@ -377,10 +377,10 @@
     "adminsignup": {
       "type": "object",
       "properties": {
-        "firstname": {
+        "firstName": {
           "type": "string"
         },
-        "lastname": {
+        "lastName": {
           "type": "string"
         },
         "email": {
