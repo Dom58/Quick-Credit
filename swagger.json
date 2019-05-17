@@ -219,7 +219,7 @@
         "200": {
           "description": "Success",
           "schema": {
-            "$ref": "#/definitions/allLoan"
+            "$ref": "#/definitions/allLoans"
           }
         }
       }
@@ -345,6 +345,52 @@
         "Loan Repayment"
       ],
       "summary": "Retriveing all loans repayment history.",
+      "produces": [
+        "application/xml",
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "type": "string",
+          "description": "Admin token",
+          "required": true
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "successful operation"
+        }
+      }
+    }
+  },
+  "/loans/{id}/repayments": {
+    "get": {
+      "tags": [
+        "Loan Repayment"
+      ],
+      "summary": "Get a single loan repayment history",
+      "produces": [
+        "application/xml",
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "Authorization",
+          "in": "header",
+          "type": "string",
+          "description": "Client/User token",
+          "required": true
+        },
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Loan application ID",
+          "type": "integer"
+        }
+      ],
       "responses": {
         "200": {
           "description": "successful operation"
