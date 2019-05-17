@@ -72,7 +72,8 @@ address. 
 | GET   | /api/v1/loans/:id     | Get specific loan  application   |
 | PATCH     | /api/v1/loans/:id       | Approve /reject loan application      |
 | POST   | /api/v1/loans/:id/repayment     | post repayment transaction loan   |
-| GET     | /api/v1/repayments/loans      | get all loan repayment      |
+| GET     | /api/v1/loans/:loanId/repayments       | retrieve a single loan repayment history     |
+| GET     | /api/v1/repayments/loans      | get all loan repayment history     |
 | GET   | /loans?status=approved&repaid=false      | filter all current loan applications   |
 | GET     | /loans?status=approved&repaid=true       | filter all repaid loan applications      |
 
