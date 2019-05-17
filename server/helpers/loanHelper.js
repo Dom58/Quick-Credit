@@ -2,7 +2,7 @@ import joi from 'joi';
 
 exports.validateLoan = (loan) => {
   const schema = joi.object().keys({
-    amount: joi.number().required().label('Loan Amount'),
+    amount: joi.number().min(1000).required().label('Loan Amount'),
     tenor: joi.number().min(1).max(12).required()
       .label('Tenor'),
   });
@@ -16,7 +16,7 @@ exports.validateApproveLoan = (loan) => {
 };
 exports.validateRepayment = (repayment) => {
   const schema = joi.object().keys({
-    amount: joi.number().required(),
+    amount: joi.number().min(50).required(),
   });
   return joi.validate(repayment, schema);
 };
