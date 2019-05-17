@@ -124,6 +124,16 @@ describe('signin', function () {
       expect(res.body).to.be.an('object');
     });
   });
+  it('should not signin because password must be valid', function () {
+    _chai["default"].request(_app["default"]).post('/api/v1/auth/signin').send({
+      email: 'clientgmailcom',
+      password: 'nn'
+    }).end(function (err, res) {
+      expect(res.body.status).to.equal(400);
+      expect(res.body).to.have.property('status');
+      expect(res.body).to.be.an('object');
+    });
+  });
   it('should not signin because password is incorrect', function () {
     _chai["default"].request(_app["default"]).post('/api/v1/auth/signin').send({
       email: 'admin@gmail.com',
