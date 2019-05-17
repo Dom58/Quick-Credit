@@ -140,6 +140,19 @@ describe('signin', () => {
         expect(res.body).to.be.an('object');
       });
   });
+  it('should not signin because password must be valid', () => {
+    chai.request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'clientgmailcom',
+        password: 'nn',
+      })
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
 
   it('should not signin because password is incorrect', () => {
     chai.request(server)
