@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 // import userRoute from './routes/userRoute';
 // import loanRoute from './routes/loanRoute';
 import pool from './models/dbCon';
+import createTables from './models/createTables';
 import documentation from '../swagger.json';
 
 const app = express();
