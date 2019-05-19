@@ -21,3 +21,10 @@ exports.validateLogin = (user) => {
   };
   return joi.validate(user, login, { abortEarly: false });
 };
+
+exports.validateApplication = (user) => {
+  const schema = joi.object().keys({
+    status: joi.string().valid('verified', 'unverified').required().label('Verification '),
+  });
+  return joi.validate(user, schema, { abortEarly: false });
+};

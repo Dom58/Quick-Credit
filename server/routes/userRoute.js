@@ -1,13 +1,11 @@
 import express from 'express';
 import userController from '../controllers/UserController';
-import auth from '../middleware/auth'
-
 
 const route = express.Router();
 
 route.post('/api/v2/auth/signup', userController.signup);
-// route.get('/api/v1/auth/users',auth, userController.allUsers);
+route.get('/api/v2/auth/users', userController.allUsers);
 route.post('/api/v2/auth/signin', userController.signin);
-// route.patch('/api/v1/users/:email/verify',auth, userController.verifyUser);
+route.patch('/api/v2/users/:email/verify', userController.verifyUser);
 
 export default route;
