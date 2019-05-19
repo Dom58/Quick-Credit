@@ -22,9 +22,9 @@ exports.validateLogin = (user) => {
   return joi.validate(user, login, { abortEarly: false });
 };
 
-exports.validateVerify = (verify) => {
+exports.validateApplication = (user) => {
   const schema = joi.object().keys({
-    status: joi.string().valid('verify', 'unverify').required().label('Verification ').required,
+    status: joi.string().valid('verified', 'unverified').required().label('Verification '),
   });
-  return joi.validate(verify, schema, { abortEarly: false });
+  return joi.validate(user, schema, { abortEarly: false });
 };

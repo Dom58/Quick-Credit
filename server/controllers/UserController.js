@@ -60,7 +60,7 @@ const userController = {
       }
     }
   },
-  async signin(req, res){
+  async signin (req, res){
     const { error } = validate.validateLogin(req.body);
     const arrErrors = [];
     const allValdatorFunct = () =>{
@@ -104,6 +104,45 @@ const userController = {
         res.status(500).json({ status: 500, error: 'Internal Server Error' });
       } 
     }
+  },
+  async verifyUser (req,res){
+    const { error } = validate.validateApplication(req.body);
+    const arrErrors = [];
+    const allValdatorFunct = () =>{
+      for (let i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    }
+    if (error) {
+      `${allValdatorFunct ()}`;
+      if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
+    } else {
+      try{
+        const { email } = req.params;
+        const findUser = await pool.query(queryTable.fetchOneUser,[email])
+        if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
+        if (findUser.rows[0].status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
+        const verifyUser ={
+            status : req.body.status,
+          }
+          const updateUserQuery = await pool.query(queryTable.updateUser,[email, verifyUser.status])
+          // updateUser
+          return res.status(200).json({
+            status:200,
+            message:'User account updated',
+            data: {
+              email: updateUserQuery.rows[0].email,
+              firstName: updateUserQuery.rows[0].firstname,
+              lastName: updateUserQuery.rows[0].lastname,
+              password: updateUserQuery.rows[0].password,
+              address: updateUserQuery.rows[0].address,
+              status: updateUserQuery.rows[0].status,
+            }
+          });
+      } catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      }
+    } 
   },
   
 };
