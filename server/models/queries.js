@@ -16,11 +16,11 @@ const createLoansTable = `CREATE TABLE IF NOT EXISTS
                           email VARCHAR(255) NOT NULL,
                           status VARCHAR(255) DEFAULT 'pending',
                           repaid boolean DEFAULT 'false',
-                          amount INTEGER NOT NULL,
-                          tenor  INTEGER NOT NULL,
-                          paymentinstallment INTEGER NOT NULL,
-                          balance INTEGER NOT NULL,
-                          interest INTEGER NOT NULL,
+                          amount NUMERIC NOT NULL,
+                          tenor  NUMERIC NOT NULL,
+                          paymentinstallment NUMERIC NOT NULL,
+                          balance NUMERIC NOT NULL,
+                          interest NUMERIC NOT NULL,
                           created_on timestamp without time zone,
                           FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
                       )`;
@@ -29,23 +29,23 @@ const createRepaymentTable = `CREATE TABLE IF NOT EXISTS
                       repayments (
                           id SERIAL NOT NULL PRIMARY KEY,
                           loanid integer REFERENCES loans(id),
-                          amount integer NOT NULL,
-                          monthlypayment integer NOT NULL,
-                          balance  integer NOT NULL,
+                          amount NUMERIC NOT NULL,
+                          monthlypayment NUMERIC NOT NULL,
+                          balance  NUMERIC NOT NULL,
                           created_on timestamp without time zone
                       )`;
 
-const insertUser = `INSERT INTO users (firstname, lastname, email, address, status,                isadmin,password, created_on)
+const insertUser = `INSERT INTO users (firstname, lastname, email, address, status,                      isadmin,password, created_on)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                     RETURNING id, firstname, lastname, email, address, status, isadmin`;
 const insertAdminAccount = `INSERT INTO users (firstname, lastname,email,address,                          status,isadmin, password, created_on) 
                             VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
 
-const insertLoan = `INSERT INTO loans (email, status, repaid, amount, tenor,                        paymentinstallment, balance, interest, created_on)
+const insertLoan = `INSERT INTO loans (email, status, repaid, amount, tenor,                             paymentinstallment, balance, interest, created_on)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
                     RETURNING id, email, status, repaid, amount, tenor, paymentinstallment, balance,interest, created_on`;
 
-const insertRepayment = `INSERT INTO repayments (loanid, amount, monthlypayment,                        balance,created_on)
+const insertRepayment = `INSERT INTO repayments (loanid, amount, monthlypayment,                         balance,created_on)
                         VALUES ($1, $2, $3, $4, $5) 
                         RETURNING * `;
 
@@ -58,8 +58,8 @@ const fetchOneLoan = `SELECT * FROM loans WHERE id = $1 `;
 const fetchUserWithLoan = `SELECT * FROM loans WHERE email = $1 `;
 const fetchOneRepayment = `SELECT * FROM repayments WHERE id = $1 `;
 
-const getCurrentLoans = `SELECT * FROM loans WHERE status = 'approved' AND                              repaid='false' `;
-const getRepaidLoans = `SELECT * FROM loans WHERE status = 'approved' AND                               repaid='true `;
+const getCurrentLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                   repaid='false' `;
+const getRepaidLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                 repaid='true `;
 
 const updateUser = `UPDATE users SET status = $2 WHERE email = $1 RETURNING * `;
 const updateLoan = `UPDATE loans SET status = $2 WHERE id = $1

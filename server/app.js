@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import userRoute from './routes/userRoute';
-// import loanRoute from './routes/loanRoute';
+import loanRoute from './routes/loanRoute';
 import pool from './models/dbCon';
 import createTables from './models/createTables';
 import documentation from '../swagger.json';
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(userRoute);
-// app.use(loanRoute);
+app.use(loanRoute);
 
 const port = process.env.PORT || 4000;
 
