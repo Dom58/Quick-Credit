@@ -60,6 +60,51 @@ const userController = {
       }
     }
   },
+  async signin(req, res){
+    const { error } = validate.validateLogin(req.body);
+    const arrErrors = [];
+    const allValdatorFunct = () =>{
+      for (let i = 0; i < error.details.length; i++) {
+        arrErrors.push(error.details[i].message);
+      }
+    }
+    if (error) {
+      `${allValdatorFunct ()}`;
+      if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
+    } else {
+      try{
+        const findUser = await pool.query(queryTable.fetchOneUser,[req.body.email])
+        if (!findUser.rows[0]) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Email' });
+
+        const comparePassword = bcrypt.compareSync(req.body.password, findUser.rows[0].password);
+        if (!comparePassword) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Password' });  
+        const userDetails = {
+          id:findUser.rows[0].id,
+          firstName: findUser.rows[0].firstname,
+          lastName: findUser.rows[0].lastname,
+          email: findUser.rows[0].email,
+          status: findUser.rows[0].status,
+          isAdmin: findUser.rows[0].isadmin,
+        };
+        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
+        
+        return res.status(200).json({
+        status:200,
+        message:'You are signed in!',
+        data: {
+          token: payload,
+          id: findUser.rows[0].id,
+          firstName: findUser.rows[0].firstname,
+          lastName: findUser.rows[0].lastname,
+          email: findUser.rows[0].email,
+        }
+      });
+
+      } catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      } 
+    }
+  },
   
 };
 export default userController;
