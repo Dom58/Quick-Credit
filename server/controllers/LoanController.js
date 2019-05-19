@@ -97,7 +97,7 @@ const loanController = {
   async specificLoan (req, res){
     if (req.user.isadmin === true) {
       const { id } = req.params;
-      const findLoan = await pool.query(queryTable.fetchOneLoan,[id]);
+      const findLoan = await pool.query(queryTable.fetchOneLoan,[parseInt((id))]);
       if (!findLoan.rows[0]) {
         return res.status(404).json({ status: 404, error:  `Loan with ## ${id} ## not Found! ` });
       }
