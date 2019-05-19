@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
-// import userRoute from './routes/userRoute';
+import userRoute from './routes/userRoute';
 // import loanRoute from './routes/loanRoute';
 import pool from './models/dbCon';
 import createTables from './models/createTables';
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use(userRoute);
+app.use(userRoute);
 // app.use(loanRoute);
 
 const port = process.env.PORT || 4000;
