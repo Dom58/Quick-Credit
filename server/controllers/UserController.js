@@ -73,7 +73,7 @@ const userController = {
       if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
     } else {
       try{
-        const findUser = await pool.query(queryTable.fetchOneUser,[req.body.email])
+        const findUser = await pool.query(queryTable.fetchOneUser,[req.body.email]);
         if (!findUser.rows[0]) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Email' });
 
         const comparePassword = bcrypt.compareSync(req.body.password, findUser.rows[0].password);
@@ -84,9 +84,10 @@ const userController = {
           lastName: findUser.rows[0].lastname,
           email: findUser.rows[0].email,
           status: findUser.rows[0].status,
-          isAdmin: findUser.rows[0].isadmin,
+          isadmin: findUser.rows[0].isadmin,
         };
-        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
+        // console.log(userDetails);
+        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
         
         return res.status(200).json({
         status:200,
@@ -106,59 +107,62 @@ const userController = {
     }
   },
   async verifyUser (req,res){
-    const { error } = validate.validateApplication(req.body);
-    const arrErrors = [];
-    const allValdatorFunct = () =>{
-      for (let i = 0; i < error.details.length; i++) {
-        arrErrors.push(error.details[i].message);
+    if(req.user.isadmin === true) {
+      const { error } = validate.validateApplication(req.body);
+      const arrErrors = [];
+      const allValdatorFunct = () =>{
+        for (let i = 0; i < error.details.length; i++) {
+          arrErrors.push(error.details[i].message);
+        }
       }
-    }
-    if (error) {
-      `${allValdatorFunct ()}`;
-      if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
-    } else {
-      try{
-        const { email } = req.params;
-        const findUser = await pool.query(queryTable.fetchOneUser,[email])
-        if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
-        if (findUser.rows[0].status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
-        const verifyUser ={
-            status : req.body.status,
-          }
-          const updateUserQuery = await pool.query(queryTable.updateUser,[email, verifyUser.status])
-          // updateUser
-          return res.status(200).json({
-            status:200,
-            message:'User account updated',
-            data: {
-              email: updateUserQuery.rows[0].email,
-              firstName: updateUserQuery.rows[0].firstname,
-              lastName: updateUserQuery.rows[0].lastname,
-              password: updateUserQuery.rows[0].password,
-              address: updateUserQuery.rows[0].address,
-              status: updateUserQuery.rows[0].status,
+      if (error) {
+        `${allValdatorFunct ()}`;
+        if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
+      } else {
+        try{
+          const { email } = req.params;
+          const findUser = await pool.query(queryTable.fetchOneUser,[email]);
+          if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
+          if (findUser.rows[0].status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
+          const verifyUser ={
+              status : req.body.status,
             }
-          });
-      } catch (error) {
-        res.status(500).json({ status: 500, error: 'Internal Server Error' });
-      }
-    } 
+            const updateUserQuery = await pool.query(queryTable.updateUser,[email, verifyUser.status]);
+            // updateUser
+            return res.status(200).json({
+              status:200,
+              message:'User account updated',
+              data: {
+                email: updateUserQuery.rows[0].email,
+                firstName: updateUserQuery.rows[0].firstname,
+                lastName: updateUserQuery.rows[0].lastname,
+                password: updateUserQuery.rows[0].password,
+                address: updateUserQuery.rows[0].address,
+                status: updateUserQuery.rows[0].status,
+              }
+            });
+        } catch (error) {
+          res.status(500).json({ status: 500, error: 'Internal Server Error' });
+        }
+      } 
+    } return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
   },
   async allUsers (req, res) {
-    try{
-      const {rows} = await pool.query(queryTable.getAllUsers)
-      if (rows.length === 0) {
-        return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
+    if(req.user.isadmin === true) {
+      try{
+        const {rows} = await pool.query(queryTable.getAllUsers);
+        if (rows.length === 0) {
+          return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
+        }
+        return res.status(200).send({
+          status: 200,
+          data: rows,       
+        });
       }
-      return res.status(200).send({
-        status: 200,
-        data: rows,       
-      });
-    }
-    catch (error) {
-      res.status(500).json({ status: 500, error: 'Internal Server Error' });
-    }
+      catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      }
+    }  return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
   },
-  
 };
 export default userController;
