@@ -144,6 +144,21 @@ const userController = {
       }
     } 
   },
+  async allUsers (req, res) {
+    try{
+      const {rows} = await pool.query(queryTable.getAllUsers)
+      if (rows.length === 0) {
+        return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
+      }
+      return res.status(200).send({
+        status: 200,
+        data: rows,       
+      });
+    }
+    catch (error) {
+      res.status(500).json({ status: 500, error: 'Internal Server Error' });
+    }
+  },
   
 };
 export default userController;
