@@ -86,7 +86,7 @@ const userController = {
           status: findUser.rows[0].status,
           isAdmin: findUser.rows[0].isadmin,
         };
-        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
+        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
         
         return res.status(200).json({
         status:200,
