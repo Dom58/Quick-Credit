@@ -28,3 +28,4 @@ exports.validateApplication = (user) => {
   });
   return joi.validate(user, schema, { abortEarly: false });
 };
+
