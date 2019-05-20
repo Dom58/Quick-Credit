@@ -236,7 +236,24 @@ const loanController = {
     } else {
       statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
     }
-  }
-  
+  },
+  async allRepaymentLoan (req, res){
+    try{
+      const {rows} = await pool.query(queryTable.getAllRepayments)
+      if (rows.length === 0) {
+      return res.status(404).send({
+        status: 404,
+        error: 'No loan repayment created !',       
+      });
+      }
+      return res.status(200).send({
+        status: 200,
+        data: rows,       
+      });
+    }
+    catch (error) {
+      res.status(500).json({ status: 500, error: 'Internal Server Error' });
+    }
+  },
 };
 export default loanController;
