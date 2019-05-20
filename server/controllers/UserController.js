@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validate from '../helpers/userHelper';
-import pool from '../app'
+import pool from '../models/dbCon';
+
 import queryTable from '../models/queries'
 
 dotenv.config();

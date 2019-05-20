@@ -1,5 +1,5 @@
 import validate from '../helpers/loanHelper';
-import pool from '../app'
+import pool from '../models/dbCon';
 import queryTable from '../models/queries'
 
 const loanStatus = {
