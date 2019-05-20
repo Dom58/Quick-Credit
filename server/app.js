@@ -21,13 +21,11 @@ const port = process.env.PORT || 4000;
 app.get('/', (req, res) => {
   res.send({ status: 200, message: 'Welcome to Quick credit web application' });
 });
+
 app.use('/api/documentations', swaggerUi.serve, swaggerUi.setup(documentation));
+
 app.listen(port, () => {
   console.log(`Server is runnig on (http://127.0.0.1:${port})`);
 });
-// let server = app.listen(port, () => {
-//   var host = server.address().address;
-//   var port = server.address().port;
-//   console.log(`Server is runnig on (http://127.0.0.1:${host,port})`);
-//   });
 export default (app, pool);
+
