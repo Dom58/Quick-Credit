@@ -34,7 +34,7 @@ const loanController = {
       const haveApplyLoan = await pool.query(queryTable.fetchUserWithLoan,[email]);
 
       if (req.user.status === 'verified') {
-        if (!haveApplyLoan.rows[0] || haveApplyLoan.rows[0].repaid === 'true') {
+        if (!haveApplyLoan.rows[0] || haveApplyLoan.rows[0].repaid === true) {
           const loan = {
             email: req.user.email,
             created_on: new Date(),
@@ -155,6 +155,88 @@ const loanController = {
       statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
     }
   },
+  async repayLoan (req, res){
+    if (req.user.isadmin === true) {
+      const { error } = validate.validateRepayment(req.body);
+      if (error) return res.status(400).json({ status: 400,  error: error.details[0].message });
+
+      const { id } = req.params;
+      const findLoan = await pool.query(queryTable.fetchOneLoan,[id]);
+      if (!findLoan.rows[0]) {
+        return res.status(404).json({ status: 404, error:  `Loan application with ${id} not Found! ` });
+      }
+
+      const theAmount = parseFloat(req.body.amount);
+      const theDiffrence = theAmount - findLoan.rows[0].balance; 
+      const weOfferYou = () => {
+        return theDiffrence;
+      }
+      const repayment = {
+        created_on: new Date(),
+        loanId: findLoan.rows[0].id,
+        amount: theAmount,
+        monthlypayment: findLoan.rows[0].paymentinstallment,
+        balance: findLoan.rows[0].balance,
+      };
+      if (findLoan.rows[0].status ==='pending' || findLoan.rows[0].status ==='rejected')  
+        return res.status(404).json({ status: 404, error: `Oops Nothing to repay! Your Loan Application on [ ${findLoan.rows[0].created_on} ] for [ ${findLoan.rows[0].amount} ] still Pending or rejected!` });
+        
+        if (findLoan.rows[0].balance === '0') {
+          statusMessageFunction(res, 400, `Oops Nothing to repay, You have paid all your loan balance, Fill free to apply another loan!` )
+          }
+
+        else {
+          if (repayment.amount >= parseFloat(findLoan.rows[0].balance) ) {
+            const newBalance ={
+              balance : '0',
+              repaid : "true",
+              }
+
+            const newLoanUpdate = await pool.query(queryTable.updateLoanAfterHighRepayment, [findLoan.rows[0].id, newBalance.balance, newBalance.repaid]);
+
+            const createRepayment = await pool.query(queryTable.insertRepayment, [findLoan.rows[0].id, repayment.amount, repayment.monthlypayment, newLoanUpdate.rows[0].balance, repayment.created_on]);
+
+            return res.status(201).json({
+              status:201,
+              message:`Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
+              data:{
+                id: newLoanUpdate.rows[0].id,
+                loanId: newLoanUpdate.rows[0].loanid,
+                CreatedOn: newLoanUpdate.rows[0].created_on,
+                amount: newLoanUpdate.rows[0].amount,
+                monthlyInstallment: newLoanUpdate.rows[0].paymentInstallment,
+                paidAmount: newLoanUpdate.rows[0].amount,
+                balance: newLoanUpdate.rows[0].balance,
+              },
+            });
+          }
+          else {
+            findLoan.rows[0].balance = findLoan.rows[0].balance - theAmount;
+
+            const newLoanUpdate = await pool.query(queryTable.updateLoanAfterLowRepayment, [findLoan.rows[0].id, findLoan.rows[0].balance]);
+
+            const createRepayment = await pool.query(queryTable.insertRepayment, [findLoan.rows[0].id, repayment.amount, repayment.monthlypayment, newLoanUpdate.rows[0].balance, repayment.created_on]);
+
+            return res.status(201).json({
+              status:201,
+              message:`Repayment Created Successfully!`,
+              data:{
+                id: newLoanUpdate.rows[0].id,
+                loanId: newLoanUpdate.rows[0].loanid,
+                CreatedOn: newLoanUpdate.rows[0].created_on,
+                amount: newLoanUpdate.rows[0].amount,
+                monthlyInstallment: newLoanUpdate.rows[0].monthlypayment,
+                paidAmount: newLoanUpdate.rows[0].amount,
+                balance: newLoanUpdate.rows[0].balance,
+              },
+            });
+          } 
+        }
+      
+    } else {
+      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+    }
+  }
   
 };
 export default loanController;
