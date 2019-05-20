@@ -200,13 +200,13 @@ const loanController = {
               status:201,
               message:`Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
               data:{
-                id: newLoanUpdate.rows[0].id,
-                loanId: newLoanUpdate.rows[0].loanid,
-                CreatedOn: newLoanUpdate.rows[0].created_on,
+                id: createRepayment.rows[0].id,
+                loanId: createRepayment.rows[0].loanid,
+                CreatedOn: createRepayment.rows[0].created_on,
                 amount: newLoanUpdate.rows[0].amount,
-                monthlyInstallment: newLoanUpdate.rows[0].paymentInstallment,
-                paidAmount: newLoanUpdate.rows[0].amount,
-                balance: newLoanUpdate.rows[0].balance,
+                monthlyInstallment: newLoanUpdate.rows[0].monthlypayment,
+                paidAmount: createRepayment.rows[0].amount,
+                balance: createRepayment.rows[0].balance,
               },
             });
           }
@@ -221,13 +221,13 @@ const loanController = {
               status:201,
               message:`Repayment Created Successfully!`,
               data:{
-                id: newLoanUpdate.rows[0].id,
-                loanId: newLoanUpdate.rows[0].loanid,
-                CreatedOn: newLoanUpdate.rows[0].created_on,
+                id: createRepayment.rows[0].id,
+                loanId: createRepayment.rows[0].loanid,
+                CreatedOn: createRepayment.rows[0].created_on,
                 amount: newLoanUpdate.rows[0].amount,
                 monthlyInstallment: newLoanUpdate.rows[0].monthlypayment,
-                paidAmount: newLoanUpdate.rows[0].amount,
-                balance: newLoanUpdate.rows[0].balance,
+                paidAmount: createRepayment.rows[0].amount,
+                balance: createRepayment.rows[0].balance,
               },
             });
           } 
