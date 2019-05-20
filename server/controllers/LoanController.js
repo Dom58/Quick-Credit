@@ -109,6 +109,52 @@ const loanController = {
       statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
       }
   },
+  async approveLoan(req, res){
+    if (req.user.isadmin === true) {
+      const { error } = validate.validateApproveLoan(req.body);
+      const arrErrors = [];
+      const allValdatorFunct = () => {
+        for (let i = 0; i < error.details.length; i++) {
+          arrErrors.push(error.details[i].message);
+        }
+      };
+      if (error) {
+        `${allValdatorFunct()}`;
+        if (error) return res.status(400).json({ status: 400, errors: arrErrors });
+      } else{
+        try{
+        const { id } = req.params;
+        const findLoan = await pool.query(queryTable.fetchOneLoan,[parseInt(id)])
+        if (!findLoan.rows[0]) {
+          return res.status(404).json({ status: 404, error:  `Loan with ${id} not Found! ` });
+        }
+        if (findLoan.rows[0].status === 'approved') return res.status(loanStatus.badRequestStatus).json({ status: loanStatus.badRequestStatus, error: `Loan Application Already Up-to-date(Approved)!` });
+
+        const aproveData ={
+          status : req.body.status,
+          id : id,
+        }
+        const loanUpdate = await pool.query(queryTable.updateLoan,[aproveData.id,aproveData.status])
+        return res.status(200).send({
+          status: 200,
+        message: `Loan with ${id} Approved! `,
+        data: {
+          loanId: loanUpdate.rows[0].id,
+          loanAmount: loanUpdate.rows[0].amount,
+          tenor: loanUpdate.rows[0].tenor,
+          status: loanUpdate.rows[0].status,
+          monthlyInstallment: loanUpdate.rows[0].paymentInstallment,
+          interest: loanUpdate.rows[0].interest,
+        },
+        });
+      } catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      }
+    }
+    } else {
+      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+    }
+  },
   
 };
 export default loanController;
