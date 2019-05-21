@@ -81,17 +81,28 @@ const loanController = {
   async allLoans (req, res){
     if (req.user.isadmin === true) {
       try{
-        const {rows} = await pool.query(queryTable.getAllLoans)
-        if (rows.length === 0) {
-        return res.status(404).send({
-          status: 404,
-          error: 'No loan Found !',       
+      const reqLoanStatus = req.query.status;
+      const reqLoanRepaid = req.query.repaid;
+      // Get all loans according to the loan status and loan repayment
+      const reqLoans = await pool.query(queryTable.getRepaidLoans, [reqLoanStatus, reqLoanRepaid]);
+      if (reqLoans.rows.length !== 0) {
+        return res.status(200).json({
+          status: loanStatus.succcessStatus,
+          data: reqLoans.rows,
         });
-        }
-        return res.status(200).send({
-          status: 200,
-          data: rows,       
+      }
+      const { rows } = await pool.query(queryTable.getAllLoans);
+      if (reqLoanStatus == null && reqLoanRepaid == null && rows.length !==0) {
+        return res.status(200).json({
+          status:  loanStatus.succcessStatus,
+          message: 'message',
+          data: rows,
         });
+      }
+      return res.status(404).send({
+        status: loanStatus.notFoundStatus,
+        error: 'No loan Found !',       
+      });
       }
       catch (error) {
         res.status(500).json({ status: 500, error: 'Internal Server Error' });
