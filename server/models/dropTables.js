@@ -12,3 +12,4 @@ const dropTables = async () => {
 })().catch(error =>console.log(error))
 
 export default dropTables;
+

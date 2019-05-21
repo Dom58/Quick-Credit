@@ -30,3 +30,4 @@ const createTables = async () => {
 })().catch(error =>console.log(error))
 
 export default createTables;
+
