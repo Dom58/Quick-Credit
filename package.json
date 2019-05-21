@@ -4,14 +4,15 @@
   "description": "Quick credit is an easy web loan application",
   "main": "app.js",
   "scripts": {
-    "test": "nyc --reporter=text --reporter=lcov mocha --require @babel/register server/tests/**/*.test.js --exit",
+    "test": "nyc --reporter=text --reporter=lcov mocha --require @babel/register --require @babel/polyfill server/tests/**/*.test.js --exit",
     "compile": "./node_modules/.bin/babel ./server -d ./build",
     "server": "nodemon --exec babel-node server/app",
     "clean": "rm -rf build && mkdir build",
     "start": "node build/app.js",
     "test-watch": "nodemon --exec npm test",
     "coveralls": "npm test && nyc report --reporter=text-lcov | coveralls",
-    "eslint.nodePath": "./node_modules/eslint-config-airbnb-standard/node_modules/eslint"
+    "eslint.nodePath": "./node_modules/eslint-config-airbnb-standard/node_modules/eslint",
+    "droptables": "nodemon --exec babel-node server/models/dropTables.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,8 @@
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4",
+    "pg": "^7.11.0",
+    "psql": "0.0.1",
     "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
