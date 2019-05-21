@@ -285,6 +285,29 @@ const loanController = {
       res.status(500).json({ status: 500, error: 'Internal Server Error' });
     }
   },
+
+  async specificLoanRepayment (req, res){
+    if (req.user.isadmin === true) {
+      try{
+      const { id } = req.params;
+      const findLoanRepayment = await pool.query(queryTable.fetchOneRepayment,[id]);
+      if (!findLoanRepayment.rows[0]) {
+        return res.status(404).json({ status: 404, error:  `Loan Repayment application with ${id} not Found! ` });
+      }
+
+      return res.status(200).send({
+        status: 200,
+        data: findLoanRepayment.rows[0],       
+      });
+    }
+    catch (error) {
+      res.status(500).json({ status: 500, error: 'Internal Server Error' });
+    }
+    }
+    else {
+      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+    }
+  }
 };
 export default loanController;
 
