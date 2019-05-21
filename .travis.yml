@@ -6,6 +6,12 @@ node_js:
 cache:
   directories:
     - "node_modules"
+
+services:
+  - postgresql
+
+before_install:
+  - psql -c 'create database quickcredit_test' -U postgres
     
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
