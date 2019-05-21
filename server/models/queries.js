@@ -39,7 +39,7 @@ const insertUser = `INSERT INTO users (firstname, lastname, email, address, stat
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                     RETURNING id, firstname, lastname, email, address, status, isadmin`;
 const insertAdminAccount = `INSERT INTO users (firstname, lastname,email,address,                          status,isadmin, password, created_on) 
-                            VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
+                            VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING RETURNING *`;
 
 const insertLoan = `INSERT INTO loans (email, status, repaid, amount, tenor,                             paymentinstallment, balance, interest, created_on)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)

@@ -34,6 +34,32 @@ const userController = {
       try{
         let findUser = await pool.query(queryTable.fetchOneUser,[req.body.email]);
         if (findUser.rows[0]) return res.status(409).json({ status: 409, error: 'Email already registered!' });
+        if(req.body.isadmin === "true"){
+          const adminData = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            address: 'Kigali/Gasabo',
+            status:'verified',
+            isadmin:req.body.isadmin,
+            password: bcrypt.hashSync(req.body.password,10),
+            created_on: new Date(),
+          };
+          const payload = jwt.sign(adminData, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+  
+          let createAdmin = await pool.query(queryTable.insertAdminAccount, [adminData.firstname, adminData.lastname,adminData.email,adminData.address,adminData.status,adminData.isadmin, adminData.password, adminData.created_on]);
+          return res.status(201).json({
+            status:201,
+            message:'Admin Created successfully',
+            data: {
+              token: payload,
+              id: createAdmin.rows[0].id,
+              firstName: createAdmin.rows[0].firstname,
+              lastName: createAdmin.rows[0].lastname,
+              email: createAdmin.rows[0].email,
+            }
+          });
+        }
         const userData = {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
