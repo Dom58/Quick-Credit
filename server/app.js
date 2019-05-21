@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import userRoute from './routes/userRoute';
 import loanRoute from './routes/loanRoute';
+import pool from './models/dbCon';
+import createTables from './models/createTables';
 import documentation from '../swagger.json';
 
 const app = express();
@@ -23,4 +25,4 @@ app.use('/api/documentations', swaggerUi.serve, swaggerUi.setup(documentation));
 app.listen(port, () => {
   console.log(`Server is runnig on (http://127.0.0.1:${port})`);
 });
-export default app;
+export default (app, pool);

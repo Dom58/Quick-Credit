@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validate from '../helpers/userHelper';
-import db from '../models/UserDB';
+import pool from '../app'
+import queryTable from '../models/queries'
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const theStatus = {
 }
 const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
 const userController = {
-  signup(req, res) {
+  async signup (req, res) {
     const { error } = validate.validateSignup(req.body);
     const arrErrors = [];
     const allValdatorFunct = () =>{
@@ -24,91 +25,42 @@ const userController = {
       }
     } 
     if (error) {
-      // eslint-disable-next-line no-unused-expressions
       `${allValdatorFunct ()}`;
       if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
     } else {
-      const emailExist = db.users.find(findEmail => findEmail.email === req.body.email);
-      if (emailExist) return res.status(409).json({ status: 409, error: 'Email is already registed!' });
-      if (req.body.isAdmin === 'true') {
-        const user = {
-          id: db.users.length + 1,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
+      try{
+        let findUser = await pool.query(queryTable.fetchOneUser,[req.body.email]);
+        if (findUser.rows[0]) return res.status(409).json({ status: 409, error: 'Email already registered!' });
+        const userData = {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
           email: req.body.email,
-          status: 'verified',
-          isAdmin: req.body.isAdmin,
-          password: bcrypt.hashSync(req.body.password, 10),
+          address: req.body.address,
+          status:'unverified',
+          isadmin:'false',
+          password: bcrypt.hashSync(req.body.password,10),
+          created_on: new Date(),
         };
-        const token = jwt.sign(user, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
-        db.users.push(user);
-        return res.header('Authorization', token).status(201).json({
-          status: 201,
-          message: 'Admin successfully created!',
+        const payload = jwt.sign(userData, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+
+        let createUser = await pool.query(queryTable.insertUser, [userData.firstname,userData.lastname,userData.email,userData.address,userData.status,userData.isadmin,userData.password,userData.created_on]);
+        return res.status(201).json({
+          status:201,
+          message:'User Created successfully',
           data: {
-            token: token,
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-          },
+            token: payload,
+            id: createUser.rows[0].id,
+            firstName: createUser.rows[0].firstname,
+            lastName: createUser.rows[0].lastname,
+            email: createUser.rows[0].email,
+          }
         });
+      } catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
       }
     }
-    const user = {
-      id: db.users.length + 1,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      address: req.body.address,
-      status: 'unverified',
-      isAdmin: 'false',
-      password: bcrypt.hashSync(req.body.password, 10),
-    };
-    const token = jwt.sign(user, `${process.env.SECRET_KEY}`, { expiresIn: '24h' });
-    db.users.push(user);
-    return res.header('Authorization', token).status(201).json({
-      status: 201,
-      message: 'Successfully registed!',
-      data: {
-        token: token,
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
-    });
   },
-  allUsers(req, res) {
-    if(req.user.isAdmin === 'true') {
-      if (!db.users.length) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
-      return res.status(200).json({ status: 200, data: db.users });
-    }
-    return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
-  },
-  verifyUser(req, res) {
-    if (req.user.isAdmin === 'true') {
-      const userEmail = db.users.find(findEmail => findEmail.email === req.params.email);
-      if (!userEmail) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
-      if (userEmail.status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
-      userEmail.status = 'verified';
-      return res.status(200).json({
-        status: 200,
-        message: 'User account Verified successfully!',
-        data: {
-          email: userEmail.email,
-          firstName: userEmail.firstName,
-          lastName: userEmail.lastName,
-          password: userEmail.password,
-          address: userEmail.address,
-          status: userEmail.status,
-        },
-      });
-    } else {
-      statusMessageFunction(res, theStatus.badRequestStatus, 'Sorry! You dont have right to verfy user, Please contact Admin !' )
-    }
-  },
-  signin(req, res) {
+  async signin (req, res){
     const { error } = validate.validateLogin(req.body);
     const arrErrors = [];
     const allValdatorFunct = () =>{
@@ -117,35 +69,100 @@ const userController = {
       }
     }
     if (error) {
-      // eslint-disable-next-line no-unused-expressions
       `${allValdatorFunct ()}`;
       if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
     } else {
-      const user = db.users.find(findEmail => findEmail.email === req.body.email);
-      if (!user) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Email' });
-      const passwordCompare = bcrypt.compareSync(req.body.password, user.password);
-      if (!passwordCompare) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Password' });
-      const payload = {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        status: user.status,
-        isAdmin: user.isAdmin,
-        email: user.email,
-      };
-      const token = jwt.sign(payload, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
-      return res.header('Authorization', token).status(200).json({
-        status: 200,
-        message: 'You are successfully log in into Quick Credit',
+      try{
+        const findUser = await pool.query(queryTable.fetchOneUser,[req.body.email]);
+        if (!findUser.rows[0]) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Email' });
+
+        const comparePassword = bcrypt.compareSync(req.body.password, findUser.rows[0].password);
+        if (!comparePassword) return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: 'Incorrect Password' });  
+        const userDetails = {
+          id:findUser.rows[0].id,
+          firstName: findUser.rows[0].firstname,
+          lastName: findUser.rows[0].lastname,
+          email: findUser.rows[0].email,
+          status: findUser.rows[0].status,
+          isadmin: findUser.rows[0].isadmin,
+        };
+        // console.log(userDetails);
+        const payload = jwt.sign(userDetails, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+        
+        return res.status(200).json({
+        status:200,
+        message:'You are signed in!',
         data: {
-          token: token,
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        },
+          token: payload,
+          id: findUser.rows[0].id,
+          firstName: findUser.rows[0].firstname,
+          lastName: findUser.rows[0].lastname,
+          email: findUser.rows[0].email,
+        }
       });
+
+      } catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      } 
     }
+  },
+  async verifyUser (req,res){
+    if(req.user.isadmin === true) {
+      const { error } = validate.validateApplication(req.body);
+      const arrErrors = [];
+      const allValdatorFunct = () =>{
+        for (let i = 0; i < error.details.length; i++) {
+          arrErrors.push(error.details[i].message);
+        }
+      }
+      if (error) {
+        `${allValdatorFunct ()}`;
+        if (error) return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, errors: arrErrors });
+      } else {
+        try{
+          const { email } = req.params;
+          const findUser = await pool.query(queryTable.fetchOneUser,[email]);
+          if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
+          if (findUser.rows[0].status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
+          const verifyUser ={
+              status : req.body.status,
+            }
+            const updateUserQuery = await pool.query(queryTable.updateUser,[email, verifyUser.status]);
+            // updateUser
+            return res.status(200).json({
+              status:200,
+              message:'User account updated',
+              data: {
+                email: updateUserQuery.rows[0].email,
+                firstName: updateUserQuery.rows[0].firstname,
+                lastName: updateUserQuery.rows[0].lastname,
+                password: updateUserQuery.rows[0].password,
+                address: updateUserQuery.rows[0].address,
+                status: updateUserQuery.rows[0].status,
+              }
+            });
+        } catch (error) {
+          res.status(500).json({ status: 500, error: 'Internal Server Error' });
+        }
+      } 
+    } return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
+  },
+  async allUsers (req, res) {
+    if(req.user.isadmin === true) {
+      try{
+        const {rows} = await pool.query(queryTable.getAllUsers);
+        if (rows.length === 0) {
+          return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'No user created!' });
+        }
+        return res.status(200).send({
+          status: 200,
+          data: rows,       
+        });
+      }
+      catch (error) {
+        res.status(500).json({ status: 500, error: 'Internal Server Error' });
+      }
+    }  return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
   },
 };
 export default userController;
