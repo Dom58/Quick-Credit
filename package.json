@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "nyc --reporter=text --reporter=lcov mocha --require @babel/register --require @babel/polyfill server/tests/**/*.test.js --exit",
-    "compile": "./node_modules/.bin/babel ./server -d ./build",
+    "compile": "./node_modules/.bin/babel  ./server -d ./build",
     "server": "nodemon --exec babel-node server/app",
     "clean": "rm -rf build && mkdir build",
     "start": "node build/app.js",
@@ -42,6 +42,7 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-regenerator": "^7.4.5",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.1",

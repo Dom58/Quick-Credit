@@ -15,6 +15,8 @@ var _userRoute = _interopRequireDefault(require("./routes/userRoute"));
 
 var _loanRoute = _interopRequireDefault(require("./routes/loanRoute"));
 
+var _createTables = _interopRequireDefault(require("./models/createTables"));
+
 var _swagger = _interopRequireDefault(require("../swagger.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
