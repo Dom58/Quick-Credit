@@ -6,15 +6,14 @@ node_js:
 cache:
   directories:
     - "node_modules"
-
+env:
+  - userTest = postgres databaseTest = travis_ci_test passwordTest = 
 services:
   - postgresql
 
-before_install:
-  - psql -c 'create database quickcredit_test' -U postgres
-    
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+
 script:
   - npm test
 
