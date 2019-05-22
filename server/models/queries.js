@@ -58,7 +58,6 @@ const fetchOneLoan = `SELECT * FROM loans WHERE id = $1 `;
 const fetchUserWithLoan = `SELECT * FROM loans WHERE email = $1 `;
 const fetchOneRepayment = `SELECT * FROM repayments WHERE id = $1 `;
 
-// const getCurrentLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                   repaid='false' `;
 const getRepaidLoans = `SELECT * FROM loans WHERE status = $1 AND                                 repaid= $2 `;
 
 const updateUser = `UPDATE users SET status = $2 WHERE email = $1 RETURNING * `;
@@ -69,6 +68,8 @@ const updateLoanAfterHighRepayment = `UPDATE loans SET balance = $2, repaid = $3
                                     RETURNING * `;
 const updateLoanAfterLowRepayment = `UPDATE loans SET balance = $2 WHERE id = $1
                                     RETURNING * `;
+                                    
+const deleteAllUsersDuringTesting = `TRUNCATE users CASCADE`;
 
 const dropTables = `DROP TABLE IF EXISTS 
                       users, loans, repayments`;
@@ -93,6 +94,7 @@ export default {
   updateLoan,
   updateLoanAfterHighRepayment,
   updateLoanAfterLowRepayment,
+  deleteAllUsersDuringTesting,
   dropTables
 };
 
