@@ -11,32 +11,26 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-// import config from '../config/config'
-// console.log(config);
 _dotenv["default"].config();
 
-var pool = new _pg.Pool({
-  connectionString: process.env.DATABASE_URL
-});
+var pool = {};
+
+if (process.env.NODE_ENV == 'test') {
+  pool = new _pg.Pool({
+    connectionString: process.env.DATABASE_URL_TEST
+  });
+} else if (process.env.NODE_ENV == 'prod') {
+  pool = new _pg.Pool({
+    connectionString: process.env.DATABASE_URL_PRO
+  });
+} else {
+  pool = new _pg.Pool({
+    connectionString: process.env.DATABASE_URL
+  });
+}
+
 pool.on('connect', function () {
   return console.log('Connected to database...');
 });
-var _default = pool; // import { Pool } from 'pg';
-// import dotenv from 'dotenv';
-// dotenv.config();
-// let pool = {}
-// if (process.env.NODE_ENV === 'DEV') {
-//   pool = new Pool({
-//     connectionString: process.env.DATABASE_URL,
-//   });
-//   pool.on('connect', () => console.log('Connected to database...'));
-// }
-// if (process.env.NODE_ENV === 'TEST') {
-//   pool = new Pool({
-//     connectionString: process.env.DATABASE_URL_TEST,
-//   });
-//   pool.on('connect', () => console.log('Connected to database...'));
-// }
-// export default pool;
-
+var _default = pool;
 exports["default"] = _default;

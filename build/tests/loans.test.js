@@ -79,20 +79,7 @@ describe('Loan applications', function () {
     }).end(function (err, res) {
       expect(res.body.status).to.equal(400);
     });
-  }); //   it('should not apply loan because amount and tenor are required', () => {
-  //     chai.request(server)
-  //       .post('/api/v2/loans')
-  //       .set('Authorization', token)
-  //       .send({
-  //         amount:"",
-  //         tenor: ""
-  //       })
-  //       .end((err, res) => {
-  //         expect(res.body.status).to.equal(400);
-  //         expect(res.body).to.have.property('erros');
-  //       });
-  //   });
-
+  });
   it('should create loan application', function () {
     _chai["default"].request(_app["default"]).post('/api/v2/loans').set('Authorization', token).send({
       amount: '10000',
@@ -104,33 +91,7 @@ describe('Loan applications', function () {
       expect(res.body).to.have.property('message');
       expect(res.body).to.be.an('object');
     });
-  }); //   it('should not allowed to apply again a loan because you have unpaid loan', () => {
-  //     chai.request(server)
-  //       .post('/api/v2/loans')
-  //       .set('Authorization', token)
-  //       .send({
-  //         amount: '10000',
-  //         tenor: '12'
-  //       })
-  //       .end((err, res) => {
-  //         expect(res.body.status).to.equal(400);
-  //         expect(res.body).to.have.property('status');
-  //         expect(res.body).to.have.property('message');
-  //         expect(res.body).to.be.an('object');
-  //       });
-  //   });
-  //   it('should not allowed to repay a loans, only admin', () => {
-  //     chai.request(server)
-  //       .post('/api/v2/loans/1/repayment')
-  //       .set('Authorization', token)
-  //       .end((err, res) => {
-  //         expect(res.body.status).to.equal(400);
-  //         expect(res.body).to.have.property('status');
-  //         expect(res.body).to.be.an('object');
-  //       });
-  //   });
-  // });
-
+  });
   describe('Repayment loan', function () {
     var isadmin = {
       firstname: 'admin',
@@ -154,130 +115,6 @@ describe('Loan applications', function () {
         expect(res.body).to.have.property('status');
         expect(res.body).to.be.an('object');
       });
-    }); //   it('should not found loan application id', () => {
-    //     chai.request(server)
-    //       .patch('/api/v2/loans/2')
-    //       .set('Authorization', token)
-    //       .send({
-    //         status: 'approved'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(404);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should not repay loan because it is pending or rejected', () => {
-    //     chai.request(server)
-    //       .post('/api/v2/loans/1/repayment')
-    //       .set('Authorization', token)
-    //       .send({
-    //         amount: '500000'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(400);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should approve loan application', () => {
-    //     chai.request(server)
-    //       .patch('/api/v2/loans/1')
-    //       .set('Authorization', token)
-    //       .send({
-    //         status: 'approved'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(200);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should not approve loan application because it is up-to-date', () => {
-    //     chai.request(server)
-    //       .patch('/api/v2/loans/1')
-    //       .set('Authorization', token)
-    //       .send({
-    //         status: 'approved'
-    //       })
-    //       .end((err, res) => {;
-    //         expect(res.body.status).to.equal(400);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should return all loan application', () => {
-    //     chai.request(server)
-    //       .get('/api/v2/loans')
-    //       .set('Authorization', token)
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(200);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should not repay loan because loan id not found ', () => {
-    //     chai.request(server)
-    //       .post('/api/v2/loans/6/repayment')
-    //       .set('Authorization', token)
-    //       .send({
-    //         amount: '5000'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(404);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should now repay loan application', () => {
-    //     chai.request(server)
-    //       .post('/api/v2/loans/1/repayment')
-    //       .set('Authorization', token)
-    //       .send({
-    //         amount: '5000'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(201);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.have.property('message');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should create a repayment loan even if the amount are greater than responsibility ', () => {
-    //     chai.request(server)
-    //       .post('/api/v2/loans/1/repayment')
-    //       .set('Authorization', token)
-    //       .send({
-    //         amount: '500000'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(201);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.have.property('message');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should not repay loan because no loan you have', () => {
-    //     chai.request(server)
-    //       .post('/api/v2/loans/1/repayment')
-    //       .set('Authorization', token)
-    //       .send({
-    //         amount: '500000'
-    //       })
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(400);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
-    //   });
-    //   it('should return all repayment history', () => {
-    //     chai.request(server)
-    //       .get('/api/v2/repayments/loans')
-    //       .set('Authorization', token)
-    //       .end((err, res) => {
-    //         expect(res.body.status).to.equal(200);
-    //         expect(res.body).to.have.property('status');
-    //         expect(res.body).to.be.an('object');
-    //       });
+    });
   });
 });

@@ -32,10 +32,10 @@ var statusMessageFunction = function statusMessageFunction(res, status, message)
 };
 
 var loanController = {
-  applyLoan: function applyLoan(req, res) {
-    return _asyncToGenerator(
+  applyLoan: function () {
+    var _applyLoan = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee() {
+    regeneratorRuntime.mark(function _callee(req, res) {
       var _validate$validateLoa, error, arrErrors, allValdatorFunct, theTenor, theAmount, theInterest, thepaymentInstallment, theBalance, email, haveApplyLoan, loan, createLoan;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -142,13 +142,19 @@ var loanController = {
           }
         }
       }, _callee);
-    }))();
-  },
-  allLoans: function allLoans(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function applyLoan(_x, _x2) {
+      return _applyLoan.apply(this, arguments);
+    }
+
+    return applyLoan;
+  }(),
+  allLoans: function () {
+    var _allLoans = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee2() {
-      var reqLoanStatus, reqLoanRepaid, reqLoans, _ref3, rows;
+    regeneratorRuntime.mark(function _callee2(req, res) {
+      var reqLoanStatus, reqLoanRepaid, reqLoans, _ref, rows;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
@@ -184,8 +190,8 @@ var loanController = {
               return _dbCon["default"].query(_queries["default"].getAllLoans);
 
             case 11:
-              _ref3 = _context2.sent;
-              rows = _ref3.rows;
+              _ref = _context2.sent;
+              rows = _ref.rows;
 
               if (!(reqLoanStatus == null && reqLoanRepaid == null && rows.length !== 0)) {
                 _context2.next = 15;
@@ -225,12 +231,18 @@ var loanController = {
           }
         }
       }, _callee2, null, [[1, 18]]);
-    }))();
-  },
-  specificLoan: function specificLoan(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function allLoans(_x3, _x4) {
+      return _allLoans.apply(this, arguments);
+    }
+
+    return allLoans;
+  }(),
+  specificLoan: function () {
+    var _specificLoan = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee3() {
+    regeneratorRuntime.mark(function _callee3(req, res) {
       var id, findLoan;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
@@ -273,12 +285,18 @@ var loanController = {
           }
         }
       }, _callee3);
-    }))();
-  },
-  approveLoan: function approveLoan(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function specificLoan(_x5, _x6) {
+      return _specificLoan.apply(this, arguments);
+    }
+
+    return specificLoan;
+  }(),
+  approveLoan: function () {
+    var _approveLoan = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee4() {
+    regeneratorRuntime.mark(function _callee4(req, res) {
       var _validate$validateApp, _error, _arrErrors, allValdatorFunct, id, findLoan, aproveData, loanUpdate;
 
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -394,12 +412,18 @@ var loanController = {
           }
         }
       }, _callee4, null, [[10, 26]]);
-    }))();
-  },
-  repayLoan: function repayLoan(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function approveLoan(_x7, _x8) {
+      return _approveLoan.apply(this, arguments);
+    }
+
+    return approveLoan;
+  }(),
+  repayLoan: function () {
+    var _repayLoan = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee5() {
+    regeneratorRuntime.mark(function _callee5(req, res) {
       var _validate$validateRep, _error2, id, findLoan, theAmount, theDiffrence, weOfferYou, repayment, newBalance, newLoanUpdate, createRepayment, _newLoanUpdate, _createRepayment;
 
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
@@ -550,13 +574,19 @@ var loanController = {
           }
         }
       }, _callee5);
-    }))();
-  },
-  allRepaymentLoan: function allRepaymentLoan(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function repayLoan(_x9, _x10) {
+      return _repayLoan.apply(this, arguments);
+    }
+
+    return repayLoan;
+  }(),
+  allRepaymentLoan: function () {
+    var _allRepaymentLoan = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee6() {
-      var _ref8, rows;
+    regeneratorRuntime.mark(function _callee6(req, res) {
+      var _ref2, rows;
 
       return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
@@ -567,8 +597,8 @@ var loanController = {
               return _dbCon["default"].query(_queries["default"].getAllRepayments);
 
             case 3:
-              _ref8 = _context6.sent;
-              rows = _ref8.rows;
+              _ref2 = _context6.sent;
+              rows = _ref2.rows;
 
               if (rows.length) {
                 _context6.next = 7;
@@ -600,12 +630,18 @@ var loanController = {
           }
         }
       }, _callee6, null, [[0, 10]]);
-    }))();
-  },
-  specificLoanRepayment: function specificLoanRepayment(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function allRepaymentLoan(_x11, _x12) {
+      return _allRepaymentLoan.apply(this, arguments);
+    }
+
+    return allRepaymentLoan;
+  }(),
+  specificLoanRepayment: function () {
+    var _specificLoanRepayment = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee7() {
+    regeneratorRuntime.mark(function _callee7(req, res) {
       var id, findLoanRepayment;
       return regeneratorRuntime.wrap(function _callee7$(_context7) {
         while (1) {
@@ -661,8 +697,14 @@ var loanController = {
           }
         }
       }, _callee7, null, [[1, 11]]);
-    }))();
-  }
+    }));
+
+    function specificLoanRepayment(_x13, _x14) {
+      return _specificLoanRepayment.apply(this, arguments);
+    }
+
+    return specificLoanRepayment;
+  }()
 };
 var _default = loanController;
 exports["default"] = _default;

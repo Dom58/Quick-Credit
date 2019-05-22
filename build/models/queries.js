@@ -17,13 +17,13 @@ var getAllRepayments = "SELECT * FROM repayments";
 var fetchOneUser = "SELECT * FROM users WHERE email = $1 ";
 var fetchOneLoan = "SELECT * FROM loans WHERE id = $1 ";
 var fetchUserWithLoan = "SELECT * FROM loans WHERE email = $1 ";
-var fetchOneRepayment = "SELECT * FROM repayments WHERE id = $1 "; // const getCurrentLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                   repaid='false' `;
-
+var fetchOneRepayment = "SELECT * FROM repayments WHERE id = $1 ";
 var getRepaidLoans = "SELECT * FROM loans WHERE status = $1 AND                                 repaid= $2 ";
 var updateUser = "UPDATE users SET status = $2 WHERE email = $1 RETURNING * ";
 var updateLoan = "UPDATE loans SET status = $2 WHERE id = $1\n                    RETURNING * ";
 var updateLoanAfterHighRepayment = "UPDATE loans SET balance = $2, repaid = $3                                    WHERE id = $1\n                                    RETURNING * ";
 var updateLoanAfterLowRepayment = "UPDATE loans SET balance = $2 WHERE id = $1\n                                    RETURNING * ";
+var deleteAllUsersDuringTesting = "TRUNCATE users CASCADE";
 var dropTables = "DROP TABLE IF EXISTS \n                      users, loans, repayments";
 var _default = {
   createUsersTable: createUsersTable,
@@ -45,6 +45,7 @@ var _default = {
   updateLoan: updateLoan,
   updateLoanAfterHighRepayment: updateLoanAfterHighRepayment,
   updateLoanAfterLowRepayment: updateLoanAfterLowRepayment,
+  deleteAllUsersDuringTesting: deleteAllUsersDuringTesting,
   dropTables: dropTables
 };
 exports["default"] = _default;

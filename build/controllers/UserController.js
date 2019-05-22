@@ -41,16 +41,17 @@ var statusMessageFunction = function statusMessageFunction(res, status, message)
 };
 
 var userController = {
-  signup: function signup(req, res) {
-    return _asyncToGenerator(
+  signup: function () {
+    var _signup = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee() {
-      var _validate$validateSig, error, arrErrors, allValdatorFunct, findUser, adminData, _payload, createAdmin, userData, payload, createUser;
+    regeneratorRuntime.mark(function _callee(req, res) {
+      var _req$body, firstname, lastname, email, isadmin, address, _validate$validateSig, error, arrErrors, allValdatorFunct, findUser, adminData, _payload, createAdmin, userData, payload, createUser;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _req$body = req.body, firstname = _req$body.firstname, lastname = _req$body.lastname, email = _req$body.email, isadmin = _req$body.isadmin, address = _req$body.address;
               _validate$validateSig = _userHelper["default"].validateSignup(req.body), error = _validate$validateSig.error;
               arrErrors = [];
 
@@ -61,14 +62,14 @@ var userController = {
               };
 
               if (!error) {
-                _context.next = 9;
+                _context.next = 10;
                 break;
               }
 
               "".concat(allValdatorFunct());
 
               if (!error) {
-                _context.next = 7;
+                _context.next = 8;
                 break;
               }
 
@@ -77,20 +78,20 @@ var userController = {
                 errors: arrErrors
               }));
 
-            case 7:
-              _context.next = 33;
+            case 8:
+              _context.next = 34;
               break;
 
-            case 9:
-              _context.prev = 9;
-              _context.next = 12;
+            case 10:
+              _context.prev = 10;
+              _context.next = 13;
               return _dbCon["default"].query(_queries["default"].fetchOneUser, [req.body.email]);
 
-            case 12:
+            case 13:
               findUser = _context.sent;
 
               if (!findUser.rows[0]) {
-                _context.next = 15;
+                _context.next = 16;
                 break;
               }
 
@@ -99,29 +100,29 @@ var userController = {
                 error: 'Email already registered!'
               }));
 
-            case 15:
-              if (!(req.body.isadmin === "true")) {
-                _context.next = 22;
+            case 16:
+              if (!(isadmin === true)) {
+                _context.next = 23;
                 break;
               }
 
               adminData = {
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                email: req.body.email,
-                address: 'Kigali/Gasabo',
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                address: address,
                 status: 'verified',
-                isadmin: req.body.isadmin,
+                isadmin: isadmin,
                 password: _bcrypt["default"].hashSync(req.body.password, 10),
                 created_on: new Date()
               };
               _payload = _jsonwebtoken["default"].sign(adminData, "".concat(process.env.SECRET_KEY_CODE), {
                 expiresIn: '24h'
               });
-              _context.next = 20;
+              _context.next = 21;
               return _dbCon["default"].query(_queries["default"].insertAdminAccount, [adminData.firstname, adminData.lastname, adminData.email, adminData.address, adminData.status, adminData.isadmin, adminData.password, adminData.created_on]);
 
-            case 20:
+            case 21:
               createAdmin = _context.sent;
               return _context.abrupt("return", res.status(201).json({
                 status: 201,
@@ -135,12 +136,12 @@ var userController = {
                 }
               }));
 
-            case 22:
+            case 23:
               userData = {
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                email: req.body.email,
-                address: req.body.address,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                address: address,
                 status: 'unverified',
                 isadmin: 'false',
                 password: _bcrypt["default"].hashSync(req.body.password, 10),
@@ -149,10 +150,10 @@ var userController = {
               payload = _jsonwebtoken["default"].sign(userData, "".concat(process.env.SECRET_KEY_CODE), {
                 expiresIn: '24h'
               });
-              _context.next = 26;
+              _context.next = 27;
               return _dbCon["default"].query(_queries["default"].insertUser, [userData.firstname, userData.lastname, userData.email, userData.address, userData.status, userData.isadmin, userData.password, userData.created_on]);
 
-            case 26:
+            case 27:
               createUser = _context.sent;
               return _context.abrupt("return", res.status(201).json({
                 status: 201,
@@ -166,26 +167,32 @@ var userController = {
                 }
               }));
 
-            case 30:
-              _context.prev = 30;
-              _context.t0 = _context["catch"](9);
+            case 31:
+              _context.prev = 31;
+              _context.t0 = _context["catch"](10);
               res.status(500).json({
                 status: 500,
                 error: 'Internal Server Error'
               });
 
-            case 33:
+            case 34:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[9, 30]]);
-    }))();
-  },
-  signin: function signin(req, res) {
-    return _asyncToGenerator(
+      }, _callee, null, [[10, 31]]);
+    }));
+
+    function signup(_x, _x2) {
+      return _signup.apply(this, arguments);
+    }
+
+    return signup;
+  }(),
+  signin: function () {
+    var _signin = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee2() {
+    regeneratorRuntime.mark(function _callee2(req, res) {
       var _validate$validateLog, error, arrErrors, allValdatorFunct, findUser, comparePassword, userDetails, payload;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -292,13 +299,19 @@ var userController = {
           }
         }
       }, _callee2, null, [[9, 23]]);
-    }))();
-  },
-  verifyUser: function verifyUser(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function signin(_x3, _x4) {
+      return _signin.apply(this, arguments);
+    }
+
+    return signin;
+  }(),
+  verifyUser: function () {
+    var _verifyUser = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee3() {
-      var _validate$validateApp, _error, _arrErrors, allValdatorFunct, email, findUser, verifyUser, updateUserQuery;
+    regeneratorRuntime.mark(function _callee3(req, res) {
+      var _validate$validateApp, _error, _arrErrors, allValdatorFunct, email, findUser, _verifyUser2, updateUserQuery;
 
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
@@ -370,11 +383,11 @@ var userController = {
               }));
 
             case 19:
-              verifyUser = {
+              _verifyUser2 = {
                 status: req.body.status
               };
               _context3.next = 22;
-              return _dbCon["default"].query(_queries["default"].updateUser, [email, verifyUser.status]);
+              return _dbCon["default"].query(_queries["default"].updateUser, [email, _verifyUser2.status]);
 
             case 22:
               updateUserQuery = _context3.sent;
@@ -411,13 +424,19 @@ var userController = {
           }
         }
       }, _callee3, null, [[10, 26]]);
-    }))();
-  },
-  allUsers: function allUsers(req, res) {
-    return _asyncToGenerator(
+    }));
+
+    function verifyUser(_x5, _x6) {
+      return _verifyUser.apply(this, arguments);
+    }
+
+    return verifyUser;
+  }(),
+  allUsers: function () {
+    var _allUsers = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee4() {
-      var _ref5, rows;
+    regeneratorRuntime.mark(function _callee4(req, res) {
+      var _ref, rows;
 
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
@@ -433,8 +452,8 @@ var userController = {
               return _dbCon["default"].query(_queries["default"].getAllUsers);
 
             case 4:
-              _ref5 = _context4.sent;
-              rows = _ref5.rows;
+              _ref = _context4.sent;
+              rows = _ref.rows;
 
               if (!(rows.length === 0)) {
                 _context4.next = 8;
@@ -472,8 +491,14 @@ var userController = {
           }
         }
       }, _callee4, null, [[1, 11]]);
-    }))();
-  }
+    }));
+
+    function allUsers(_x7, _x8) {
+      return _allUsers.apply(this, arguments);
+    }
+
+    return allUsers;
+  }()
 };
 var _default = userController;
 exports["default"] = _default;
