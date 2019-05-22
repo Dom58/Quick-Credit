@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import pool from '../app'
+import pool from './dbCon';
 import DropTable from './queries'
 
 const dropTables = async () => {

@@ -39,7 +39,7 @@ const insertUser = `INSERT INTO users (firstname, lastname, email, address, stat
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                     RETURNING id, firstname, lastname, email, address, status, isadmin`;
 const insertAdminAccount = `INSERT INTO users (firstname, lastname,email,address,                          status,isadmin, password, created_on) 
-                            VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING`;
+                            VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT DO NOTHING RETURNING *`;
 
 const insertLoan = `INSERT INTO loans (email, status, repaid, amount, tenor,                             paymentinstallment, balance, interest, created_on)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
@@ -58,8 +58,7 @@ const fetchOneLoan = `SELECT * FROM loans WHERE id = $1 `;
 const fetchUserWithLoan = `SELECT * FROM loans WHERE email = $1 `;
 const fetchOneRepayment = `SELECT * FROM repayments WHERE id = $1 `;
 
-const getCurrentLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                   repaid='false' `;
-const getRepaidLoans = `SELECT * FROM loans WHERE status = 'approved' AND                                 repaid='true `;
+const getRepaidLoans = `SELECT * FROM loans WHERE status = $1 AND                                 repaid= $2 `;
 
 const updateUser = `UPDATE users SET status = $2 WHERE email = $1 RETURNING * `;
 const updateLoan = `UPDATE loans SET status = $2 WHERE id = $1
@@ -69,6 +68,8 @@ const updateLoanAfterHighRepayment = `UPDATE loans SET balance = $2, repaid = $3
                                     RETURNING * `;
 const updateLoanAfterLowRepayment = `UPDATE loans SET balance = $2 WHERE id = $1
                                     RETURNING * `;
+                                    
+const deleteAllUsersDuringTesting = `TRUNCATE users CASCADE`;
 
 const dropTables = `DROP TABLE IF EXISTS 
                       users, loans, repayments`;
@@ -88,12 +89,12 @@ export default {
   fetchOneLoan,
   fetchUserWithLoan,
   fetchOneRepayment,
-  getCurrentLoans,
   getRepaidLoans,
   updateUser,
   updateLoan,
   updateLoanAfterHighRepayment,
   updateLoanAfterLowRepayment,
+  deleteAllUsersDuringTesting,
   dropTables
 };
 

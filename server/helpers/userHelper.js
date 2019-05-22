@@ -2,7 +2,6 @@ import joi from 'joi';
 
 exports.validateSignup = (user) => {
   const schema = joi.object().keys({
-    // eslint-disable-next-line newline-per-chained-call
     firstname: joi.string().min(3).max(40).required().label('First Name').empty(/\s+/).trim(),
     lastname: joi.string().min(3).max(40).required()
       .label('Last Name').empty(/\s+/).trim(),
