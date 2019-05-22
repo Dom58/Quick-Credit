@@ -5,10 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --require @babel/register --require @babel/polyfill server/tests/**/*.test.js --exit",
-    "compile": "./node_modules/.bin/babel  --require @babel/polyfill ./server -d ./build",
     "server": "nodemon --exec babel-node server/app",
-    "clean": "rm -rf build && mkdir build",
-    "start": "node build/app.js",
     "test-watch": "nodemon --exec npm test",
     "coveralls": "npm test && nyc report --reporter=text-lcov | coveralls",
     "eslint.nodePath": "./node_modules/eslint-config-airbnb-standard/node_modules/eslint",
