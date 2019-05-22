@@ -3,10 +3,12 @@ import pool from '../models/dbCon';
 import queryTable from '../models/queries'
 
 const loanStatus = {
-  badRequestStatus: 400,
   succcessStatus: 200,
+  badRequestStatus: 400,
+  unauthorizedStatus: 401,
   notFoundStatus: 404,
-  badRequestMessage:`You dont have the right for this activity! Please contact Admin`
+  conflictRequestStatus: 409,
+  badRequestMessage:`Access Denied!`
 }
 
 const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
@@ -54,7 +56,7 @@ const loanController = {
 
           return res.status(201).json({
             status: 201,
-            message: 'Loan Applied Successfully, Good Luck!',
+            message: 'Loan Applied Successfully!',
             data: {
               "loanid": createLoan.rows[0].id,
               "firstName": req.user.firstName,
@@ -70,10 +72,10 @@ const loanController = {
           });
 
         } 
-        statusMessageFunction(res, 400, `Oops!! You have unpaid Loan of ## ${haveApplyLoan.rows[0].balance} ## applied on ${haveApplyLoan.rows[0].created_on} , Please repay the loan!` ) 
+        statusMessageFunction(res, 400, `You have unpaid Loan!` ) 
       } 
       else {
-        statusMessageFunction(res, 400, 'Sorry! Your are not yet verified, Please contact Admin !' )
+        statusMessageFunction(res, 401, 'You are not yet verified !' )
       } 
     }
   },
@@ -95,7 +97,6 @@ const loanController = {
       if (reqLoanStatus == null && reqLoanRepaid == null && rows.length !==0) {
         return res.status(200).json({
           status:  loanStatus.succcessStatus,
-          message: 'message',
           data: rows,
         });
       }
@@ -110,7 +111,7 @@ const loanController = {
     } 
     else 
     {
-      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+      statusMessageFunction(res,loanStatus.unauthorizedStatus, `${loanStatus.badRequestMessage}` )
     }
   },
 
@@ -128,7 +129,7 @@ const loanController = {
     } 
     else 
     {
-      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+      statusMessageFunction(res, loanStatus.unauthorizedStatus, `${loanStatus.badRequestMessage}` )
     }
   },
 
@@ -154,10 +155,10 @@ const loanController = {
         const findLoan = await pool.query(queryTable.fetchOneLoan,[parseInt(id)])
 
         if (!findLoan.rows[0]) {
-          return res.status(404).json({ status: 404, error:  `Loan with ${id} not Found! ` });
+          return res.status(404).json({ status: 404, error:  `Loan with id ${id} not Found! ` });
         }
         
-        if (findLoan.rows[0].status === 'approved') return res.status(loanStatus.badRequestStatus).json({ status: loanStatus.badRequestStatus, error: `Loan Application Already Up-to-date(Approved)!` });
+        if (findLoan.rows[0].status === 'approved') return res.status(loanStatus.conflictRequestStatus).json({ status: loanStatus.conflictRequestStatus, error: `Loan Up-to-date!` });
 
         const aproveData ={
           status : req.body.status,
@@ -167,7 +168,7 @@ const loanController = {
         const loanUpdate = await pool.query(queryTable.updateLoan,[aproveData.id,aproveData.status])
         return res.status(200).send({
           status: 200,
-        message: `Loan with ${id} Approved! `,
+        message: `Loan with id ${id} Approved! `,
         data: {
           loanId: loanUpdate.rows[0].id,
           loanAmount: loanUpdate.rows[0].amount,
@@ -184,7 +185,7 @@ const loanController = {
     }
     } 
     else {
-      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+      statusMessageFunction(res, loanStatus.unauthorizedStatus, `${loanStatus.badRequestMessage}` )
     }
   },
 
@@ -198,7 +199,7 @@ const loanController = {
       const findLoan = await pool.query(queryTable.fetchOneLoan,[id]);
       
       if (!findLoan.rows[0]) {
-        return res.status(404).json({ status: 404, error:  `Loan application with ${id} not Found! ` });
+        return res.status(404).json({ status: 404, error:  `Loan with id ${id} not Found! ` });
       }
 
       const theAmount = parseFloat(req.body.amount);
@@ -217,10 +218,10 @@ const loanController = {
       };
       
       if (findLoan.rows[0].status ==='pending' || findLoan.rows[0].status ==='rejected')  
-        return res.status(404).json({ status: 404, error: `Oops Nothing to repay! Your Loan Application on [ ${findLoan.rows[0].created_on} ] for [ ${findLoan.rows[0].amount} ] still Pending or rejected!` });
+        return res.status(404).json({ status: 404, error: `Loan Application is Pending or rejected!` });
         
         if (findLoan.rows[0].balance === '0') {
-          statusMessageFunction(res, 400, `Oops Nothing to repay, You have paid all your loan balance, Fill free to apply another loan!` )
+          statusMessageFunction(res, loanStatus.conflictRequestStatus, `You have paid your loan!` )
           }
         else {
           if (repayment.amount >= parseFloat(findLoan.rows[0].balance) ) {
@@ -236,7 +237,7 @@ const loanController = {
 
             return res.status(201).json({
               status:201,
-              message:`Repayment Created Successfully and You repay over-Amount! We of offer you [ ${weOfferYou()} ]`,
+              message:`Success, you repay over-Amount of [ ${weOfferYou()} ]`,
               data:{
                 id: createRepayment.rows[0].id,
                 loanId: createRepayment.rows[0].loanid,
@@ -274,7 +275,7 @@ const loanController = {
     } 
 
     else {
-      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+      statusMessageFunction(res, loanStatus.unauthorizedStatus, `${loanStatus.badRequestMessage}` )
     }
   },
 
@@ -303,7 +304,7 @@ const loanController = {
       const { id } = req.params;
       const findLoanRepayment = await pool.query(queryTable.fetchOneRepayment,[id]);
       if (!findLoanRepayment.rows[0]) {
-        return res.status(404).json({ status: 404, error:  `Loan Repayment application with ${id} not Found! ` });
+        return res.status(404).json({ status: 404, error:  `Loan Repayment with id ${id} not Found! ` });
       }
 
       return res.status(200).send({
@@ -316,7 +317,7 @@ const loanController = {
     }
     }
     else {
-      statusMessageFunction(res, 400, `${loanStatus.badRequestMessage}` )
+      statusMessageFunction(res, loanStatus.unauthorizedStatus, `${loanStatus.badRequestMessage}` )
     }
   }
 };
