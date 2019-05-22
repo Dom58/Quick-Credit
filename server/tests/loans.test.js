@@ -112,7 +112,9 @@ describe('Repayment loan', () => {
     isadmin: 'true',
     password: 'zxasqw58',
   }
+
   const token = jwt.sign(isadmin, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
+
   it('should not accept others status rather than approved or rejected', () => {
     chai.request(server)
       .patch('/api/v2/loans/1')
@@ -128,4 +130,3 @@ describe('Repayment loan', () => {
   });
   });
 });
-
