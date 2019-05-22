@@ -16,8 +16,10 @@ const theStatus = {
   badRequestMessage:`You dont have the right for this activity!`
 }
 const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
+
 const userController = {
   async signup (req, res) {
+    const { firstname, lastname, email,isadmin,address } = req.body;
     const { error } = validate.validateSignup(req.body);
     const arrErrors = [];
     const allValdatorFunct = () =>{
@@ -34,14 +36,14 @@ const userController = {
       try{
         let findUser = await pool.query(queryTable.fetchOneUser,[req.body.email]);
         if (findUser.rows[0]) return res.status(409).json({ status: 409, error: 'Email already registered!' });
-        if(req.body.isadmin === "true"){
+        if(isadmin === true){
           const adminData = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            address: 'Kigali/Gasabo',
+            firstname,
+            lastname,
+            email,
+            address,
             status:'verified',
-            isadmin:req.body.isadmin,
+            isadmin,
             password: bcrypt.hashSync(req.body.password,10),
             created_on: new Date(),
           };
@@ -61,10 +63,10 @@ const userController = {
           });
         }
         const userData = {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          address: req.body.address,
+          firstname,
+          lastname,
+          email,
+          address,
           status:'unverified',
           isadmin:'false',
           password: bcrypt.hashSync(req.body.password,10),
