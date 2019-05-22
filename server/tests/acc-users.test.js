@@ -10,6 +10,10 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('signup', () => {
+  let app = server
+  beforeEach(()=>{
+
+  })
   const userDemo = {
     id: 1,
     firstname: 'admin',
