@@ -5,7 +5,7 @@
   "version": "2",
   "title": "Quick credit Web Application"
 },
-"host": "127.0.0.1:4000",
+"host": "quick-credit-web.herokuapp.com",
 "basePath": "/api/v2/",
 "securityDefinitions": {
   "Bearer": {
@@ -26,9 +26,8 @@
   }
 ],
 "schemes": [
-  "http",
-  "https"
-  
+  "https",
+  "http"
 ],
 "paths": {
   "/auth/signup": {
