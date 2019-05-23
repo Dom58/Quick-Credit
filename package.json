@@ -42,7 +42,6 @@
     "mocha": "^6.1.4",
     "nodemon": "^1.19.0",
     "pg": "^7.11.0",
-    "psql": "0.0.1",
     "swagger-ui-express": "^4.0.2"
   },
   "devDependencies": {
