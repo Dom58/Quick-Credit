@@ -230,10 +230,10 @@ const loanController = {
               balance : '0',
               repaid : "true",
               }
-
+            
             const newLoanUpdate = await pool.query(queryTable.updateLoanAfterHighRepayment, [findLoan.rows[0].id, newBalance.balance, newBalance.repaid]);
 
-            const createRepayment = await pool.query(queryTable.insertRepayment, [findLoan.rows[0].id, repayment.amount, repayment.monthlypayment, newLoanUpdate.rows[0].balance, repayment.created_on]);
+            const createRepayment = await pool.query(queryTable.insertRepayment, [findLoan.rows[0].id, findLoan.rows[0].balance, repayment.monthlypayment, newLoanUpdate.rows[0].balance, repayment.created_on]);
 
             return res.status(201).json({
               status:201,
