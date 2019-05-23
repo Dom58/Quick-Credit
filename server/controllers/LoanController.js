@@ -120,7 +120,7 @@ const loanController = {
       const { id } = req.params;
       const findLoan = await pool.query(queryTable.fetchOneLoan,[parseInt((id))]);
       if (!findLoan.rows[0]) {
-        return res.status(404).json({ status: 404, error:  `Loan with ## ${id} ## not Found! ` });
+        return res.status(404).json({ status: 404, error:  `Loan with id ## ${id} ## not Found! ` });
       }
       return res.status(200).send({
         status: 200,
@@ -168,7 +168,7 @@ const loanController = {
         const loanUpdate = await pool.query(queryTable.updateLoan,[aproveData.id,aproveData.status])
         return res.status(200).send({
           status: 200,
-        message: `Loan with id ${id} Approved! `,
+        message: `Loan with id ${id} ${req.body.status}! `,
         data: {
           loanId: loanUpdate.rows[0].id,
           loanAmount: loanUpdate.rows[0].amount,
