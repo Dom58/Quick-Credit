@@ -56,7 +56,7 @@ describe('signup', () => {
       });
   });
 
-  it('should create admin account', () =>{
+  it('should not create admin account', () =>{
     chai.request(server)
       .post('/api/v2/auth/signup')
       .send({
@@ -207,7 +207,7 @@ describe('signin', () => {
         expect(res.body).to.be.an('object');
       });
   });
-  it('should return an error because there are the field which is not requred', () => {
+  it('should return an error because there are the field which is not provided', () => {
     const user = {
       emails:'superadmin@gmail.com',
       emailss:'superadmin@gmail.com',
@@ -250,7 +250,7 @@ describe('Users', () => {
 
   const tokenn = jwt.sign(userDemo, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
     
-  it('should not verify because isAdmin is found in token', () => {
+  it('should verify user because isamin is found in token', () => {
     chai.request(server)
       .patch('/api/v2/users/client@gmail.com/verify')
       .set('Authorization', tokenn)
@@ -258,7 +258,7 @@ describe('Users', () => {
         status: 'verified',
       })
       .end((err, res) => {
-        expect(res.body.status).to.equal(401);
+        expect(res.body.status).to.equal(200);
         expect(res.body).to.have.property('status');
         expect(res.body).to.be.an('object');
       });
@@ -292,7 +292,7 @@ describe('Users', () => {
       });
   });
 
-  it('path not devined', () => {
+  it('path not defined', () => {
     chai.request(server)
       .patch('/api/v2/users/client@gmail.com/verify')
       .set('Authorization', tokenn)

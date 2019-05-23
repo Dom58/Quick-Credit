@@ -166,7 +166,7 @@ const userController = {
 
           if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
 
-          if (findUser.rows[0].status === 'verified') return res.status(theStatus.conflictRequestStatus).json({ status: theStatus.conflictRequestStatus, message: 'User account Already Up-to-date!' });
+          if (findUser.rows[0].status === 'verified') return res.status(theStatus.succcessStatus).json({ status: theStatus.succcessStatus, message: 'User account Already Up-to-date!' });
 
           const verifyUser ={
               status : req.body.status,

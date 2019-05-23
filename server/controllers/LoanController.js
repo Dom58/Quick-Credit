@@ -72,10 +72,10 @@ const loanController = {
           });
 
         } 
-        statusMessageFunction(res, 400, `You have unpaid Loan!` ) 
+        statusMessageFunction(res, 403, `You have unpaid Loan!` ) 
       } 
       else {
-        statusMessageFunction(res, 401, 'You are not yet verified !' )
+        statusMessageFunction(res, 403, 'You are not yet verified !' )
       } 
     }
   },
@@ -158,7 +158,7 @@ const loanController = {
           return res.status(404).json({ status: 404, error:  `Loan with id ${id} not Found! ` });
         }
         
-        if (findLoan.rows[0].status === 'approved') return res.status(loanStatus.conflictRequestStatus).json({ status: loanStatus.conflictRequestStatus, error: `Loan Up-to-date!` });
+        if (findLoan.rows[0].status === 'approved') return res.status(loanStatus.succcessStatus).json({ status: loanStatus.succcessStatus, error: `Loan Up-to-date!` });
 
         const aproveData ={
           status : req.body.status,
@@ -218,10 +218,10 @@ const loanController = {
       };
       
       if (findLoan.rows[0].status ==='pending' || findLoan.rows[0].status ==='rejected')  
-        return res.status(404).json({ status: 404, error: `Loan Application is Pending or rejected!` });
+        return res.status(403).json({ status: 403, error: `Loan Application is Pending or rejected!` });
         
         if (findLoan.rows[0].balance === '0') {
-          statusMessageFunction(res, loanStatus.conflictRequestStatus, `You have paid your loan!` )
+          statusMessageFunction(res, 403, `You have paid all your loan!` )
           }
         else {
           if (repayment.amount >= parseFloat(findLoan.rows[0].balance) ) {
@@ -237,7 +237,7 @@ const loanController = {
 
             return res.status(201).json({
               status:201,
-              message:`Success, you repay over-Amount of [ ${weOfferYou()} ]`,
+              message:`Success, you repay over-amount of [ ${weOfferYou()} ]`,
               data:{
                 id: createRepayment.rows[0].id,
                 loanId: createRepayment.rows[0].loanid,
