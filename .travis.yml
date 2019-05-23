@@ -7,7 +7,8 @@ cache:
   directories:
     - "node_modules"
 env:
-  - userTest = postgres databaseTest = travis_ci_test passwordTest = 
+  - DATABASE_URL_TEST=postgres://postgres:@localhost:5432/travis_ci_test
+  
 services:
   - postgresql
 

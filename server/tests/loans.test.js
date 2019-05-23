@@ -2,7 +2,9 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import server from '../app.js'
+import server from '../app.js';
+
+import emptyTables from '../models/emptytables';
 
 dotenv.config();
 
@@ -59,6 +61,20 @@ describe('Loan applications', () => {
       });
   });
 
+  it('should not apply loan because amount less than 1000', () => {
+    chai.request(server)
+      .post('/api/v2/loans')
+      .set('Authorization', token)
+      .send({
+        amount: '900',
+        tenor: '12'
+      })
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body).to.have.property('status');
+      });
+  });
+
   it('should not apply loan because tenor should be a number', () => {
     chai.request(server)
       .post('/api/v2/loans')
@@ -102,20 +118,20 @@ describe('Loan applications', () => {
       });
   });
 
-describe('Repayment loan', () => {
+describe('Loan', () => {
   const isadmin = {
     firstname: 'admin',
     lastname: 'admin58',
     email: 'admin@gmail.com',
     address: 'Nyamata/Rebero',
     status: 'verified',
-    isadmin: 'true',
+    isadmin: true,
     password: 'zxasqw58',
   }
 
   const token = jwt.sign(isadmin, `${process.env.SECRET_KEY_CODE}`, { expiresIn: '24h' });
 
-  it('should not accept others status rather than approved or rejected', () => {
+  it('should not approve a loan where status differ from approved or rejected', () => {
     chai.request(server)
       .patch('/api/v2/loans/1')
       .set('Authorization', token)
@@ -128,5 +144,80 @@ describe('Repayment loan', () => {
         expect(res.body).to.be.an('object');
       });
   });
+
+  it('should not return loan with the id', () => {
+    chai.request(server)
+      .get('/api/v2/loans/14000')
+      .set('Authorization', token)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(404);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
+
+  it('should not repay loan because amount is string', () => {
+    chai.request(server)
+      .post('/api/v2/loans/1/repayment')
+      .set('Authorization', token)
+      .send({
+        amount: 'string'
+      })
+      .end((err, res) => {
+        expect(res.body.status).to.equal(400);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
+
+  it('should repay loan', () => {
+    chai.request(server)
+      .post('/api/v2/loans/1/repayment')
+      .set('Authorization', token)
+      .send({
+        amount: '2000'
+      })
+      .end((err, res) => {
+        expect(res.body.status).to.equal(201);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('data');
+        expect(res.body).to.be.an('object');
+      });
+  });
+
+  it('should not return loan repayment with the id', () => {
+    chai.request(server)
+      .get('/api/v2/loans/14000/repayments')
+      .set('Authorization', token)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(404);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
+
+  it('should return all loan repayment', () => {
+    chai.request(server)
+      .get('/api/v2/repayments/loans')
+      .set('Authorization', token)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(200);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
+
+  it('should not return all loan repayment because of invalid token', () => {
+    chai.request(server)
+      .get('/api/v2/repayments/loans')
+      .set('Authorization',token)
+      .end((err, res) => {
+        expect(res.body.status).to.equal(401);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.be.an('object');
+      });
+  });
+  
   });
 });
+

@@ -21,6 +21,7 @@ address. 
 ## Prerequisites
   * Node
   * Postman
+  * Postgres
   
 ## Technology used
 
@@ -37,6 +38,7 @@ address. 
   * joi
   * jsonwebtoken
   * bcrypt
+  * swagger
   
 ## Setup
   1. Clone the repository
@@ -77,13 +79,30 @@ address. 
 | GET   | /loans?status=approved&repaid=false      | filter all current loan applications   |
 | GET     | /loans?status=approved&repaid=true       | filter all repaid loan applications      |
 
+### Version 2 Endpoints
+
+| Method         | Endpoint             | Description  |
+| ---         |     ---      |          --- |
+| POST   | /api/v2/auth/signup     | Create an account   |
+| POST     | /api/v2/auth/signin      | Sign in      |
+| GET   | /api/v2/auth/users     | Get all users    |
+| PATCH     | /api/v2/users/:email/verify       | Verify a user      |
+| POST   | /api/v2/loans     | Apply for loan application   |
+| GET     | /api/v2/loans      | Get all loan application      |
+| GET   | /api/v2/loans/:id     | Get specific loan  application   |
+| PATCH     | /api/v2/loans/:id       | Approve /reject loan application      |
+| POST   | /api/v2/loans/:id/repayment     | post repayment transaction loan   |
+| GET     | /api/v2/loans/:loanId/repayments       | retrieve a single loan repayment history     |
+| GET     | /api/v2/repayments/loans      | get all loan repayment history     |
+| GET   | /loans?status=approved&repaid=false      | filter all current loan applications   |
+| GET     | /loans?status=approved&repaid=true       | filter all repaid loan applications      |
 
 ## HEROKU  & Swagger API Documentation 
 Access link : ( https://quick-credit-web.herokuapp.com/ ) followed by the above table endpoints using postman. as an example `https://quick-credit-web.herokuapp.com/api/v1/auth/signin` to signin.
 * You may read the quick credit web appication documentation using this Heroku URL [Visit the link]( https://quick-credit-web.herokuapp.com/api/documentations) or copy this link `https://quick-credit-web.herokuapp.com/api/documentations/`
 
 ## Github-page
-GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: (https://dom58.github.io/Quick-Credit/ui )   or simply [click here](https://dom58.github.io/Quick-Credit/ui)
+GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: (https://dom58.github.io/Quick-Credit/ui ) or simply [click here](https://dom58.github.io/Quick-Credit/ui)
 and use the dummy  email ( admin@gmail.com ) to view different admin UI dashboard page(s) and an password to access as an admin and may use any email like (username@example.com) to view a user UI dashboard page(s).
 
 ## Author

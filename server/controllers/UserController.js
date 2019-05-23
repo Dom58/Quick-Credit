@@ -9,13 +9,13 @@ import queryTable from '../models/queries'
 dotenv.config();
 
 const theStatus = {
+  conflictRequestStatus: 409,
   badRequestStatus:400,
   succcessStatus:200,
   unAuthorizedStatus:401,
   notFoundStatus:404,
-  badRequestMessage:`You dont have the right for this activity!`
+  badRequestMessage:`Access Denied!`
 }
-const statusMessageFunction = (res, status, message) => res.status(status).json({status, message});
 
 const userController = {
   async signup (req, res) {
@@ -166,7 +166,7 @@ const userController = {
 
           if (!findUser.rows[0]) return res.status(theStatus.notFoundStatus).json({ status: theStatus.notFoundStatus, message: 'Email not found!' });
 
-          if (findUser.rows[0].status === 'verified') return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, message: 'User account Already Up-to-date!' });
+          if (findUser.rows[0].status === 'verified') return res.status(theStatus.succcessStatus).json({ status: theStatus.succcessStatus, message: 'User account Already Up-to-date!' });
 
           const verifyUser ={
               status : req.body.status,
@@ -192,7 +192,7 @@ const userController = {
         }
       } 
     } 
-    return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
+    return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: theStatus.badRequestMessage });
   },
 
   async allUsers (req, res) {
@@ -212,7 +212,7 @@ const userController = {
       }
     }  
 
-    return res.status(theStatus.badRequestStatus).json({ status: theStatus.badRequestStatus, error: theStatus.badRequestMessage });
+    return res.status(theStatus.unAuthorizedStatus).json({ status: theStatus.unAuthorizedStatus, error: theStatus.badRequestMessage });
   },
 };
 export default userController;
