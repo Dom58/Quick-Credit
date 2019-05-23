@@ -145,21 +145,6 @@ describe('Loan', () => {
       });
   });
 
-  it('should approve loan', () => {
-    chai.request(server)
-      .patch('/api/v2/loans/1')
-      .set('Authorization', token)
-      .send({
-        status: 'approved'
-      })
-      .end((err, res) => {
-        expect(res.body.status).to.equal(201);
-        expect(res.body).to.have.property('status');
-        expect(res.body).to.have.property('data');
-        expect(res.body).to.be.an('object');
-      });
-  });
-
   it('should not return loan with the id', () => {
     chai.request(server)
       .get('/api/v2/loans/14000')
