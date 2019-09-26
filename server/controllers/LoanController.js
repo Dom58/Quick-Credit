@@ -75,7 +75,7 @@ const loanController = {
         statusMessageFunction(res, 403, `You have unpaid Loan!` ) 
       } 
       else {
-        statusMessageFunction(res, 403, 'Please Login!' )
+        statusMessageFunction(res, 403, 'Please Login!!' )
       } 
     }
   },
