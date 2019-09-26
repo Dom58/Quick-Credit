@@ -38,7 +38,7 @@ const loanController = {
 
       const haveApplyLoan = await pool.query(queryTable.fetchUserWithLoan,[email]);
 
-      if (req.user.status === 'verified') {
+      if (req.user.status === 'verified' || req.user.status === 'unverified') {
         if (!haveApplyLoan.rows[0] || haveApplyLoan.rows[0].repaid === true) {
           const loan = {
             email: req.user.email,
@@ -75,7 +75,7 @@ const loanController = {
         statusMessageFunction(res, 403, `You have unpaid Loan!` ) 
       } 
       else {
-        statusMessageFunction(res, 403, 'You are not yet verified !' )
+        statusMessageFunction(res, 403, 'Please Login!' )
       } 
     }
   },
