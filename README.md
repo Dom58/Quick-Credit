@@ -105,6 +105,9 @@ Access link : ( https://quick-credit-web.herokuapp.com/ ) followed by the above 
 GitHub page (gh-page) for this web project Quick credit web application n will be accessed using this link: (https://dom58.github.io/Quick-Credit/ui ) or simply [click here](https://dom58.github.io/Quick-Credit/ui)
 and use the dummy  email ( admin@gmail.com ) to view different admin UI dashboard page(s) and an password to access as an admin and may use any email like (username@example.com) to view a user UI dashboard page(s).
 
+## Hosted application
+[Quick Credit website](https://quick-credit-react.herokuapp.com)
+
 ## Author
 Ndahimana Dominique
 
