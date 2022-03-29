@@ -4,3 +4,5 @@ node_modules
 coverage 
 .vscode 
 build 
+.DS_Store
+package-lock.json
